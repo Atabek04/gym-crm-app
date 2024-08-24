@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "userId": 101,
+    "dateOfBirth": "1990-05-20",
+    "address": "123 Elm Street"
+  },
+  {
+    "id": 2,
+    "userId": 102,
+    "dateOfBirth": "1985-08-15",
+    "address": "456 Oak Avenue"
+  }
+]

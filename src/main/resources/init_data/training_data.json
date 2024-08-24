@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "traineeId": 1,
+    "trainerId": 1,
+    "trainingName": "Morning Session",
+    "trainingType": "GROUP",
+    "trainingDate": "2023-08-23T09:00:00",
+    "trainingDuration": 60
+  },
+  {
+    "id": 2,
+    "traineeId": 2,
+    "trainerId": 2,
+    "trainingName": "Evening Session",
+    "trainingType": "INDIVIDUAL",
+    "trainingDate": "2023-08-23T18:00:00",
+    "trainingDuration": 45
+  }
+]
