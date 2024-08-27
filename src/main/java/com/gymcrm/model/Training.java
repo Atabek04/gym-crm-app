@@ -78,4 +78,17 @@ public class Training {
     public void setTrainingDuration(long trainingDuration) {
         this.trainingDuration = trainingDuration;
     }
+
+    @Override
+    public String   toString() {
+        return "Training{" +
+                "id=" + id +
+                ", traineeId=" + traineeId +
+                ", trainerId=" + trainerId +
+                ", trainingName='" + trainingName + '\'' +
+                ", trainingType=" + trainingType +
+                ", trainingDate=" + trainingDate +
+                ", trainingDuration=" + trainingDuration +
+                '}';
+    }
 }

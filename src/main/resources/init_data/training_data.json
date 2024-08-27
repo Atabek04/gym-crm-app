@@ -1,20 +1,452 @@
 [
   {
     "id": 1,
-    "traineeId": 1,
-    "trainerId": 1,
-    "trainingName": "Morning Session",
-    "trainingType": "GROUP",
-    "trainingDate": "2023-08-23T09:00:00",
-    "trainingDuration": 60
+    "traineeId": 12,
+    "trainerId": 30,
+    "trainingName": "Flex and Tone",
+    "trainingType": "YOGA",
+    "trainingDate": "2024-08-13T08:25:18Z",
+    "trainingDuration": 215
   },
   {
     "id": 2,
+    "traineeId": 28,
+    "trainerId": 27,
+    "trainingName": "Flex and Tone",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2023-01-28T21:17:34Z",
+    "trainingDuration": 195
+  },
+  {
+    "id": 3,
+    "traineeId": 5,
+    "trainerId": 22,
+    "trainingName": "Calorie Crusher",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2022-02-22T06:59:01Z",
+    "trainingDuration": 164
+  },
+  {
+    "id": 4,
+    "traineeId": 38,
+    "trainerId": 43,
+    "trainingName": "Tab Torcher",
+    "trainingType": "CARDIO_TRAINING",
+    "trainingDate": "2020-06-17T11:50:28Z",
+    "trainingDuration": 83
+  },
+  {
+    "id": 5,
+    "traineeId": 21,
+    "trainerId": 21,
+    "trainingName": "Iron Warrior Routine",
+    "trainingType": "OUTDOOR_FITNESS",
+    "trainingDate": "2022-10-22T11:59:42Z",
+    "trainingDuration": 165
+  },
+  {
+    "id": 6,
+    "traineeId": 38,
+    "trainerId": 32,
+    "trainingName": "Core Control",
+    "trainingType": "OUTDOOR_FITNESS",
+    "trainingDate": "2021-03-08T04:43:49Z",
+    "trainingDuration": 66
+  },
+  {
+    "id": 7,
+    "traineeId": 27,
+    "trainerId": 34,
+    "trainingName": "Martial Arts Mastery",
+    "trainingType": "STRENGTH_TRAINING",
+    "trainingDate": "2024-07-26T22:53:09Z",
+    "trainingDuration": 230
+  },
+  {
+    "id": 8,
+    "traineeId": 17,
+    "trainerId": 16,
+    "trainingName": "Heartbeat Hustle",
+    "trainingType": "FUNCTIONAL_FITNESS",
+    "trainingDate": "2023-10-21T10:24:08Z",
+    "trainingDuration": 60
+  },
+  {
+    "id": 9,
+    "traineeId": 9,
+    "trainerId": 15,
+    "trainingName": "Full-Body Blast",
+    "trainingType": "OUTDOOR_FITNESS",
+    "trainingDate": "2022-08-09T05:53:08Z",
+    "trainingDuration": 96
+  },
+  {
+    "id": 10,
+    "traineeId": 37,
+    "trainerId": 3,
+    "trainingName": "Cardio Blast",
+    "trainingType": "GROUP_FITNESS",
+    "trainingDate": "2024-03-17T18:07:49Z",
+    "trainingDuration": 79
+  },
+  {
+    "id": 11,
+    "traineeId": 38,
+    "trainerId": 26,
+    "trainingName": "Full-Body Blast",
+    "trainingType": "MOBILITY_TRAINING",
+    "trainingDate": "2020-03-25T01:46:38Z",
+    "trainingDuration": 173
+  },
+  {
+    "id": 12,
+    "traineeId": 19,
+    "trainerId": 1,
+    "trainingName": "Core Control",
+    "trainingType": "GROUP_FITNESS",
+    "trainingDate": "2021-07-05T02:36:06Z",
+    "trainingDuration": 233
+  },
+  {
+    "id": 13,
+    "traineeId": 48,
+    "trainerId": 47,
+    "trainingName": "Precision Pilates",
+    "trainingType": "CARDIO_TRAINING",
+    "trainingDate": "2020-02-01T23:29:01Z",
+    "trainingDuration": 155
+  },
+  {
+    "id": 14,
+    "traineeId": 33,
+    "trainerId": 24,
+    "trainingName": "Strength Surge",
+    "trainingType": "YOGA",
+    "trainingDate": "2024-03-13T03:57:55Z",
+    "trainingDuration": 207
+  },
+  {
+    "id": 15,
+    "traineeId": 50,
+    "trainerId": 44,
+    "trainingName": "Iron Forge Workout",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2021-08-26T17:43:47Z",
+    "trainingDuration": 70
+  },
+  {
+    "id": 16,
+    "traineeId": 16,
+    "trainerId": 1,
+    "trainingName": "Full-Body Blast",
+    "trainingType": "YOGA",
+    "trainingDate": "2024-01-18T17:54:30Z",
+    "trainingDuration": 85
+  },
+  {
+    "id": 17,
+    "traineeId": 28,
+    "trainerId": 33,
+    "trainingName": "Kickboxing Kinetics",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2023-02-12T21:45:57Z",
+    "trainingDuration": 117
+  },
+  {
+    "id": 18,
+    "traineeId": 29,
+    "trainerId": 23,
+    "trainingName": "Intensity Ignite",
+    "trainingType": "YOGA",
+    "trainingDate": "2023-12-26T11:53:13Z",
+    "trainingDuration": 110
+  },
+  {
+    "id": 19,
+    "traineeId": 50,
+    "trainerId": 7,
+    "trainingName": "Flex and Tone",
+    "trainingType": "MARTIAL_ARTS",
+    "trainingDate": "2020-07-16T19:15:55Z",
+    "trainingDuration": 131
+  },
+  {
+    "id": 20,
+    "traineeId": 46,
+    "trainerId": 28,
+    "trainingName": "Round Robin Fitness",
+    "trainingType": "OUTDOOR_FITNESS",
+    "trainingDate": "2021-02-27T10:27:58Z",
+    "trainingDuration": 168
+  },
+  {
+    "id": 21,
+    "traineeId": 7,
+    "trainerId": 18,
+    "trainingName": "Powerhouse Lifting",
+    "trainingType": "MOBILITY_TRAINING",
+    "trainingDate": "2021-02-01T04:59:23Z",
+    "trainingDuration": 137
+  },
+  {
+    "id": 22,
+    "traineeId": 11,
+    "trainerId": 17,
+    "trainingName": "WOD Warrior",
+    "trainingType": "MOBILITY_TRAINING",
+    "trainingDate": "2022-12-21T19:56:14Z",
+    "trainingDuration": 152
+  },
+  {
+    "id": 23,
+    "traineeId": 41,
+    "trainerId": 27,
+    "trainingName": "Cardio Circuit",
+    "trainingType": "HIIT",
+    "trainingDate": "2023-05-29T05:09:51Z",
+    "trainingDuration": 152
+  },
+  {
+    "id": 24,
+    "traineeId": 19,
+    "trainerId": 37,
+    "trainingName": "Rhythm Ride",
+    "trainingType": "GROUP_FITNESS",
+    "trainingDate": "2021-10-11T01:39:01Z",
+    "trainingDuration": 194
+  },
+  {
+    "id": 25,
+    "traineeId": 16,
+    "trainerId": 8,
+    "trainingName": "Total Body Circuit",
+    "trainingType": "STRENGTH_TRAINING",
+    "trainingDate": "2024-08-10T15:15:07Z",
+    "trainingDuration": 122
+  },
+  {
+    "id": 26,
+    "traineeId": 11,
+    "trainerId": 6,
+    "trainingName": "Group Grind",
+    "trainingType": "YOGA",
+    "trainingDate": "2021-11-12T01:18:54Z",
+    "trainingDuration": 96
+  },
+  {
+    "id": 27,
+    "traineeId": 30,
+    "trainerId": 42,
+    "trainingName": "Sunrise Flow",
+    "trainingType": "YOGA",
+    "trainingDate": "2023-11-24T18:44:42Z",
+    "trainingDuration": 179
+  },
+  {
+    "id": 28,
+    "traineeId": 48,
+    "trainerId": 44,
+    "trainingName": "Rhythm Ride",
+    "trainingType": "FUNCTIONAL_FITNESS",
+    "trainingDate": "2023-04-24T22:52:59Z",
+    "trainingDuration": 230
+  },
+  {
+    "id": 29,
+    "traineeId": 41,
+    "trainerId": 16,
+    "trainingName": "Elite Endurance",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2023-08-12T19:30:08Z",
+    "trainingDuration": 220
+  },
+  {
+    "id": 30,
+    "traineeId": 1,
+    "trainerId": 5,
+    "trainingName": "Circuit Shred",
+    "trainingType": "CARDIO_TRAINING",
+    "trainingDate": "2023-10-22T08:10:42Z",
+    "trainingDuration": 169
+  },
+  {
+    "id": 31,
+    "traineeId": 35,
+    "trainerId": 16,
+    "trainingName": "Real World Strength",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2023-03-30T02:09:29Z",
+    "trainingDuration": 172
+  },
+  {
+    "id": 32,
+    "traineeId": 36,
+    "trainerId": 8,
+    "trainingName": "Martial Arts Mastery",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2020-05-09T07:23:39Z",
+    "trainingDuration": 189
+  },
+  {
+    "id": 33,
+    "traineeId": 37,
+    "trainerId": 4,
+    "trainingName": "Flex and Tone",
+    "trainingType": "HIIT",
+    "trainingDate": "2023-07-15T02:17:08Z",
+    "trainingDuration": 167
+  },
+  {
+    "id": 34,
+    "traineeId": 35,
+    "trainerId": 33,
+    "trainingName": "Combat Conditioning",
+    "trainingType": "MOBILITY_TRAINING",
+    "trainingDate": "2022-04-28T20:58:22Z",
+    "trainingDuration": 74
+  },
+  {
+    "id": 35,
+    "traineeId": 23,
+    "trainerId": 13,
+    "trainingName": "Warrior’s Way",
+    "trainingType": "YOGA",
+    "trainingDate": "2022-05-06T20:57:07Z",
+    "trainingDuration": 100
+  },
+  {
+    "id": 36,
+    "traineeId": 37,
+    "trainerId": 29,
+    "trainingName": "Cardio Blast",
+    "trainingType": "MARTIAL_ARTS",
+    "trainingDate": "2023-04-26T09:17:33Z",
+    "trainingDuration": 72
+  },
+  {
+    "id": 37,
+    "traineeId": 34,
+    "trainerId": 39,
+    "trainingName": "CrossFit Xtreme",
+    "trainingType": "HIIT",
+    "trainingDate": "2020-04-16T03:08:52Z",
+    "trainingDuration": 86
+  },
+  {
+    "id": 38,
+    "traineeId": 7,
+    "trainerId": 24,
+    "trainingName": "Tabatha Torcher",
+    "trainingType": "GROUP_FITNESS",
+    "trainingDate": "2022-01-20T14:07:16Z",
+    "trainingDuration": 64
+  },
+  {
+    "id": 39,
+    "traineeId": 1,
+    "trainerId": 10,
+    "trainingName": "Elite Endurance",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2023-08-28T10:22:49Z",
+    "trainingDuration": 102
+  },
+  {
+    "id": 40,
+    "traineeId": 39,
+    "trainerId": 14,
+    "trainingName": "Functional Foundations",
+    "trainingType": "YOGA",
+    "trainingDate": "2022-03-08T22:47:50Z",
+    "trainingDuration": 104
+  },
+  {
+    "id": 41,
     "traineeId": 2,
-    "trainerId": 2,
-    "trainingName": "Evening Session",
-    "trainingType": "INDIVIDUAL",
-    "trainingDate": "2023-08-23T18:00:00",
-    "trainingDuration": 45
+    "trainerId": 18,
+    "trainingName": "Real World Strength",
+    "trainingType": "CARDIO_TRAINING",
+    "trainingDate": "2022-06-08T23:55:37Z",
+    "trainingDuration": 102
+  },
+  {
+    "id": 42,
+    "traineeId": 20,
+    "trainerId": 8,
+    "trainingName": "Functional Foundations",
+    "trainingType": "MARTIAL_ARTS",
+    "trainingDate": "2021-02-15T10:59:45Z",
+    "trainingDuration": 195
+  },
+  {
+    "id": 43,
+    "traineeId": 32,
+    "trainerId": 34,
+    "trainingName": "Vinyasa Voyage",
+    "trainingType": "YOGA",
+    "trainingDate": "2020-12-17T14:13:55Z",
+    "trainingDuration": 104
+  },
+  {
+    "id": 44,
+    "traineeId": 21,
+    "trainerId": 4,
+    "trainingName": "Precision Pilates",
+    "trainingType": "FUNCTIONAL_FITNESS",
+    "trainingDate": "2020-06-14T06:59:56Z",
+    "trainingDuration": 217
+  },
+  {
+    "id": 45,
+    "traineeId": 27,
+    "trainerId": 31,
+    "trainingName": "Intensity Ignite",
+    "trainingType": "GROUP_FITNESS",
+    "trainingDate": "2024-02-12T22:24:14Z",
+    "trainingDuration": 117
+  },
+  {
+    "id": 46,
+    "traineeId": 20,
+    "trainerId": 28,
+    "trainingName": "Circuit Crusher",
+    "trainingType": "STRENGTH_TRAINING",
+    "trainingDate": "2021-02-13T06:27:10Z",
+    "trainingDuration": 141
+  },
+  {
+    "id": 47,
+    "traineeId": 21,
+    "trainerId": 32,
+    "trainingName": "Pilates Powerhouse",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2023-02-27T00:31:33Z",
+    "trainingDuration": 127
+  },
+  {
+    "id": 48,
+    "traineeId": 24,
+    "trainerId": 38,
+    "trainingName": "Team Burnout",
+    "trainingType": "OUTDOOR_FITNESS",
+    "trainingDate": "2023-10-21T08:08:46Z",
+    "trainingDuration": 137
+  },
+  {
+    "id": 49,
+    "traineeId": 44,
+    "trainerId": 29,
+    "trainingName": "Everyday Strength",
+    "trainingType": "GROUP_FITNESS",
+    "trainingDate": "2021-10-08T09:44:52Z",
+    "trainingDuration": 195
+  },
+  {
+    "id": 50,
+    "traineeId": 36,
+    "trainerId": 34,
+    "trainingName": "Quick Burn",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2023-06-29T17:56:25Z",
+    "trainingDuration": 80
   }
 ]

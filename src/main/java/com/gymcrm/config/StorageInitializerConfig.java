@@ -39,23 +39,19 @@ public class StorageInitializerConfig {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public StorageInitializerConfig(Map<Integer, Trainee> traineeStorage,
-                                    Map<Integer, Trainer> trainerStorage,
-                                    Map<Integer, Training> trainingStorage) {
+    public StorageInitializerConfig(Map<Integer, Trainee> traineeStorage, Map<Integer, Trainer> trainerStorage, Map<Integer, Training> trainingStorage) {
         this.traineeStorage = traineeStorage;
         this.trainerStorage = trainerStorage;
         this.trainingStorage = trainingStorage;
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
-        System.out.println("Constructor of StorageInitializerConfig");
     }
 
     @PostConstruct
     public void initializeStorage() {
-        loadTraineesFromFile();
         loadTrainersFromFile();
+        loadTraineesFromFile();
         loadTrainingsFromFile();
-        System.out.println("Loading of data is finished :: PostConstruct");
     }
 
     private void loadTraineesFromFile() {
@@ -70,20 +66,18 @@ public class StorageInitializerConfig {
             logger.info("Successfully loaded trainee data from file.");
         } catch (Exception e) {
             logger.error("Error loading trainee data from file: {}", traineeDataFile, e);
-            throw new RuntimeException("Error loading trainee data from file: " + traineeDataFile, e);
         }
     }
 
     private void loadTrainersFromFile() {
-        System.out.println("Starting to load trainer from file: " + trainerDataFile);
         logger.info("Starting to load trainer data from file: {}", trainerDataFile);
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(trainerDataFile)) {
             if (inputStream == null) {
                 throw new IllegalArgumentException("File not found: " + trainerDataFile);
             }
-            List<Trainer> trainers = objectMapper.readValue(inputStream, new TypeReference<List<Trainer>>() {});
+            List<Trainer> trainers = objectMapper.readValue(inputStream, new TypeReference<>() {
+            });
             trainers.forEach(trainer -> trainerStorage.put(trainer.getId(), trainer));
-            System.out.println("Successfully loaded trainer data from file");
             logger.info("Successfully loaded trainer data from file.");
         } catch (Exception e) {
             logger.error("Error loading trainer data from file: {}", trainerDataFile, e);
@@ -96,7 +90,8 @@ public class StorageInitializerConfig {
             if (inputStream == null) {
                 throw new IllegalArgumentException("File not found: " + trainingDataFile);
             }
-            List<Training> trainings = objectMapper.readValue(inputStream, new TypeReference<List<Training>>() {});
+            List<Training> trainings = objectMapper.readValue(inputStream, new TypeReference<>() {
+            });
             trainings.forEach(training -> trainingStorage.put(training.getId(), training));
             logger.info("Successfully loaded training data from file.");
         } catch (Exception e) {

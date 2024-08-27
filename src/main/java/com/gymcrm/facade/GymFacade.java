@@ -36,6 +36,13 @@ public class GymFacade {
     public void scheduleTraining(Training training) {
         trainingService.createTraining(training);
     }
+    public Trainee getTraineeById(int id) {
+        return traineeService.getTrainee(id);
+    }
+
+    public void updateTrainee(Trainee trainee) {
+        traineeService.updateTrainee(trainee);
+    }
 
     public List<Trainer> getAllTrainers() {
         return trainerService.getAllTrainer();

@@ -40,3 +40,4 @@ build/
 /.idea/sqldialects.xml
 /.idea/uiDesigner.xml
 /.idea/vcs.xml
+/logs/

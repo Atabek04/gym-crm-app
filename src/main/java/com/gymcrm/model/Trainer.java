@@ -3,14 +3,14 @@ package com.gymcrm.model;
 public class Trainer {
     private int id;
     private int userId;
-    private String specialization;
+    private TrainingType specialization;
 
     public Trainer() {}
 
     public Trainer(int id, int userId, String specialization) {
         this.id = id;
         this.userId = userId;
-        this.specialization = specialization;
+        this.setSpecialization(specialization);
     }
 
     public int getId() {
@@ -29,11 +29,24 @@ public class Trainer {
         this.userId = userId;
     }
 
-    public String getSpecialization() {
+    public TrainingType getSpecialization() {
         return specialization;
     }
 
     public void setSpecialization(String specialization) {
-        this.specialization = specialization;
+        try {
+            this.specialization = TrainingType.fromString(specialization);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage() + ". Available specializations: " + TrainingType.getAvailableTypes());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Trainer{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", specialization=" + specialization +
+                '}';
     }
 }

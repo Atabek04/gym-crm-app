@@ -23,11 +23,26 @@ public class GymCLI {
         System.out.println("======================================");
 
         while (true) {
-            System.out.println("1. Register Trainer");
-            System.out.println("2. List All Trainers");
-            System.out.println("3. Exit");
+            System.out.println("1. Create Trainee");
+            System.out.println("2. Update Trainee");
+            System.out.println("3. Find Trainee by ID");
+            System.out.println("4. List All Trainees");
+            System.out.println("5. Delete Trainee by ID\n");
+
+
+            System.out.println("6. Create Trainer");
+            System.out.println("7. Update Trainer");
+            System.out.println("8. Find Trainer by ID");
+            System.out.println("9. List All Trainers\n");
+
+            System.out.println("10. Create Training");
+            System.out.println("11. Find Training by ID");
+            System.out.println("12. List All Trainings\n");
+
+            System.out.println("13. Exit\n");
+
             int choice = scanner.nextInt();
-            scanner.nextLine();  // consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
