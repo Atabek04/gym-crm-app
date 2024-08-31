@@ -14,58 +14,43 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(TraineeDAOParameterResolver.class)
 class TraineeDAOImplTest {
+
     @Test
-    void testCreateTrainee(TraineeDAO traineeDAO) {
-        Trainee trainee = new Trainee(1, 23,
-                LocalDate.of(2000, 12, 2), "Red Rose 12");
+    void shouldSaveAndFindTraineeSuccessfully(TraineeDAO traineeDAO) {
+        Trainee trainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Red Rose 12");
         traineeDAO.save(trainee);
 
         Optional<Trainee> foundTrainee = traineeDAO.findById(1);
 
-        assertTrue(foundTrainee.isPresent(), "Trainee should be found");
-        assertEquals(1, foundTrainee.get().getId(), "Trainee ID should be 1");
-        assertEquals("Red Rose 12", foundTrainee.get().getAddress(),
-                "Address should be 'Red Rose 12'");
+        assertTrue(foundTrainee.isPresent(), "Trainee should be found after save");
+        assertEquals(1, foundTrainee.get().getId(), "ID should match the saved trainee");
+        assertEquals("Red Rose 12", foundTrainee.get().getAddress(), "Address should match");
     }
 
     @Test
-    void testUpdateTrainee(TraineeDAO traineeDAO) {
-        Trainee originalTrainee = new Trainee(1, 23,
-                LocalDate.of(2000, 12, 2), "Red Rose 12");
-
+    void shouldUpdateTraineeAddress(TraineeDAO traineeDAO) {
+        Trainee originalTrainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Red Rose 12");
         traineeDAO.save(originalTrainee);
 
-        Trainee updatedTrainee = new Trainee(1, 23,
-                LocalDate.of(2000, 12, 2), "Blue River 15");
-
+        Trainee updatedTrainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Blue River 15");
         traineeDAO.update(updatedTrainee);
 
         Optional<Trainee> foundTrainee = traineeDAO.findById(1);
 
-        assertTrue(foundTrainee.isPresent(), "Trainee should be found");
-        assertEquals("Blue River 15", foundTrainee.get().getAddress(),
-                "Address should be 'Blue River 15'");
+        assertTrue(foundTrainee.isPresent(), "Trainee should be found after update");
+        assertEquals("Blue River 15", foundTrainee.get().getAddress(), "Address should be updated");
     }
 
     @Test
-    void testFindByIdTrainee(TraineeDAO traineeDAO) {
-        Trainee trainee = new Trainee(1, 23,
-                LocalDate.of(2000, 12, 2), "Red Rose 12");
-
-        traineeDAO.save(trainee);
-
-        Optional<Trainee> foundTrainee = traineeDAO.findById(1);
-
-        assertTrue(foundTrainee.isPresent(), "Trainee should be found");
-        assertEquals(trainee, foundTrainee.get(), "Found trainee should match the saved trainee");
+    void shouldReturnEmptyOptionalForNonExistingTrainee(TraineeDAO traineeDAO) {
+        Optional<Trainee> foundTrainee = traineeDAO.findById(99);
+        assertTrue(foundTrainee.isEmpty(), "No trainee should be found for non-existing ID");
     }
 
     @Test
-    void testFindAllTrainees(TraineeDAO traineeDAO) {
-        Trainee trainee1 = new Trainee(1, 23,
-                LocalDate.of(2000, 12, 2), "Red Rose 12");
-        Trainee trainee2 = new Trainee(2, 25,
-                LocalDate.of(1998, 3, 14), "Blue River 15");
+    void shouldFindAllTrainees(TraineeDAO traineeDAO) {
+        Trainee trainee1 = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Red Rose 12");
+        Trainee trainee2 = new Trainee(2, 25, LocalDate.of(1998, 3, 14), "Blue River 15");
 
         traineeDAO.save(trainee1);
         traineeDAO.save(trainee2);
@@ -73,15 +58,13 @@ class TraineeDAOImplTest {
         var allTrainees = traineeDAO.findAll();
 
         assertEquals(2, allTrainees.size(), "There should be two trainees in the storage");
-        assertTrue(allTrainees.contains(trainee1), "Trainee1 should be in the list");
-        assertTrue(allTrainees.contains(trainee2), "Trainee2 should be in the list");
+        assertTrue(allTrainees.contains(trainee1), "Trainee 1 should be in the list");
+        assertTrue(allTrainees.contains(trainee2), "Trainee 2 should be in the list");
     }
 
     @Test
-    void testDeleteTrainee(TraineeDAO traineeDAO) {
-        Trainee trainee = new Trainee(1, 23,
-                LocalDate.of(2000, 12, 2), "Red Rose 12");
-
+    void shouldDeleteTraineeSuccessfully(TraineeDAO traineeDAO) {
+        Trainee trainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Red Rose 12");
         traineeDAO.save(trainee);
         traineeDAO.delete(1);
 

@@ -7,28 +7,29 @@ import com.gymcrm.model.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 public class StorageConfig {
 
     @Bean
     public Map<Integer, Trainee> traineeStorage() {
-        return new HashMap<>();
+        return new ConcurrentHashMap<>();
     }
 
     @Bean
     public Map<Integer, Trainer> trainerStorage() {
-        return new HashMap<>();
+        return new ConcurrentHashMap<>();
     }
 
     @Bean
     public Map<Integer, Training> trainingStorage() {
-        return new HashMap<>();
+        return new ConcurrentHashMap<>();
     }
 
-    @Bean Map<Integer, User> userStorage() {
-        return new HashMap<>();
+    @Bean
+    public Map<Integer, User> userStorage() {
+        return new ConcurrentHashMap<>();
     }
 }

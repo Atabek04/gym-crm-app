@@ -10,7 +10,7 @@ public interface TrainerService {
 
     void updateTrainer(Trainer trainer);
 
-    Trainer getTrainer(int id);
+    Optional<Trainer> getTrainer(int id);
 
-    List<Trainer> getAllTrainer();
+    List<Trainer> getAllTrainers();
 }

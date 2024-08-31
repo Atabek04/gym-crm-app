@@ -4,26 +4,28 @@ import com.gymcrm.dto.TraineeRequest;
 import com.gymcrm.dto.TraineeResponse;
 import com.gymcrm.model.Trainee;
 import com.gymcrm.model.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TraineeMapper {
-    public static Trainee convertToTrainee(TraineeRequest traineeRequest) {
-        Trainee trainee = new Trainee();
-        trainee.setId(traineeRequest.getTraineeId());
-        trainee.setUserId(traineeRequest.getUserId());
-        trainee.setDateOfBirth(traineeRequest.getDateOfBirth());
-        trainee.setAddress(traineeRequest.getAddress());
-        return trainee;
+    public static Trainee toTrainee(TraineeRequest traineeRequest) {
+        return Trainee.builder()
+                .id(traineeRequest.getTraineeId())
+                .userId(traineeRequest.getUserId())
+                .dateOfBirth(traineeRequest.getDateOfBirth())
+                .address(traineeRequest.getAddress())
+                .build();
     }
 
-    public static TraineeResponse convertToTraineeResponse(Trainee trainee, User user) {
-        TraineeResponse response = new TraineeResponse();
-        response.setTraineeID(trainee.getId());
-        response.setFirstName(user.getFirstName());
-        response.setLastName(user.getLastName());
-        response.setUsername(user.getUsername());
-        response.setActive(user.isActive());
-        response.setDateOfBirth(trainee.getDateOfBirth());
-        response.setAddress(trainee.getAddress());
-        return response;
+    public static TraineeResponse toTraineeResponse(Trainee trainee, User user) {
+        return TraineeResponse.builder()
+                .traineeID(trainee.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .username(user.getUsername())
+                .isActive(user.isActive())
+                .dateOfBirth(trainee.getDateOfBirth())
+                .address(trainee.getAddress())
+                .build();
     }
 }

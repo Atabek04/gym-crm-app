@@ -2,71 +2,40 @@ package com.gymcrm.dto;
 
 import com.gymcrm.model.TrainingType;
 import jakarta.validation.constraints.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 
+@Value
+@Builder
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class TrainingRequest {
-    @NotNull(message = "Training ID is required")
+    @NotNull
     @Min(value = 1, message = "Trainer ID must be greater than 0")
-    private int id;
+    int id;
 
-    @NotNull(message = "Trainee ID is required")
+    @NotNull
     @Min(value = 1, message = "Trainee ID must be greater than 0")
-    private int traineeId;
+    int traineeId;
 
-    @NotNull(message = "Trainer ID is required")
+    @NotNull
     @Min(value = 1, message = "Trainer ID must be greater than 0")
-    private int trainerId;
+    int trainerId;
 
-    @NotBlank(message = "Training name is required")
+    @NotBlank
     @Size(max = 100, message = "Training name must not exceed 100 characters")
-    private String trainingName;
+    String trainingName;
 
-    @NotNull(message = "Training type is required")
-    private TrainingType trainingType;
+    @NotNull
+    TrainingType trainingType;
 
-    @NotNull(message = "Training date is required")
+    @NotNull
     @FutureOrPresent(message = "Training date must be in the present or future")
-    private LocalDateTime trainingDate;
+    LocalDateTime trainingDate;
 
     @Min(value = 1, message = "Training duration must be greater than 0")
-    private long trainingDuration;
-
-    public TrainingRequest(int id, int traineeId, int trainerId, String trainingName, TrainingType trainingType, LocalDateTime trainingDate, long trainingDuration) {
-        this.id = id;
-        this.traineeId = traineeId;
-        this.trainerId = trainerId;
-        this.trainingName = trainingName;
-        this.trainingType = trainingType;
-        this.trainingDate = trainingDate;
-        this.trainingDuration = trainingDuration;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getTraineeId() {
-        return traineeId;
-    }
-
-    public int getTrainerId() {
-        return trainerId;
-    }
-
-    public String getTrainingName() {
-        return trainingName;
-    }
-
-    public TrainingType getTrainingType() {
-        return trainingType;
-    }
-
-    public LocalDateTime getTrainingDate() {
-        return trainingDate;
-    }
-
-    public long getTrainingDuration() {
-        return trainingDuration;
-    }
+    long trainingDuration;
 }

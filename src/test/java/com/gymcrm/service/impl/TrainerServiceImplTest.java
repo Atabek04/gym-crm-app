@@ -7,60 +7,49 @@ import com.gymcrm.service.impl.parameterResolver.TrainerServiceParameterResolver
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(TrainerServiceParameterResolver.class)
 class TrainerServiceImplTest {
     @Test
-    void testCreateTrainer(TrainerService trainerService) {
-        Trainer trainer = new Trainer(3, 14, "STRENGTH_TRAINING");
-
+    void shouldCreateTrainerSuccessfully(TrainerService trainerService) {
+        Trainer trainer = new Trainer(3, 14, TrainingType.STRENGTH_TRAINING);
         trainerService.createTrainer(trainer);
 
-        var foundTrainer = trainerService.getTrainer(3);
+        Trainer foundTrainer = trainerService.getTrainer(3)
+                .orElseThrow(() -> new RuntimeException("Trainer not found"));
 
         assertNotNull(foundTrainer, "Trainer should be found");
         assertEquals(3, foundTrainer.getId(), "Trainer ID should be 3");
     }
 
     @Test
-    void testUpdateTrainer(TrainerService trainerService) {
-        Trainer originalTrainer = new Trainer(3, 14, "STRENGTH_TRAINING");
-
+    void shouldUpdateTrainerSpecialization(TrainerService trainerService) {
+        Trainer originalTrainer = new Trainer(3, 14, TrainingType.STRENGTH_TRAINING);
         trainerService.createTrainer(originalTrainer);
 
-        Trainer updatedTrainer = new Trainer(3, 14, "CARDIO_TRAINING");
-
+        Trainer updatedTrainer = new Trainer(3, 14, TrainingType.CARDIO_TRAINING);
         trainerService.updateTrainer(updatedTrainer);
 
-        var foundTrainer = trainerService.getTrainer(3);
+        Trainer foundTrainer = trainerService.getTrainer(3)
+                .orElseThrow(() -> new RuntimeException("Trainer not found"));
 
         assertNotNull(foundTrainer, "Trainer should be found");
-        assertEquals(TrainingType.valueOf("CARDIO_TRAINING"), foundTrainer.getSpecialization(),
+        assertEquals(TrainingType.CARDIO_TRAINING, foundTrainer.getSpecialization(),
                 "Specialization should be 'CARDIO_TRAINING'");
     }
 
     @Test
-    void testGetTrainer(TrainerService trainerService) {
-        Trainer trainer = new Trainer(3, 14, "STRENGTH_TRAINING");
-
-        trainerService.createTrainer(trainer);
-
-        var foundTrainer = trainerService.getTrainer(3);
-
-        assertNotNull(foundTrainer, "Trainer should be found");
-        assertEquals(3, foundTrainer.getId(), "Trainer ID should be 3");
-    }
-
-    @Test
-    void testGetAllTrainer(TrainerService trainerService) {
-        Trainer trainer1 = new Trainer(3, 14, "STRENGTH_TRAINING");
-        Trainer trainer2 = new Trainer(4, 15, "CARDIO_TRAINING");
+    void shouldReturnAllTrainers(TrainerService trainerService) {
+        Trainer trainer1 = new Trainer(3, 14, TrainingType.STRENGTH_TRAINING);
+        Trainer trainer2 = new Trainer(4, 15, TrainingType.CARDIO_TRAINING);
 
         trainerService.createTrainer(trainer1);
         trainerService.createTrainer(trainer2);
 
-        var allTrainers = trainerService.getAllTrainer();
+        List<Trainer> allTrainers = trainerService.getAllTrainers();
 
         assertEquals(2, allTrainers.size(), "There should be 2 trainers");
         assertTrue(allTrainers.contains(trainer1), "Trainer 1 should be in the list");

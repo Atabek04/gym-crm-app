@@ -12,7 +12,7 @@ public class UserUtils {
         String username = baseUsername;
         int counter = 1;
         while (existingUsernames.contains(username)) {
-            username = baseUsername + counter++;
+            username = baseUsername + ++counter;
         }
         return username;
     }
