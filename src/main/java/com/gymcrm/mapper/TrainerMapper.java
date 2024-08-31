@@ -8,15 +8,15 @@ import com.gymcrm.model.User;
 public class TrainerMapper {
     public static Trainer convertToTrainer(TrainerRequest trainerRequest) {
         Trainer trainer = new Trainer();
-        trainer.setId(trainerRequest.getId());
-        trainer.setUserId(trainerRequest.getId());
+        trainer.setId(trainerRequest.getTrainerId());
+        trainer.setUserId(trainerRequest.getUserId());
         trainer.setSpecialization(trainerRequest.getSpecialization());
         return trainer;
     }
 
     public static TrainerResponse convertToTrainerResponse(Trainer trainer, User user) {
         TrainerResponse response = new TrainerResponse();
-        response.setId(trainer.getId());
+        response.setTrainerId(trainer.getId());
         response.setFirstName(user.getFirstName());
         response.setLastName(user.getLastName());
         response.setUsername(user.getUsername());

@@ -3,7 +3,7 @@ package com.gymcrm.dto;
 import java.time.LocalDate;
 
 public class TraineeResponse {
-    private int id;
+    private int traineeID;
     private String firstName;
     private String lastName;
     private String username;
@@ -14,7 +14,7 @@ public class TraineeResponse {
     public TraineeResponse() {}
 
     public TraineeResponse(int id, String firstName, String lastName, String username, boolean isActive, LocalDate dateOfBirth, String address) {
-        this.id = id;
+        this.traineeID = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -23,8 +23,8 @@ public class TraineeResponse {
         this.address = address;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTraineeID(int traineeID) {
+        this.traineeID = traineeID;
     }
 
     public void setFirstName(String firstName) {
@@ -49,5 +49,22 @@ public class TraineeResponse {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getTraineeID() {
+        return traineeID;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + traineeID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", isActive=" + isActive +
+                ", dateOfBirth=" + dateOfBirth +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

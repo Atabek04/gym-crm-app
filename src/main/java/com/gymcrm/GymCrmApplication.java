@@ -10,13 +10,8 @@ import org.springframework.context.annotation.Configuration;
 public class GymCrmApplication {
 
     public static void main(String[] args) {
-        var context = new AnnotationConfigApplicationContext(GymCrmApplication.class);
-        var facade = context.getBean(GymFacade.class);
-
-//        System.out.println(facade.getTraineeById(1));
-//        var trainee = facade.getTraineeById(1);
-//        trainee.setId(101);
-//        facade.updateTrainee(facade.getTraineeById(1));
-        System.out.println(facade.getTraineeById(1));
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(GymCrmApplication.class);
+        var gymCLI = context.getBean(GymCLI.class);
+        gymCLI.start();
     }
 }

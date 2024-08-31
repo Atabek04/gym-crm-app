@@ -33,47 +33,108 @@ public class TrainingResponse {
         this.trainingDuration = trainingDuration;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getTraineeId() {
+        return traineeId;
     }
 
     public void setTraineeId(int traineeId) {
         this.traineeId = traineeId;
     }
 
+    public String getTraineeFirstName() {
+        return traineeFirstName;
+    }
+
     public void setTraineeFirstName(String traineeFirstName) {
         this.traineeFirstName = traineeFirstName;
+    }
+
+    public String getTraineeLastName() {
+        return traineeLastName;
     }
 
     public void setTraineeLastName(String traineeLastName) {
         this.traineeLastName = traineeLastName;
     }
 
+    public int getTrainerId() {
+        return trainerId;
+    }
+
     public void setTrainerId(int trainerId) {
         this.trainerId = trainerId;
+    }
+
+    public String getTrainerFirstName() {
+        return trainerFirstName;
     }
 
     public void setTrainerFirstName(String trainerFirstName) {
         this.trainerFirstName = trainerFirstName;
     }
 
+    public String getTrainerLastName() {
+        return trainerLastName;
+    }
+
     public void setTrainerLastName(String trainerLastName) {
         this.trainerLastName = trainerLastName;
+    }
+
+    public String getTrainingName() {
+        return trainingName;
     }
 
     public void setTrainingName(String trainingName) {
         this.trainingName = trainingName;
     }
 
+    public TrainingType getTrainingType() {
+        return trainingType;
+    }
+
     public void setTrainingType(TrainingType trainingType) {
         this.trainingType = trainingType;
+    }
+
+    public LocalDateTime getTrainingDate() {
+        return trainingDate;
     }
 
     public void setTrainingDate(LocalDateTime trainingDate) {
         this.trainingDate = trainingDate;
     }
 
+    public long getTrainingDuration() {
+        return trainingDuration;
+    }
+
     public void setTrainingDuration(long trainingDuration) {
         this.trainingDuration = trainingDuration;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", Trainee = {traineeId=" + traineeId +
+                ", traineeFirstName='" + traineeFirstName + '\'' +
+                ", traineeLastName='" + traineeLastName + '\'' +
+                "}, Trainer = {trainerId=" + trainerId +
+                ", trainerFirstName='" + trainerFirstName + '\'' +
+                ", trainerLastName='" + trainerLastName + '\'' +
+                "}, trainingName='" + trainingName + '\'' +
+                ", trainingType=" + trainingType +
+                ", trainingDate=" + trainingDate +
+                ", trainingDuration=" + trainingDuration +
+                '}';
     }
 }

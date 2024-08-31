@@ -3,9 +3,12 @@ package com.gymcrm.service.impl;
 import com.gymcrm.dao.TraineeDAO;
 import com.gymcrm.model.Trainee;
 import com.gymcrm.service.TraineeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TraineeServiceImpl implements TraineeService {
@@ -26,8 +29,8 @@ public class TraineeServiceImpl implements TraineeService {
     }
 
     @Override
-    public Trainee getTrainee(int id) {
-        return traineeDAO.findById(id).orElse(null);
+    public Optional<Trainee> getTrainee(int id) {
+        return traineeDAO.findById(id);
     }
 
     @Override

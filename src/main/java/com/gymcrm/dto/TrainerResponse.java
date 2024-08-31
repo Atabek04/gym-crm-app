@@ -1,7 +1,7 @@
 package com.gymcrm.dto;
 
 public class TrainerResponse {
-    private int id;
+    private int trainerId;
     private String firstName;
     private String lastName;
     private String username;
@@ -11,7 +11,7 @@ public class TrainerResponse {
     public TrainerResponse() {}
 
     public TrainerResponse(int id, String firstName, String lastName, String username, boolean isActive, String specialization) {
-        this.id = id;
+        this.trainerId = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -19,8 +19,8 @@ public class TrainerResponse {
         this.specialization = specialization;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTrainerId(int trainerId) {
+        this.trainerId = trainerId;
     }
 
     public void setFirstName(String firstName) {
@@ -41,5 +41,21 @@ public class TrainerResponse {
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
+    }
+
+    public int getTrainerId() {
+        return trainerId;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "trainerId=" + trainerId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", isActive=" + isActive +
+                ", specialization='" + specialization + '\'' +
+                '}';
     }
 }

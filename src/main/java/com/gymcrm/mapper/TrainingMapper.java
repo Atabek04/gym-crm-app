@@ -13,9 +13,10 @@ public class TrainingMapper {
         training.setId(trainingRequest.getId());
         training.setTraineeId(trainingRequest.getTraineeId());
         training.setTrainerId(trainingRequest.getTrainerId());
+        training.setTrainingName(trainingRequest.getTrainingName());
+        training.setTrainingType(trainingRequest.getTrainingType());
         training.setTrainingDate(trainingRequest.getTrainingDate());
         training.setTrainingDuration(trainingRequest.getTrainingDuration());
-        training.setTrainingType(trainingRequest.getTrainingType());
         return training;
     }
 

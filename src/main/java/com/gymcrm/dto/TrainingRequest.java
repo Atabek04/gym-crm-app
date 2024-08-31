@@ -32,6 +32,16 @@ public class TrainingRequest {
     @Min(value = 1, message = "Training duration must be greater than 0")
     private long trainingDuration;
 
+    public TrainingRequest(int id, int traineeId, int trainerId, String trainingName, TrainingType trainingType, LocalDateTime trainingDate, long trainingDuration) {
+        this.id = id;
+        this.traineeId = traineeId;
+        this.trainerId = trainerId;
+        this.trainingName = trainingName;
+        this.trainingType = trainingType;
+        this.trainingDate = trainingDate;
+        this.trainingDuration = trainingDuration;
+    }
+
     public int getId() {
         return id;
     }
