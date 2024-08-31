@@ -23,11 +23,6 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public void updateTraining(Training training) {
-        trainingDAO.update(training);
-    }
-
-    @Override
     public Training getTraining(int id) {
         return trainingDAO.findById(id).orElse(null);
     }
@@ -35,10 +30,5 @@ public class TrainingServiceImpl implements TrainingService {
     @Override
     public List<Training> getAllTrainings() {
         return trainingDAO.findAll();
-    }
-
-    @Override
-    public void deleteTraining(int id) {
-        trainingDAO.delete(id);
     }
 }

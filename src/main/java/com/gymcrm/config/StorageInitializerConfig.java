@@ -56,7 +56,7 @@ public class StorageInitializerConfig {
 
     private void loadTraineesFromFile() {
         logger.info("Starting to load trainee data from file: {}", traineeDataFile);
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(traineeDataFile)) {
+        try (var inputStream = getClass().getClassLoader().getResourceAsStream(traineeDataFile)) {
             if (inputStream == null) {
                 throw new IllegalArgumentException("File not found: " + traineeDataFile);
             }
@@ -71,7 +71,7 @@ public class StorageInitializerConfig {
 
     private void loadTrainersFromFile() {
         logger.info("Starting to load trainer data from file: {}", trainerDataFile);
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(trainerDataFile)) {
+        try (var inputStream = getClass().getClassLoader().getResourceAsStream(trainerDataFile)) {
             if (inputStream == null) {
                 throw new IllegalArgumentException("File not found: " + trainerDataFile);
             }
@@ -86,7 +86,7 @@ public class StorageInitializerConfig {
 
     private void loadTrainingsFromFile() {
         logger.info("Starting to load training data from file: {}", trainingDataFile);
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(trainingDataFile)) {
+        try (var inputStream = getClass().getClassLoader().getResourceAsStream(trainingDataFile)) {
             if (inputStream == null) {
                 throw new IllegalArgumentException("File not found: " + trainingDataFile);
             }

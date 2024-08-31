@@ -10,11 +10,7 @@ import java.util.Optional;
 public interface TrainingDAO {
     void save(Training training);
 
-    void update(Training training);
-
     Optional<Training> findById(int id);
 
     List<Training> findAll();
-
-    void delete(int id);
 }

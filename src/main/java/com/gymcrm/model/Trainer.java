@@ -1,5 +1,7 @@
 package com.gymcrm.model;
 
+import java.util.Objects;
+
 public class Trainer {
     private int id;
     private int userId;
@@ -48,5 +50,18 @@ public class Trainer {
                 ", userId=" + userId +
                 ", specialization=" + specialization +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Trainer trainer = (Trainer) o;
+        return id == trainer.id && userId == trainer.userId && specialization == trainer.specialization;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, specialization);
     }
 }

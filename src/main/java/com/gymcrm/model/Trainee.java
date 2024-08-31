@@ -1,6 +1,7 @@
 package com.gymcrm.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Trainee {
     private int id;
@@ -8,7 +9,8 @@ public class Trainee {
     private LocalDate dateOfBirth;
     private String address;
 
-    public Trainee(){}
+    public Trainee() {
+    }
 
     public Trainee(int id, int userId, LocalDate dateOfBirth, String address) {
         this.id = id;
@@ -57,5 +59,18 @@ public class Trainee {
                 ", dateOfBirth=" + dateOfBirth +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Trainee trainee = (Trainee) o;
+        return id == trainee.id && userId == trainee.userId && Objects.equals(dateOfBirth, trainee.dateOfBirth) && Objects.equals(address, trainee.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, dateOfBirth, address);
     }
 }

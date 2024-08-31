@@ -1,6 +1,7 @@
 package com.gymcrm.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Training {
     private int id;
@@ -9,7 +10,7 @@ public class Training {
     private String trainingName;
     private TrainingType trainingType;
     private LocalDateTime trainingDate;
-    private long trainingDuration; // in minutes
+    private long trainingDuration;
 
     public Training(){}
 
@@ -90,5 +91,18 @@ public class Training {
                 ", trainingDate=" + trainingDate +
                 ", trainingDuration=" + trainingDuration +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Training training = (Training) o;
+        return id == training.id && traineeId == training.traineeId && trainerId == training.trainerId && trainingDuration == training.trainingDuration && Objects.equals(trainingName, training.trainingName) && trainingType == training.trainingType && Objects.equals(trainingDate, training.trainingDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, traineeId, trainerId, trainingName, trainingType, trainingDate, trainingDuration);
     }
 }

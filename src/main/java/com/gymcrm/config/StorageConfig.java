@@ -27,4 +27,8 @@ public class StorageConfig {
     public Map<Integer, Training> trainingStorage() {
         return new HashMap<>();
     }
+
+    @Bean Map<Integer, User> userStorage() {
+        return new HashMap<>();
+    }
 }

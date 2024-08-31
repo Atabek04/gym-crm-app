@@ -14,6 +14,4 @@ public interface TrainerDAO {
     Optional<Trainer> findById(int id);
 
     List<Trainer> findAll();
-
-    void delete(int id);
 }

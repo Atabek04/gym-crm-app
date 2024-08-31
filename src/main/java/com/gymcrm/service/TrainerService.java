@@ -13,6 +13,4 @@ public interface TrainerService {
     Trainer getTrainer(int id);
 
     List<Trainer> getAllTrainer();
-
-    void deleteTrainer(int id);
 }

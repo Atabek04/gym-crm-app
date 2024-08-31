@@ -3,6 +3,7 @@ package com.gymcrm.model;
 public enum TrainingType {
     STRENGTH_TRAINING,
     CARDIO_TRAINING,
+    CARDIO,
     YOGA,
     CROSSFIT,
     PILATES,
