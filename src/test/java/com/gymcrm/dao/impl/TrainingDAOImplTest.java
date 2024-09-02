@@ -18,7 +18,7 @@ class TrainingDAOImplTest {
     void shouldSaveAndFindTrainingSuccessfully(TrainingDAO trainingDAO) {
         Training training = new Training(1, 81, 82, "Flex and Tone", TrainingType.YOGA,
                 LocalDateTime.of(2021, 12, 2, 10, 0), 60);
-        trainingDAO.save(training);
+        trainingDAO.save(training, training.getId());
 
         var foundTraining = trainingDAO.findById(1);
 
@@ -34,8 +34,8 @@ class TrainingDAOImplTest {
         Training training2 = new Training(2, 82, 83, "Cardio Blast", TrainingType.CARDIO,
                 LocalDateTime.of(2021, 12, 2, 11, 0), 45);
 
-        trainingDAO.save(training1);
-        trainingDAO.save(training2);
+        trainingDAO.save(training1, training1.getId());
+        trainingDAO.save(training2, training2.getId());
 
         var trainings = trainingDAO.findAll();
 

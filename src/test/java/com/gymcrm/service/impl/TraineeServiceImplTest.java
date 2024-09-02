@@ -17,7 +17,7 @@ class TraineeServiceImplTest {
 
     @BeforeEach
     void setUp(TraineeService traineeService) {
-        traineeService.getAllTrainees().forEach(trainee -> traineeService.deleteTrainee(trainee.getId()));
+        traineeService.findAll().forEach(trainee -> traineeService.delete(trainee.getId()));
     }
 
     @Test
@@ -25,9 +25,9 @@ class TraineeServiceImplTest {
         Trainee trainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2),
                 "Red Rose 12");
 
-        traineeService.createTrainee(trainee);
+        traineeService.create(trainee, trainee.getId());
 
-        Trainee foundTrainee = traineeService.getTrainee(1)
+        Trainee foundTrainee = traineeService.findById(1)
                 .orElseThrow(() -> new RuntimeException("Trainee not found"));
 
         assertNotNull(foundTrainee, "Trainee should be found");
@@ -39,13 +39,13 @@ class TraineeServiceImplTest {
     void shouldUpdateTraineeAddress(TraineeService traineeService) {
         Trainee originalTrainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2),
                 "Red Rose 12");
-        traineeService.createTrainee(originalTrainee);
+        traineeService.create(originalTrainee, originalTrainee.getId());
 
         Trainee updatedTrainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2),
                 "Blue River 15");
-        traineeService.updateTrainee(updatedTrainee);
+        traineeService.update(updatedTrainee, updatedTrainee.getId());
 
-        Trainee foundTrainee = traineeService.getTrainee(1)
+        Trainee foundTrainee = traineeService.findById(1)
                 .orElseThrow(() -> new RuntimeException("Trainee not found"));
 
         assertNotNull(foundTrainee, "Trainee should be found");
@@ -60,10 +60,10 @@ class TraineeServiceImplTest {
         Trainee trainee2 = new Trainee(2, 24, LocalDate.of(2001, 1, 5),
                 "Blue River 15");
 
-        traineeService.createTrainee(trainee1);
-        traineeService.createTrainee(trainee2);
+        traineeService.create(trainee1, trainee1.getId());
+        traineeService.create(trainee2, trainee2.getId());
 
-        List<Trainee> trainees = traineeService.getAllTrainees();
+        List<Trainee> trainees = traineeService.findAll();
 
         assertEquals(2, trainees.size(), "Number of trainees should be 2");
         assertTrue(trainees.contains(trainee1), "Trainee 1 should be in the list");
@@ -74,11 +74,11 @@ class TraineeServiceImplTest {
     void shouldDeleteTraineeSuccessfully(TraineeService traineeService) {
         Trainee trainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2),
                 "Red Rose 12");
-        traineeService.createTrainee(trainee);
+        traineeService.create(trainee, trainee.getId());
 
-        traineeService.deleteTrainee(1);
+        traineeService.delete(1);
 
-        var foundTrainee = traineeService.getTrainee(1).orElse(null);
+        var foundTrainee = traineeService.findById(1).orElse(null);
 
         assertNull(foundTrainee, "Trainee should be deleted and not found");
     }

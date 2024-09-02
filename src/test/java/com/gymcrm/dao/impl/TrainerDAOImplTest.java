@@ -16,7 +16,7 @@ class TrainerDAOImplTest {
     @Test
     void shouldSaveAndFindTrainerSuccessfully(TrainerDAO trainerDAO) {
         Trainer trainer = new Trainer(1, 81, TrainingType.CARDIO_TRAINING);
-        trainerDAO.save(trainer);
+        trainerDAO.save(trainer, trainer.getId());
 
         var foundTrainer = trainerDAO.findById(1);
 
@@ -28,10 +28,10 @@ class TrainerDAOImplTest {
     @Test
     void shouldUpdateTrainerSpecialization(TrainerDAO trainerDAO) {
         Trainer originalTrainer = new Trainer(1, 81, TrainingType.YOGA);
-        trainerDAO.save(originalTrainer);
+        trainerDAO.save(originalTrainer, originalTrainer.getId());
 
         Trainer updatedTrainer = new Trainer(1, 81, TrainingType.CARDIO_TRAINING);
-        trainerDAO.update(updatedTrainer);
+        trainerDAO.update(updatedTrainer, updatedTrainer.getId());
 
         var foundTrainer = trainerDAO.findById(1);
 
@@ -44,8 +44,8 @@ class TrainerDAOImplTest {
     void shouldFindAllTrainers(TrainerDAO trainerDAO) {
         Trainer trainer1 = new Trainer(1, 81, TrainingType.CIRCUIT_TRAINING);
         Trainer trainer2 = new Trainer(2, 82, TrainingType.MOBILITY_TRAINING);
-        trainerDAO.save(trainer1);
-        trainerDAO.save(trainer2);
+        trainerDAO.save(trainer1, trainer1.getId());
+        trainerDAO.save(trainer2, trainer2.getId());
 
         var trainers = trainerDAO.findAll();
 

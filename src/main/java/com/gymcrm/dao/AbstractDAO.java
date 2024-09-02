@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class AbstractDAO<T> {
+public abstract class AbstractDAO<T> implements BaseDAO<T> {
     protected final Map<Integer, T> storage;
     protected final Logger logger;
     private final String entityName;
@@ -17,16 +17,19 @@ public abstract class AbstractDAO<T> {
         this.entityName = entityName;
     }
 
+    @Override
     public void save(T entity, Integer id) {
         storage.put(id, entity);
         logger.info("{} with ID {} has been saved", entityName, id);
     }
 
+    @Override
     public void update(T entity, Integer id) {
         storage.put(id, entity);
         logger.info("{} with ID {} has been updated", entityName, id);
     }
 
+    @Override
     public Optional<T> findById(int id) {
         var entity = storage.get(id);
         if (entity == null) {
@@ -37,6 +40,7 @@ public abstract class AbstractDAO<T> {
         return Optional.of(entity);
     }
 
+    @Override
     public List<T> findAll() {
         var entities = List.copyOf(storage.values());
         if (entities.isEmpty()) {
@@ -47,6 +51,7 @@ public abstract class AbstractDAO<T> {
         return entities;
     }
 
+    @Override
     public void delete(int id) {
         storage.remove(id);
         logger.info("{} with ID {} has been deleted", entityName, id);

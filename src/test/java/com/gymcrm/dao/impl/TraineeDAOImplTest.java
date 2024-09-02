@@ -18,7 +18,7 @@ class TraineeDAOImplTest {
     @Test
     void shouldSaveAndFindTraineeSuccessfully(TraineeDAO traineeDAO) {
         Trainee trainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Red Rose 12");
-        traineeDAO.save(trainee);
+        traineeDAO.save(trainee, trainee.getId());
 
         Optional<Trainee> foundTrainee = traineeDAO.findById(1);
 
@@ -30,10 +30,10 @@ class TraineeDAOImplTest {
     @Test
     void shouldUpdateTraineeAddress(TraineeDAO traineeDAO) {
         Trainee originalTrainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Red Rose 12");
-        traineeDAO.save(originalTrainee);
+        traineeDAO.save(originalTrainee, originalTrainee.getId());
 
         Trainee updatedTrainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Blue River 15");
-        traineeDAO.update(updatedTrainee);
+        traineeDAO.update(updatedTrainee, updatedTrainee.getId());
 
         Optional<Trainee> foundTrainee = traineeDAO.findById(1);
 
@@ -52,8 +52,8 @@ class TraineeDAOImplTest {
         Trainee trainee1 = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Red Rose 12");
         Trainee trainee2 = new Trainee(2, 25, LocalDate.of(1998, 3, 14), "Blue River 15");
 
-        traineeDAO.save(trainee1);
-        traineeDAO.save(trainee2);
+        traineeDAO.save(trainee1, trainee1.getId());
+        traineeDAO.save(trainee2, trainee2.getId());
 
         var allTrainees = traineeDAO.findAll();
 
@@ -65,7 +65,7 @@ class TraineeDAOImplTest {
     @Test
     void shouldDeleteTraineeSuccessfully(TraineeDAO traineeDAO) {
         Trainee trainee = new Trainee(1, 23, LocalDate.of(2000, 12, 2), "Red Rose 12");
-        traineeDAO.save(trainee);
+        traineeDAO.save(trainee, trainee.getId());
         traineeDAO.delete(1);
 
         Optional<Trainee> foundTrainee = traineeDAO.findById(1);

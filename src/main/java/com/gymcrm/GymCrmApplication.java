@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackages = "com.gymcrm")
 public class GymCrmApplication {
-
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(GymCrmApplication.class);
         var gymCLI = context.getBean(GymCLI.class);

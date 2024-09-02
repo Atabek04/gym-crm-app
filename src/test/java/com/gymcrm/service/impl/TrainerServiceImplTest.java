@@ -16,9 +16,9 @@ class TrainerServiceImplTest {
     @Test
     void shouldCreateTrainerSuccessfully(TrainerService trainerService) {
         Trainer trainer = new Trainer(3, 14, TrainingType.STRENGTH_TRAINING);
-        trainerService.createTrainer(trainer);
+        trainerService.create(trainer, trainer.getId());
 
-        Trainer foundTrainer = trainerService.getTrainer(3)
+        Trainer foundTrainer = trainerService.findById(3)
                 .orElseThrow(() -> new RuntimeException("Trainer not found"));
 
         assertNotNull(foundTrainer, "Trainer should be found");
@@ -28,12 +28,12 @@ class TrainerServiceImplTest {
     @Test
     void shouldUpdateTrainerSpecialization(TrainerService trainerService) {
         Trainer originalTrainer = new Trainer(3, 14, TrainingType.STRENGTH_TRAINING);
-        trainerService.createTrainer(originalTrainer);
+        trainerService.create(originalTrainer, originalTrainer.getId());
 
         Trainer updatedTrainer = new Trainer(3, 14, TrainingType.CARDIO_TRAINING);
-        trainerService.updateTrainer(updatedTrainer);
+        trainerService.update(updatedTrainer, updatedTrainer.getId());
 
-        Trainer foundTrainer = trainerService.getTrainer(3)
+        Trainer foundTrainer = trainerService.findById(3)
                 .orElseThrow(() -> new RuntimeException("Trainer not found"));
 
         assertNotNull(foundTrainer, "Trainer should be found");
@@ -46,10 +46,10 @@ class TrainerServiceImplTest {
         Trainer trainer1 = new Trainer(3, 14, TrainingType.STRENGTH_TRAINING);
         Trainer trainer2 = new Trainer(4, 15, TrainingType.CARDIO_TRAINING);
 
-        trainerService.createTrainer(trainer1);
-        trainerService.createTrainer(trainer2);
+        trainerService.create(trainer1, trainer1.getId());
+        trainerService.create(trainer2, trainer2.getId());
 
-        List<Trainer> allTrainers = trainerService.getAllTrainers();
+        List<Trainer> allTrainers = trainerService.findAll();
 
         assertEquals(2, allTrainers.size(), "There should be 2 trainers");
         assertTrue(allTrainers.contains(trainer1), "Trainer 1 should be in the list");

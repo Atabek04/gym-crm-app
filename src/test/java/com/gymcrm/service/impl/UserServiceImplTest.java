@@ -16,7 +16,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp(UserService userService) {
-        userService.getAllUsers().forEach(user -> userService.deleteUser(user.getId()));
+        userService.findAll().forEach(user -> userService.delete(user.getId()));
     }
 
     @Test
@@ -24,9 +24,9 @@ class UserServiceImplTest {
         User user = new User(1, "John", "Doe", "john.doe", 
                 "password123", true);
 
-        userService.createUser(user);
+        userService.create(user, user.getId());
 
-        User foundUser = userService.getUser(1).orElse(null);
+        User foundUser = userService.findById(1).orElse(null);
 
         assertNotNull(foundUser, "User should be found");
         assertEquals(1, foundUser.getId(), "User ID should be 1");
@@ -37,13 +37,13 @@ class UserServiceImplTest {
     void shouldUpdateUserPassword(UserService userService) {
         User originalUser = new User(1, "John", "Doe", "john.doe", 
                 "password123", true);
-        userService.createUser(originalUser);
+        userService.create(originalUser, originalUser.getId());
 
         User updatedUser = new User(1, "John", "Doe", "john.doe", 
                 "newPassword456", true);
-        userService.updateUser(updatedUser);
+        userService.update(updatedUser, updatedUser.getId());
 
-        User foundUser = userService.getUser(1).orElse(null);
+        User foundUser = userService.findById(1).orElse(null);
 
         assertNotNull(foundUser, "User should be found");
         assertEquals("newPassword456", foundUser.getPassword(), 
@@ -57,10 +57,10 @@ class UserServiceImplTest {
         User user2 = new User(2, "Jane", "Smith", "jane.smith", 
                 "password456", false);
 
-        userService.createUser(user1);
-        userService.createUser(user2);
+        userService.create(user1, user1.getId());
+        userService.create(user2, user2.getId());
 
-        List<User> allUsers = userService.getAllUsers();
+        List<User> allUsers = userService.findAll();
 
         assertEquals(2, allUsers.size(), "There should be 2 users");
         assertTrue(allUsers.contains(user1), "User 1 should be in the list");
@@ -71,11 +71,11 @@ class UserServiceImplTest {
     void shouldDeleteUserSuccessfully(UserService userService) {
         User user = new User(1, "John", "Doe", "john.doe",
                 "password123", true);
-        userService.createUser(user);
+        userService.create(user, user.getId());
 
-        userService.deleteUser(1);
+        userService.delete(1);
 
-        var foundUser = userService.getUser(1).orElse(null);
+        var foundUser = userService.findById(1).orElse(null);
 
         assertNull(foundUser, "User should be deleted and not found");
     }

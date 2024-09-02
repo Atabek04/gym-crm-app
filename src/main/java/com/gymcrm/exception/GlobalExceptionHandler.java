@@ -8,11 +8,9 @@ public class GlobalExceptionHandler {
 
     public static void handleResourceNotFoundException(ResourceNotFoundException ex) {
         logger.error("Resource not found: {}", ex.getMessage());
-        System.out.println("Error: " + ex.getMessage());
     }
 
     public static void handleGeneralException(Exception ex) {
         logger.error("An unexpected error occurred: {}", ex.getMessage());
-        System.out.println("An unexpected error occurred. Please try again later.");
     }
 }

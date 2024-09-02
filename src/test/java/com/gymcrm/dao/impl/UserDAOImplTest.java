@@ -21,7 +21,7 @@ class UserDAOImplTest {
     @Test
     void shouldSaveUserSuccessfully(UserDAO userDAO) {
         User user = new User(1, "John", "Doe", "John.Doe", "password123", true);
-        userDAO.save(user);
+        userDAO.save(user, user.getId());
 
         var foundUser = userDAO.findById(1);
 
@@ -33,10 +33,10 @@ class UserDAOImplTest {
     @Test
     void shouldUpdateUserPassword(UserDAO userDAO) {
         User user = new User(1, "John", "Doe", "John.Doe", "password123", true);
-        userDAO.save(user);
+        userDAO.save(user, user.getId());
 
         User updatedUser = new User(1, "John", "Doe", "John.Doe", "password456", true);
-        userDAO.update(updatedUser);
+        userDAO.update(updatedUser, updatedUser.getId());
 
         var foundUser = userDAO.findById(1);
 
@@ -47,7 +47,7 @@ class UserDAOImplTest {
     @Test
     void shouldDeleteUserSuccessfully(UserDAO userDAO) {
         User user = new User(1, "John", "Doe", "John.Doe", "password123", true);
-        userDAO.save(user);
+        userDAO.save(user, user.getId());
         userDAO.delete(1);
 
         var foundUser = userDAO.findById(1);

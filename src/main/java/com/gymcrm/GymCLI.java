@@ -5,6 +5,8 @@ import com.gymcrm.exception.GlobalExceptionHandler;
 import com.gymcrm.exception.ResourceNotFoundException;
 import com.gymcrm.facade.GymFacade;
 import com.gymcrm.model.TrainingType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +30,7 @@ public class GymCLI {
     public GymCLI(GymFacade gymFacade) {
         this.gymFacade = gymFacade;
     }
+    private static final Logger logger = LoggerFactory.getLogger(GymCLI.class);
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -43,11 +46,11 @@ public class GymCLI {
                     isRunning = false;
                 }
             } catch (Exception ex) {
-                System.out.println("An unexpected error occurred. Please try again.");
+                logger.error("An error occurred: ", ex);
             }
         }
 
-        System.out.println("Thank you for using the Gym CRM CLI. Goodbye!");
+        logger.info("Thank you for using the Gym CRM CLI. Goodbye!");
     }
 
     private void handleUserChoice(int choice, Scanner scanner) {
@@ -65,7 +68,7 @@ public class GymCLI {
             case 11 -> findTrainingById(scanner);
             case 12 -> listAllTrainings();
             case 13 -> System.exit(0);
-            default -> System.out.println("Invalid choice");
+            default -> logger.warn("Invalid choice. Please enter a number between 1 and 13.");
         }
     }
 
@@ -98,14 +101,14 @@ public class GymCLI {
         try {
             int traineeId = readInt(scanner, "Enter Trainee ID: ");
             if (gymFacade.findAllTrainees().stream().anyMatch(trainee -> trainee.getTraineeID() == traineeId)) {
-                System.out.println("Trainee with this ID already exists. Please enter a different ID.");
+                logger.warn("Trainee with this ID already exists. Please enter a different ID.");
                 displaySeparator();
                 return;
             }
 
             int userId = readInt(scanner, "Enter User ID: ");
             if (gymFacade.findAllUsers().stream().anyMatch(user -> user.getId() == userId)) {
-                System.out.println("User with this ID already exists. Please enter a different ID.");
+                logger.warn("User with this ID already exists. Please enter a different ID.");
                 displaySeparator();
                 return;
             }
@@ -117,7 +120,7 @@ public class GymCLI {
 
             TraineeRequest request = new TraineeRequest(traineeId, userId, address, firstName, lastName, dateOfBirth);
             gymFacade.saveTrainee(request);
-            System.out.println("Trainee created successfully.");
+            logger.info("Trainee created successfully.");
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             GlobalExceptionHandler.handleResourceNotFoundException(ex);
@@ -135,7 +138,7 @@ public class GymCLI {
 
             int userId = readInt(scanner, "Enter User ID: ");
             if (gymFacade.findAllUsers().stream().anyMatch(user -> user.getId() == userId)) {
-                System.out.println("User with this ID already exists. Please enter a different ID.");
+                logger.warn("User with this ID already exists. Please enter a different ID.");
                 displaySeparator();
                 return;
             }
@@ -147,7 +150,7 @@ public class GymCLI {
 
             TraineeRequest request = new TraineeRequest(traineeId, userId, address, firstName, lastName, dateOfBirth);
             gymFacade.updateTrainee(request);
-            System.out.println("Trainee updated successfully.");
+            logger.info("Trainee updated successfully.");
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             GlobalExceptionHandler.handleResourceNotFoundException(ex);
@@ -162,7 +165,7 @@ public class GymCLI {
             Optional<TraineeResponse> traineeResponse = Optional.ofNullable(gymFacade.findTraineeById(id));
             traineeResponse.ifPresentOrElse(
                     response -> System.out.println("Trainee found: " + response),
-                    () -> System.out.println("Trainee not found.")
+                    () -> logger.error("Trainee not found.")
             );
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
@@ -192,7 +195,7 @@ public class GymCLI {
                 return;
             }
             gymFacade.deleteTrainee(id);
-            System.out.println("Trainee deleted successfully.");
+            logger.info("Trainee deleted successfully.");
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             GlobalExceptionHandler.handleResourceNotFoundException(ex);
@@ -206,14 +209,14 @@ public class GymCLI {
         try {
             int trainerId = readInt(scanner, "Enter Trainer ID: ");
             if (gymFacade.findAllTrainers().stream().anyMatch(trainer -> trainer.getTrainerId() == trainerId)) {
-                System.out.println("Trainer with this ID already exists. Please enter a different ID.");
+                logger.warn("Trainer with this ID already exists. Please enter a different ID.");
                 displaySeparator();
                 return;
             }
 
             int userId = readInt(scanner, "Enter User ID: ");
             if (gymFacade.findAllUsers().stream().anyMatch(user -> user.getId() == userId)) {
-                System.out.println("User with this ID already exists. Please enter a different ID.");
+                logger.warn("User with this ID already exists. Please enter a different ID.");
                 displaySeparator();
                 return;
             }
@@ -224,7 +227,7 @@ public class GymCLI {
 
             TrainerRequest request = new TrainerRequest(trainerId, userId, firstName, lastName, specialization);
             gymFacade.saveTrainer(request);
-            System.out.println("Trainer created successfully.");
+            logger.info("Trainer created successfully.");
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             GlobalExceptionHandler.handleResourceNotFoundException(ex);
@@ -241,7 +244,7 @@ public class GymCLI {
             }
             int userId = readInt(scanner, "Enter User ID: ");
             if (gymFacade.findAllUsers().stream().anyMatch(user -> user.getId() == userId)) {
-                System.out.println("User with this ID already exists. Please enter a different ID.");
+                logger.warn("User with this ID already exists. Please enter a different ID.");
                 displaySeparator();
                 return;
             }
@@ -252,7 +255,7 @@ public class GymCLI {
 
             TrainerRequest request = new TrainerRequest(trainerId, userId, firstName, lastName, specialization);
             gymFacade.updateTrainer(request);
-            System.out.println("Trainer updated successfully.");
+            logger.info("Trainer updated successfully.");
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             GlobalExceptionHandler.handleResourceNotFoundException(ex);
@@ -270,7 +273,7 @@ public class GymCLI {
             Optional<TrainerResponse> trainerResponse = Optional.ofNullable(gymFacade.findTrainerById(id));
             trainerResponse.ifPresentOrElse(
                     response -> System.out.println("Trainer found: " + response),
-                    () -> System.out.println("Trainer not found.")
+                    () -> logger.error("Trainer not found.")
             );
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
@@ -298,7 +301,7 @@ public class GymCLI {
         try {
             int id = readInt(scanner, "Enter Training ID: ");
             if (gymFacade.findAllTrainings().stream().anyMatch(training -> training.getId() == id)) {
-                System.out.println("Training with this ID already exists. Please enter a different ID.");
+                logger.warn("Training with this ID already exists. Please enter a different ID.");
                 displaySeparator();
                 return;
             }
@@ -318,7 +321,7 @@ public class GymCLI {
 
             TrainingRequest request = new TrainingRequest(id, traineeId, trainerId, trainingName, trainingType, trainingDate, trainingDuration);
             gymFacade.saveTraining(request);
-            System.out.println("Training created successfully.");
+            logger.info("Training created successfully.");
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             GlobalExceptionHandler.handleResourceNotFoundException(ex);
@@ -333,7 +336,7 @@ public class GymCLI {
             Optional<TrainingResponse> trainingResponse = Optional.ofNullable(gymFacade.findTrainingById(id));
             trainingResponse.ifPresentOrElse(
                     response -> System.out.println("Training found: " + response),
-                    () -> System.out.println("Training not found.")
+                    () -> logger.error("Training not found.")
             );
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
@@ -362,9 +365,13 @@ public class GymCLI {
             System.out.print(prompt);
             String input = scanner.nextLine();
             try {
-                return Integer.parseInt(input);
+                var number = Integer.parseInt(input);
+                if (number < 0) {
+                    throw new NumberFormatException();
+                }
+                return number;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid number. Please try again.");
+                logger.error("Invalid number. Please try again.");
             }
         }
     }
@@ -374,9 +381,13 @@ public class GymCLI {
             System.out.print("Enter Training Duration (in minutes): ");
             String input = scanner.nextLine();
             try {
-                return Long.parseLong(input);
+                var number = Long.parseLong(input);
+                if (number < 0) {
+                    throw new NumberFormatException();
+                }
+                return number;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid number. Please try again.");
+                logger.error("Invalid number. Please try again.");
             }
         }
     }
@@ -388,7 +399,7 @@ public class GymCLI {
             try {
                 return LocalDate.parse(input, DATE_FORMATTER);
             } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format. Please enter in yyyy-MM-dd format.");
+                logger.error("Invalid date format. Please enter in yyyy-MM-dd format.");
             }
         }
     }
@@ -400,7 +411,7 @@ public class GymCLI {
             try {
                 return LocalDateTime.parse(input, DATE_TIME_FORMATTER);
             } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format. Please enter in yyyy-MM-dd'T'HH:mm:ss format.");
+                logger.error("Invalid date format. Please enter in yyyy-MM-dd'T'HH:mm:ss format.");
             }
         }
     }
@@ -412,7 +423,7 @@ public class GymCLI {
             try {
                 return TrainingType.valueOf(input.toUpperCase());
             } catch (IllegalArgumentException e) {
-                System.out.println("Invalid option. Please enter one of the following: " +
+                logger.error("Invalid option. Please enter one of the following: " +
                         String.join(", ", getEnumNames()));
             }
         }
@@ -430,7 +441,7 @@ public class GymCLI {
                 .anyMatch(trainee -> trainee.getTraineeID() == traineeId);
 
         if (!exists) {
-            System.out.println("Trainee with ID " + traineeId + " does not exist. Please enter a valid Trainee ID.");
+            logger.warn("Trainee with ID {} does not exist. Please enter a valid Trainee ID.", traineeId);
         }
 
         return !exists;
@@ -442,7 +453,7 @@ public class GymCLI {
                 .anyMatch(trainer -> trainer.getTrainerId() == trainerId);
 
         if (!exists) {
-            System.out.println("Trainer with ID " + trainerId + " does not exist. Please enter a valid Trainer ID.");
+            logger.warn("Trainer with ID {} does not exist. Please enter a valid Trainer ID.", trainerId);
         }
 
         return !exists;
@@ -450,7 +461,12 @@ public class GymCLI {
 
     private String readString(Scanner scanner, String prompt) {
         System.out.print(prompt);
-        return scanner.nextLine();
+        var input = scanner.nextLine();
+        if(input.isBlank() || input.isEmpty()) {
+            logger.error("Invalid input. Please try again.");
+            return readString(scanner, prompt);
+        }
+        return input;
     }
 
     private void displaySeparator() {

@@ -18,9 +18,9 @@ class TrainingServiceImplTest {
     @Test
     void shouldCreateTrainingSuccessfully(TrainingService trainingService) {
         Training training = new Training(1, 81, 82, "Flex and Tone", TrainingType.YOGA, LocalDateTime.of(2021, 12, 2, 10, 0), 60);
-        trainingService.createTraining(training);
+        trainingService.create(training, training.getId());
 
-        Training foundTraining = trainingService.getTraining(1);
+        var foundTraining = trainingService.findById(1).orElse(null);
 
         assertNotNull(foundTraining, "Training should be found");
         assertEquals(1, foundTraining.getId(), "Training ID should be 1");
@@ -32,10 +32,10 @@ class TrainingServiceImplTest {
         Training training1 = new Training(1, 81, 82, "Flex and Tone", TrainingType.YOGA, LocalDateTime.of(2021, 12, 2, 10, 0), 60);
         Training training2 = new Training(2, 82, 83, "Cardio Blast", TrainingType.CARDIO, LocalDateTime.of(2021, 12, 2, 11, 0), 45);
 
-        trainingService.createTraining(training1);
-        trainingService.createTraining(training2);
+        trainingService.create(training1, training1.getId());
+        trainingService.create(training2, training2.getId());
 
-        List<Training> allTrainings = trainingService.getAllTrainings();
+        List<Training> allTrainings = trainingService.findAll();
 
         assertEquals(2, allTrainings.size(), "There should be 2 trainings");
         assertTrue(allTrainings.contains(training1), "Training 1 should be in the list");

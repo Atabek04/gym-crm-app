@@ -7,7 +7,7 @@ import com.gymcrm.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TrainingMapper {
+public final class TrainingMapper {
     public static Training toTraining(TrainingRequest trainingRequest) {
         return Training.builder()
                 .id(trainingRequest.getId())
