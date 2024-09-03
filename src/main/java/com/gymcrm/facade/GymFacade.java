@@ -39,10 +39,12 @@ public class GymFacade {
 
     public void saveTrainee(TraineeRequest request) {
         var user = toUser(request);
-        userService.create(user);
+
+        userService.create(user); // Only pass the user object, not the ID
 
         var trainee = toTrainee(request);
-        trainee.setUserId(user.getId());
+        trainee.setId(request.getUserId());
+        trainee.setUserId(request.getUserId());
         trainee.setAddress(request.getAddress());
         trainee.setDateOfBirth(request.getDateOfBirth());
         traineeService.create(trainee, trainee.getId());
