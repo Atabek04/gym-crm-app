@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public final class TrainingMapper {
+    private TrainingMapper() {}
     public static Training toTraining(TrainingRequest trainingRequest) {
         return Training.builder()
                 .id(trainingRequest.getId())

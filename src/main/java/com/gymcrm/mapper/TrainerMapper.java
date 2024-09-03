@@ -8,7 +8,8 @@ import com.gymcrm.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
-final public class TrainerMapper {
+public final class TrainerMapper {
+    private TrainerMapper() {}
     public static Trainer toTrainer(TrainerRequest trainerRequest) {
         return Trainer.builder()
                 .id(trainerRequest.getTrainerId())

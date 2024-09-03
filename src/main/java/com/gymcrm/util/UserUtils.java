@@ -3,15 +3,17 @@ package com.gymcrm.util;
 import java.security.SecureRandom;
 import java.util.List;
 
-public class UserUtils {
+public final class UserUtils {
+    private UserUtils() {}
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     public static final int PASSWORD_LENGTH = 10;
+    private static final int INITIAL_COUNTER_VALUE = 1;
 
     public static String generateUsername(String firstName, String lastName, List<String> existingUsernames) {
         String baseUsername = firstName + "." + lastName;
         String username = baseUsername;
-        int counter = 1;
+        int counter = INITIAL_COUNTER_VALUE;
         while (existingUsernames.contains(username)) {
             username = baseUsername + ++counter;
         }

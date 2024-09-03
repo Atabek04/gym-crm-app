@@ -4,7 +4,8 @@ import com.gymcrm.dto.TraineeRequest;
 import com.gymcrm.dto.TrainerRequest;
 import com.gymcrm.model.User;
 
-public class UserMapper {
+public final class UserMapper {
+    private UserMapper() {}
     public static User toUser(TraineeRequest request) {
         return User.builder()
                 .id(request.getUserId())

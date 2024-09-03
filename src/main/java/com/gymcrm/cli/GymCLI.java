@@ -1,4 +1,4 @@
-package com.gymcrm;
+package com.gymcrm.cli;
 
 import com.gymcrm.dto.*;
 import com.gymcrm.exception.GlobalExceptionHandler;
@@ -397,7 +397,12 @@ public class GymCLI {
             System.out.print("Enter Date of Birth (yyyy-MM-dd): ");
             String input = scanner.nextLine();
             try {
-                return LocalDate.parse(input, DATE_FORMATTER);
+                LocalDate date = LocalDate.parse(input, DATE_FORMATTER);
+                if (date.isAfter(LocalDate.now())) {
+                    logger.error("Date of birth cannot be in the future. Please enter a valid date.");
+                    continue;
+                }
+                return date;
             } catch (DateTimeParseException e) {
                 logger.error("Invalid date format. Please enter in yyyy-MM-dd format.");
             }
@@ -409,7 +414,12 @@ public class GymCLI {
             System.out.print("Enter Training Date (yyyy-MM-dd'T'HH:mm:ss): ");
             String input = scanner.nextLine();
             try {
-                return LocalDateTime.parse(input, DATE_TIME_FORMATTER);
+                LocalDateTime dateTime = LocalDateTime.parse(input, DATE_TIME_FORMATTER);
+                if (dateTime.isBefore(LocalDateTime.now())) {
+                    logger.error("Training date and time cannot be in the past. Please enter a future date and time.");
+                    continue;
+                }
+                return dateTime;
             } catch (DateTimeParseException e) {
                 logger.error("Invalid date format. Please enter in yyyy-MM-dd'T'HH:mm:ss format.");
             }
@@ -462,7 +472,7 @@ public class GymCLI {
     private String readString(Scanner scanner, String prompt) {
         System.out.print(prompt);
         var input = scanner.nextLine();
-        if(input.isBlank() || input.isEmpty()) {
+        if(input.isBlank() || input.length() <= 2) {
             logger.error("Invalid input. Please try again.");
             return readString(scanner, prompt);
         }
