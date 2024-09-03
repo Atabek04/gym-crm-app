@@ -15,15 +15,12 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public void create(User user) {
-        if (dao.findById(user.getId()).isPresent()) {
-            dao.update(user, user.getId());
-        } else {
-            var username = UserUtils.generateUsername(user.getFirstName(), user.getLastName(),
-                    super.findAll().stream().map(User::getUsername).toList());
-            var password = UserUtils.generateRandomPassword();
-            user.setUsername(username);
-            user.setPassword(password);
-            dao.save(user, user.getId());
-        }
+        var username = UserUtils.generateUsername(user.getFirstName(), user.getLastName(),
+                super.findAll().stream().map(User::getUsername).toList());
+        var password = UserUtils.generateRandomPassword();
+        user.setUsername(username);
+        user.setPassword(password);
+        System.out.println("Username: " + username);
+        dao.save(user, user.getId());
     }
 }

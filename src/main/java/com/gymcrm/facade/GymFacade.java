@@ -42,11 +42,7 @@ public class GymFacade {
         userService.create(user);
 
         var trainee = toTrainee(request);
-        trainee.setId(request.getTraineeId());
-        trainee.setUserId(request.getUserId());
-        trainee.setAddress(request.getAddress());
-        trainee.setDateOfBirth(request.getDateOfBirth());
-        traineeService.create(trainee, trainee.getId());
+        traineeService.create(trainee, request.getTraineeId());
     }
 
     public void updateTrainee(TraineeRequest request) {
@@ -60,7 +56,7 @@ public class GymFacade {
     public TraineeResponse findTraineeById(int id) {
         var trainee = traineeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee not found"));
-        var user = userService.findById(trainee.getId())
+        var user = userService.findById(trainee.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee user not found"));
         return toTraineeResponse(trainee, user);
     }
@@ -68,7 +64,7 @@ public class GymFacade {
     public List<TraineeResponse> findAllTrainees() {
         return traineeService.findAll().stream()
                 .map(trainee -> {
-                    User user = userService.findById(trainee.getId())
+                    User user = userService.findById(trainee.getUserId())
                             .orElseThrow(() -> new ResourceNotFoundException("Trainee user not found"));
                     return toTraineeResponse(trainee, user);
                 }).toList();
@@ -97,7 +93,7 @@ public class GymFacade {
     public TrainerResponse findTrainerById(int id) {
         var trainer = trainerService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainer not found"));
-        var user = userService.findById(trainer.getId())
+        var user = userService.findById(trainer.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("Trainer user not found"));
         return toTrainerResponse(trainer, user);
     }
@@ -105,7 +101,7 @@ public class GymFacade {
     public List<TrainerResponse> findAllTrainers() {
         return trainerService.findAll().stream()
                 .map(trainer -> {
-                    var user = userService.findById(trainer.getId())
+                    var user = userService.findById(trainer.getUserId())
                             .orElseThrow(() -> new ResourceNotFoundException("Trainer user not found"));
                     return toTrainerResponse(trainer, user);
                 }).toList();
