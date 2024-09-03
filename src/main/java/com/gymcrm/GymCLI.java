@@ -223,9 +223,9 @@ public class GymCLI {
 
             String firstName = readString(scanner, "Enter First Name: ");
             String lastName = readString(scanner, "Enter Last Name: ");
-            String specialization = readString(scanner, "Enter Specialization: ");
+            var specialization = readEnum(scanner);
 
-            TrainerRequest request = new TrainerRequest(trainerId, userId, firstName, lastName, specialization);
+            TrainerRequest request = new TrainerRequest(trainerId, userId, firstName, lastName, specialization.toString());
             gymFacade.saveTrainer(request);
             logger.info("Trainer created successfully.");
             displaySeparator();

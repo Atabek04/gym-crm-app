@@ -80,7 +80,7 @@ public class GymFacade {
 
     public void saveTrainer(TrainerRequest request) {
         var user = toUser(request);
-        userService.create(user, user.getId());
+        userService.create(user);
 
         var trainer = toTrainer(request);
         trainerService.create(trainer, trainer.getId());
