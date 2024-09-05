@@ -1,0 +1,362 @@
+[
+  {
+    "id": 1,
+    "traineeId": 1,
+    "trainerId": 2,
+    "trainingName": "Iron Strength",
+    "trainingType": "STRENGTH_TRAINING",
+    "trainingDate": "2022-01-15T09:00:00Z",
+    "trainingDuration": 120
+  },
+  {
+    "id": 2,
+    "traineeId": 2,
+    "trainerId": 3,
+    "trainingName": "Cardio Burn",
+    "trainingType": "CARDIO_TRAINING",
+    "trainingDate": "2022-02-15T07:30:00Z",
+    "trainingDuration": 90
+  },
+  {
+    "id": 3,
+    "traineeId": 3,
+    "trainerId": 4,
+    "trainingName": "Calorie Crusher",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2022-02-22T06:59:01Z",
+    "trainingDuration": 160
+  },
+  {
+    "id": 4,
+    "traineeId": 4,
+    "trainerId": 5,
+    "trainingName": "Yoga Flow",
+    "trainingType": "YOGA",
+    "trainingDate": "2023-05-22T08:30:00Z",
+    "trainingDuration": 70
+  },
+  {
+    "id": 5,
+    "traineeId": 5,
+    "trainerId": 6,
+    "trainingName": "CrossFit Challenge",
+    "trainingType": "CROSSFIT",
+    "trainingDate": "2023-06-12T10:00:00Z",
+    "trainingDuration": 110
+  },
+  {
+    "id": 6,
+    "traineeId": 6,
+    "trainerId": 7,
+    "trainingName": "Pilates Perfect",
+    "trainingType": "PILATES",
+    "trainingDate": "2024-01-19T14:30:00Z",
+    "trainingDuration": 80
+  },
+  {
+    "id": 7,
+    "traineeId": 7,
+    "trainerId": 8,
+    "trainingName": "HIIT Blast",
+    "trainingType": "HIIT",
+    "trainingDate": "2022-12-01T17:00:00Z",
+    "trainingDuration": 50
+  },
+  {
+    "id": 8,
+    "traineeId": 8,
+    "trainerId": 9,
+    "trainingName": "Functional Fitness Frenzy",
+    "trainingType": "FUNCTIONAL_FITNESS",
+    "trainingDate": "2023-04-10T13:00:00Z",
+    "trainingDuration": 60
+  },
+  {
+    "id": 9,
+    "traineeId": 9,
+    "trainerId": 10,
+    "trainingName": "Group Strength",
+    "trainingType": "GROUP_FITNESS",
+    "trainingDate": "2023-08-15T15:30:00Z",
+    "trainingDuration": 100
+  },
+  {
+    "id": 10,
+    "traineeId": 10,
+    "trainerId": 11,
+    "trainingName": "Martial Arts Mastery",
+    "trainingType": "MARTIAL_ARTS",
+    "trainingDate": "2024-02-21T16:00:00Z",
+    "trainingDuration": 90
+  },
+  {
+    "id": 11,
+    "traineeId": 11,
+    "trainerId": 12,
+    "trainingName": "Circuit Blast",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2023-07-09T18:30:00Z",
+    "trainingDuration": 60
+  },
+  {
+    "id": 12,
+    "traineeId": 12,
+    "trainerId": 13,
+    "trainingName": "Outdoor Bootcamp",
+    "trainingType": "OUTDOOR_FITNESS",
+    "trainingDate": "2023-04-19T06:30:00Z",
+    "trainingDuration": 80
+  },
+  {
+    "id": 13,
+    "traineeId": 13,
+    "trainerId": 14,
+    "trainingName": "Mobility Masterclass",
+    "trainingType": "MOBILITY_TRAINING",
+    "trainingDate": "2022-03-05T11:00:00Z",
+    "trainingDuration": 40
+  },
+  {
+    "id": 14,
+    "traineeId": 14,
+    "trainerId": 15,
+    "trainingName": "Functional Strength",
+    "trainingType": "STRENGTH_TRAINING",
+    "trainingDate": "2023-11-15T08:00:00Z",
+    "trainingDuration": 120
+  },
+  {
+    "id": 15,
+    "traineeId": 15,
+    "trainerId": 16,
+    "trainingName": "Cardio Kick",
+    "trainingType": "CARDIO",
+    "trainingDate": "2024-03-30T15:00:00Z",
+    "trainingDuration": 30
+  },
+  {
+    "id": 16,
+    "traineeId": 16,
+    "trainerId": 17,
+    "trainingName": "Yoga Balance",
+    "trainingType": "YOGA",
+    "trainingDate": "2023-07-12T07:45:00Z",
+    "trainingDuration": 90
+  },
+  {
+    "id": 17,
+    "traineeId": 17,
+    "trainerId": 18,
+    "trainingName": "CrossFit Frenzy",
+    "trainingType": "CROSSFIT",
+    "trainingDate": "2022-11-18T18:00:00Z",
+    "trainingDuration": 110
+  },
+  {
+    "id": 18,
+    "traineeId": 18,
+    "trainerId": 19,
+    "trainingName": "Pilates Core",
+    "trainingType": "PILATES",
+    "trainingDate": "2024-01-10T10:00:00Z",
+    "trainingDuration": 50
+  },
+  {
+    "id": 19,
+    "traineeId": 19,
+    "trainerId": 20,
+    "trainingName": "HIIT Sprint",
+    "trainingType": "HIIT",
+    "trainingDate": "2023-09-02T17:15:00Z",
+    "trainingDuration": 40
+  },
+  {
+    "id": 20,
+    "traineeId": 20,
+    "trainerId": 21,
+    "trainingName": "Circuit Shred",
+    "trainingType": "CIRCUIT_TRAINING",
+    "trainingDate": "2024-04-12T12:00:00Z",
+    "trainingDuration": 60
+  },
+  {
+    "id": 21,
+    "traineeId": 21,
+    "trainerId": 22,
+    "trainingName": "Strength Circuits",
+    "trainingType": "STRENGTH_TRAINING",
+    "trainingDate": "2023-02-25T13:00:00Z",
+    "trainingDuration": 80
+  },
+  {
+    "id": 22,
+    "traineeId": 22,
+    "trainerId": 23,
+    "trainingName": "Cardio Intervals",
+    "trainingType": "CARDIO_TRAINING",
+    "trainingDate": "2024-02-14T14:00:00Z",
+    "trainingDuration": 90
+  },
+  {
+    "id": 23,
+    "traineeId": 23,
+    "trainerId": 24,
+    "trainingName": "Yoga Meditation",
+    "trainingType": "YOGA",
+    "trainingDate": "2023-06-21T09:30:00Z",
+    "trainingDuration": 70
+  },
+  {
+    "id": 24,
+    "traineeId": 24,
+    "trainerId": 25,
+    "trainingName": "CrossFit Warrior",
+    "trainingType": "CROSSFIT",
+    "trainingDate": "2023-01-11T18:45:00Z",
+    "trainingDuration": 100
+  },
+  {
+    "id": 25,
+    "traineeId": 25,
+    "trainerId": 26,
+    "trainingName": "Pilates Stretch",
+    "trainingType": "PILATES",
+    "trainingDate": "2023-05-10T07:00:00Z",
+    "trainingDuration": 60
+  },
+  {
+    "id": 26,
+    "traineeId": 26,
+    "trainerId": 27,
+    "trainingName": "HIIT Cardio",
+    "trainingType": "HIIT",
+    "trainingDate": "2022-08-05T11:15:00Z",
+    "trainingDuration": 50
+  },
+  {
+    "id": 27,
+    "traineeId": 27,
+    "trainerId": 28,
+    "trainingName": "Group Exercise",
+    "trainingType": "GROUP_FITNESS",
+    "trainingDate": "2023-03-14T08:30:00Z",
+    "trainingDuration": 90
+  },
+  {
+    "id": 28,
+    "traineeId": 28,
+    "trainerId": 29,
+    "trainingName": "Strength Training",
+    "trainingType": "STRENGTH_TRAINING",
+    "trainingDate": "2023-09-27T12:30:00Z",
+    "trainingDuration": 120
+  },
+  {
+    "id": 29,
+    "traineeId": 29,
+    "trainerId": 30,
+    "trainingName": "Cardio Sculpt",
+    "trainingType": "CARDIO_TRAINING",
+    "trainingDate": "2024-03-19T10:00:00Z",
+    "trainingDuration": 70
+  },
+  {
+    "id": 30,
+    "traineeId": 30,
+    "trainerId": 31,
+    "trainingName": "Yoga for Beginners",
+    "trainingType": "YOGA",
+    "trainingDate": "2022-10-15T06:45:00Z",
+    "trainingDuration": 60
+  },
+  {
+    "id": 31,
+    "traineeId": 30,
+    "trainerId": 31,
+    "trainingName": "Yoga for Beginners",
+    "trainingType": "YOGA",
+    "trainingDate": "2022-10-15T06:45:00Z",
+    "trainingDuration": 60
+  },
+  {
+    "id": 32,
+    "traineeId": 31,
+    "trainerId": 32,
+    "trainingName": "Mobility and Flexibility",
+    "trainingType": "MOBILITY_TRAINING",
+    "trainingDate": "2023-04-11T07:30:00Z",
+    "trainingDuration": 60
+  },
+  {
+    "id": 33,
+    "traineeId": 32,
+    "trainerId": 33,
+    "trainingName": "Pilates Power",
+    "trainingType": "PILATES",
+    "trainingDate": "2023-01-20T09:00:00Z",
+    "trainingDuration": 80
+  },
+  {
+    "id": 34,
+    "traineeId": 33,
+    "trainerId": 34,
+    "trainingName": "Cardio Madness",
+    "trainingType": "CARDIO",
+    "trainingDate": "2023-08-30T18:00:00Z",
+    "trainingDuration": 70
+  },
+  {
+    "id": 35,
+    "traineeId": 34,
+    "trainerId": 35,
+    "trainingName": "Strength Bootcamp",
+    "trainingType": "STRENGTH_TRAINING",
+    "trainingDate": "2024-01-14T11:30:00Z",
+    "trainingDuration": 110
+  },
+  {
+    "id": 36,
+    "traineeId": 35,
+    "trainerId": 36,
+    "trainingName": "HIIT Endurance",
+    "trainingType": "HIIT",
+    "trainingDate": "2023-03-21T07:45:00Z",
+    "trainingDuration": 50
+  },
+  {
+    "id": 37,
+    "traineeId": 36,
+    "trainerId": 37,
+    "trainingName": "Yoga Retreat",
+    "trainingType": "YOGA",
+    "trainingDate": "2023-07-11T09:15:00Z",
+    "trainingDuration": 120
+  },
+  {
+    "id": 38,
+    "traineeId": 37,
+    "trainerId": 38,
+    "trainingName": "Functional Core",
+    "trainingType": "FUNCTIONAL_FITNESS",
+    "trainingDate": "2023-11-18T10:30:00Z",
+    "trainingDuration": 90
+  },
+  {
+    "id": 39,
+    "traineeId": 38,
+    "trainerId": 39,
+    "trainingName": "Martial Arts Conditioning",
+    "trainingType": "MARTIAL_ARTS",
+    "trainingDate": "2022-12-25T12:00:00Z",
+    "trainingDuration": 100
+  },
+  {
+    "id": 40,
+    "traineeId": 39,
+    "trainerId": 40,
+    "trainingName": "Outdoor Adventure",
+    "trainingType": "OUTDOOR_FITNESS",
+    "trainingDate": "2023-10-12T14:30:00Z",
+    "trainingDuration": 120
+  }
+]

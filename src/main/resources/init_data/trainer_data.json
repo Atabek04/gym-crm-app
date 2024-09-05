@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "userId": 3,
+    "specialization": "STRENGTH_TRAINING"
+  },
+  {
+    "id": 2,
+    "userId": 2,
+    "specialization": "FUNCTIONAL_FITNESS"
+  },
+  {
+    "id": 3,
+    "userId": 5,
+    "specialization": "PILATES"
+  },
+  {
+    "id": 4,
+    "userId": 7,
+    "specialization": "CARDIO_TRAINING"
+  },
+  {
+    "id": 5,
+    "userId": 10,
+    "specialization": "HIIT"
+  },
+  {
+    "id": 6,
+    "userId": 11,
+    "specialization": "YOGA"
+  },
+  {
+    "id": 7,
+    "userId": 12,
+    "specialization": "CIRCUIT_TRAINING"
+  },
+  {
+    "id": 8,
+    "userId": 18,
+    "specialization": "GROUP_FITNESS"
+  },
+  {
+    "id": 9,
+    "userId": 19,
+    "specialization": "HIIT"
+  },
+  {
+    "id": 10,
+    "userId": 21,
+    "specialization": "CROSSFIT"
+  },
+  {
+    "id": 11,
+    "userId": 22,
+    "specialization": "MARTIAL_ARTS"
+  },
+  {
+    "id": 12,
+    "userId": 30,
+    "specialization": "PILATES"
+  },
+  {
+    "id": 13,
+    "userId": 32,
+    "specialization": "FUNCTIONAL_FITNESS"
+  },
+  {
+    "id": 14,
+    "userId": 36,
+    "specialization": "CARDIO_TRAINING"
+  },
+  {
+    "id": 15,
+    "userId": 37,
+    "specialization": "PILATES"
+  },
+  {
+    "id": 16,
+    "userId": 40,
+    "specialization": "FUNCTIONAL_FITNESS"
+  },
+  {
+    "id": 17,
+    "userId": 43,
+    "specialization": "MOBILITY_TRAINING"
+  },
+  {
+    "id": 18,
+    "userId": 44,
+    "specialization": "CIRCUIT_TRAINING"
+  },
+  {
+    "id": 19,
+    "userId": 47,
+    "specialization": "CROSSFIT"
+  },
+  {
+    "id": 20,
+    "userId": 51,
+    "specialization": "MARTIAL_ARTS"
+  },
+  {
+    "id": 21,
+    "userId": 52,
+    "specialization": "YOGA"
+  },
+  {
+    "id": 22,
+    "userId": 59,
+    "specialization": "CROSSFIT"
+  },
+  {
+    "id": 23,
+    "userId": 60,
+    "specialization": "CIRCUIT_TRAINING"
+  },
+  {
+    "id": 24,
+    "userId": 64,
+    "specialization": "PILATES"
+  },
+  {
+    "id": 25,
+    "userId": 65,
+    "specialization": "STRENGTH_TRAINING"
+  },
+  {
+    "id": 26,
+    "userId": 66,
+    "specialization": "OUTDOOR_FITNESS"
+  },
+  {
+    "id": 27,
+    "userId": 67,
+    "specialization": "OUTDOOR_FITNESS"
+  },
+  {
+    "id": 28,
+    "userId": 69,
+    "specialization": "OUTDOOR_FITNESS"
+  },
+  {
+    "id": 29,
+    "userId": 72,
+    "specialization": "HIIT"
+  },
+  {
+    "id": 30,
+    "userId": 75,
+    "specialization": "CROSSFIT"
+  },
+  {
+    "id": 31,
+    "userId": 76,
+    "specialization": "MOBILITY_TRAINING"
+  },
+  {
+    "id": 32,
+    "userId": 77,
+    "specialization": "GROUP_FITNESS"
+  },
+  {
+    "id": 33,
+    "userId": 79,
+    "specialization": "MOBILITY_TRAINING"
+  },
+  {
+    "id": 34,
+    "userId": 82,
+    "specialization": "CROSSFIT"
+  },
+  {
+    "id": 35,
+    "userId": 87,
+    "specialization": "CROSSFIT"
+  },
+  {
+    "id": 36,
+    "userId": 89,
+    "specialization": "STRENGTH_TRAINING"
+  },
+  {
+    "id": 37,
+    "userId": 93,
+    "specialization": "MOBILITY_TRAINING"
+  },
+  {
+    "id": 38,
+    "userId": 94,
+    "specialization": "MOBILITY_TRAINING"
+  },
+  {
+    "id": 39,
+    "userId": 95,
+    "specialization": "OUTDOOR_FITNESS"
+  },
+  {
+    "id": 40,
+    "userId": 97,
+    "specialization": "GROUP_FITNESS"
+  },
+  {
+    "id": 41,
+    "userId": 98,
+    "specialization": "STRENGTH_TRAINING"
+  },
+  {
+    "id": 42,
+    "userId": 100,
+    "specialization": "HIIT"
+  }
+]
