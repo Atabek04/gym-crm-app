@@ -2,25 +2,41 @@ package com.epam.gym.service.impl;
 
 import com.epam.gym.dao.UserDAO;
 import com.epam.gym.model.User;
-import com.epam.gym.service.AbstractService;
 import com.epam.gym.service.UserService;
-import com.epam.gym.util.UserUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
-public class UserServiceImpl extends AbstractService<User> implements UserService {
-    public UserServiceImpl(UserDAO userDAO) {
-        super(userDAO);
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
+
+    private final UserDAO userDAO;
+
+    @Override
+    public void create(User user, Long id) {
+        userDAO.save(user, id);
     }
 
     @Override
-    public void create(User user) {
-        var username = UserUtils.generateUsername(user.getFirstName(), user.getLastName(),
-                super.findAll().stream().map(User::getUsername).toList());
-        var password = UserUtils.generateRandomPassword();
-        user.setUsername(username);
-        user.setPassword(password);
-        System.out.println("Username: " + username);
-        dao.save(user, user.getId());
+    public void update(User user, Long id) {
+        userDAO.update(user, id);
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return userDAO.findById(id);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userDAO.findAll();
+    }
+
+    @Override
+    public void delete(Long id) {
+        userDAO.delete(id);
     }
 }
