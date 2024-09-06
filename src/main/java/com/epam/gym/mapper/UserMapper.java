@@ -9,7 +9,6 @@ import lombok.experimental.UtilityClass;
 public class UserMapper {
     public static User toUser(TraineeRequest request) {
         return User.builder()
-                .id(request.userId())
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .isActive(true)
@@ -18,7 +17,6 @@ public class UserMapper {
 
     public static User toUser(TrainerRequest request) {
         return User.builder()
-                .id(request.userId())
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .isActive(true)

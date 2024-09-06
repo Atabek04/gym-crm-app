@@ -24,25 +24,11 @@ public class TrainerCLI {
 
     public void createTrainer(Scanner scanner) {
         try {
-            Long trainerId = readLong(scanner, "Enter Trainer ID: ");
-            if (gymFacade.findAllTrainers().stream().anyMatch(trainer -> trainer.trainerId().equals(trainerId))) {
-                log.warn("Trainer with this ID already exists. Please enter a different ID.");
-                displaySeparator();
-                return;
-            }
-
-            Long userId = readLong(scanner, "Enter User ID: ");
-            if (gymFacade.findAllUsers().stream().anyMatch(user -> user.getId().equals(userId))) {
-                log.warn("User with this ID already exists. Please enter a different ID.");
-                displaySeparator();
-                return;
-            }
-
             String firstName = readString(scanner, "Enter First Name: ");
             String lastName = readString(scanner, "Enter Last Name: ");
             var specialization = readEnum(scanner);
 
-            TrainerRequest request = new TrainerRequest(trainerId, userId, firstName, lastName, specialization.toString());
+            TrainerRequest request = new TrainerRequest(firstName, lastName, specialization.toString());
             gymFacade.saveTrainer(request);
             log.info("Trainer created successfully.");
             displaySeparator();
@@ -59,19 +45,13 @@ public class TrainerCLI {
             if (isValidTrainerId(trainerId)) {
                 return;
             }
-            Long userId = readLong(scanner, "Enter User ID: ");
-            if (gymFacade.findAllUsers().stream().anyMatch(user -> user.getId().equals(userId))) {
-                log.warn("User with this ID already exists. Please enter a different ID.");
-                displaySeparator();
-                return;
-            }
 
             String firstName = readString(scanner, "Enter First Name: ");
             String lastName = readString(scanner, "Enter Last Name: ");
-            String specialization = readString(scanner, "Enter Specialization: ");
+            var specialization = readEnum(scanner);
 
-            TrainerRequest request = new TrainerRequest(trainerId, userId, firstName, lastName, specialization);
-            gymFacade.updateTrainer(request);
+            TrainerRequest request = new TrainerRequest(firstName, lastName, specialization.toString());
+            gymFacade.updateTrainer(request, trainerId);
             log.info("Trainer updated successfully.");
             displaySeparator();
         } catch (ResourceNotFoundException ex) {

@@ -26,13 +26,6 @@ public class TrainingCLI {
 
     public void createTraining(Scanner scanner) {
         try {
-            Long id = readLong(scanner, "Enter Training ID: ");
-            if (gymFacade.findAllTrainings().stream().anyMatch(training -> training.id().equals(id))) {
-                log.warn("Training with this ID already exists. Please enter a different ID.");
-                displaySeparator();
-                return;
-            }
-
             Long trainerId = readLong(scanner, "Enter Trainer ID: ");
             if (isValidTrainerId(trainerId)) {
                 return;
@@ -46,7 +39,7 @@ public class TrainingCLI {
             LocalDateTime trainingDate = readDateTime(scanner);
             Long trainingDuration = readLong(scanner, "Enter Training Duration (in minutes): ");
 
-            TrainingRequest request = new TrainingRequest(id, traineeId, trainerId, trainingName, trainingType, trainingDate, trainingDuration);
+            TrainingRequest request = new TrainingRequest(traineeId, trainerId, trainingName, trainingType, trainingDate, trainingDuration);
             gymFacade.saveTraining(request);
             log.info("Training created successfully.");
             displaySeparator();

@@ -11,8 +11,6 @@ import lombok.experimental.UtilityClass;
 public class TrainerMapper {
     public static Trainer toTrainer(TrainerRequest trainerRequest) {
         return Trainer.builder()
-                .id(trainerRequest.trainerId())
-                .userId(trainerRequest.userId())
                 .specialization(TrainingType.valueOf(trainerRequest.specialization()))
                 .build();
     }

@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 
 @Builder
 public record TrainingRequest (
-        Long id,
         Long traineeId,
         Long trainerId,
         String trainingName,

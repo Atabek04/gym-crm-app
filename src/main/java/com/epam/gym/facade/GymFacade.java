@@ -2,6 +2,9 @@ package com.epam.gym.facade;
 
 import com.epam.gym.dto.*;
 import com.epam.gym.exception.ResourceNotFoundException;
+import com.epam.gym.model.Trainee;
+import com.epam.gym.model.Trainer;
+import com.epam.gym.model.Training;
 import com.epam.gym.model.User;
 import com.epam.gym.service.TraineeService;
 import com.epam.gym.service.TrainerService;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.epam.gym.mapper.TraineeMapper.toTrainee;
 import static com.epam.gym.mapper.TraineeMapper.toTraineeResponse;
@@ -20,6 +24,7 @@ import static com.epam.gym.mapper.TrainerMapper.toTrainerResponse;
 import static com.epam.gym.mapper.TrainingMapper.toTraining;
 import static com.epam.gym.mapper.TrainingMapper.toTrainingResponse;
 import static com.epam.gym.mapper.UserMapper.toUser;
+import static com.epam.gym.util.IDGenerator.generateId;
 
 @Component
 @RequiredArgsConstructor
@@ -33,19 +38,30 @@ public class GymFacade {
     @Transactional
     public void saveTrainee(TraineeRequest request) {
         var user = toUser(request);
-        userService.create(user);
+        var newUserId = generateId(userService.findAll().stream().map(User::getId).collect(Collectors.toSet()));
+        user.setId(newUserId);
+        userService.create(user, newUserId);
 
         var trainee = toTrainee(request);
-        traineeService.create(trainee, request.traineeId());
+        var newTraineeId = generateId(traineeService.findAll().stream().map(Trainee::getId).collect(Collectors.toSet()));
+        trainee.setUserId(newUserId);
+        trainee.setId(newTraineeId);
+        traineeService.create(trainee, newTraineeId);
     }
 
     @Transactional
-    public void updateTrainee(TraineeRequest request) {
+    public void updateTrainee(TraineeRequest request, Long traineeId) {
         var user = toUser(request);
-        userService.update(user, user.getId());
+        var userId = traineeService.findById(traineeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trainee not found"))
+                .getUserId();
+        user.setId(userId);
+        userService.update(user, userId);
 
         var trainee = toTrainee(request);
-        traineeService.update(trainee, trainee.getId());
+        trainee.setId(traineeId);
+        trainee.setUserId(userId);
+        traineeService.update(trainee, traineeId);
     }
 
     public TraineeResponse findTraineeById(Long id) {
@@ -65,25 +81,41 @@ public class GymFacade {
                 }).toList();
     }
 
+    @Transactional
     public void deleteTrainee(Long id) {
+        var userId = traineeService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Trainee not found"))
+                .getUserId();
         traineeService.delete(id);
+        userService.delete(userId);
     }
 
     @Transactional
     public void saveTrainer(TrainerRequest request) {
         var user = toUser(request);
-        userService.create(user);
+        var newUserId = generateId(userService.findAll().stream().map(User::getId).collect(Collectors.toSet()));
+        user.setId(newUserId);
+        userService.create(user, newUserId);
 
         var trainer = toTrainer(request);
-        trainerService.create(trainer, trainer.getId());
+        var newTrainerId = generateId(trainerService.findAll().stream().map(Trainer::getId).collect(Collectors.toSet()));
+        trainer.setId(newTrainerId);
+        trainer.setUserId(newUserId);
+        trainerService.create(trainer, newTrainerId);
     }
 
     @Transactional
-    public void updateTrainer(TrainerRequest request) {
+    public void updateTrainer(TrainerRequest request, Long trainerId) {
         var user = toUser(request);
-        userService.update(user, user.getId());
+        var userId = trainerService.findById(trainerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trainer not found"))
+                .getUserId();
+        user.setId(userId);
+        userService.update(user, userId);
 
         var trainer = toTrainer(request);
+        trainer.setUserId(userId);
+        trainer.setId(trainerId);
         trainerService.update(trainer, trainer.getId());
     }
 
@@ -105,8 +137,11 @@ public class GymFacade {
     }
 
     public void saveTraining(TrainingRequest trainingRequest) {
+        var newTrainingId = generateId(trainingService.findAll().stream().map(Training::getId).collect(Collectors.toSet()));
+
         var training = toTraining(trainingRequest);
-        trainingService.create(training, training.getId());
+        training.setId(newTrainingId);
+        trainingService.create(training, newTrainingId);
     }
 
     public TrainingResponse findTrainingById(Long id) {
@@ -114,9 +149,16 @@ public class GymFacade {
         if (training.isEmpty()) {
             throw new ResourceNotFoundException("Training not found");
         }
-        var trainee = userService.findById(training.get().getTraineeId())
+
+        var traineeUserId = traineeService.findById(training.get().getTraineeId())
+                .orElseThrow(() -> new ResourceNotFoundException("Trainee not found"))
+                .getUserId();
+        var userIdTrainer = trainerService.findById(training.get().getTrainerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Trainer not found"))
+                .getUserId();
+        var trainee = userService.findById(traineeUserId)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee user not found"));
-        var trainer = userService.findById(training.get().getTrainerId())
+        var trainer = userService.findById(userIdTrainer)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainer user not found"));
         return toTrainingResponse(training.get(), trainee, trainer);
     }
@@ -124,10 +166,17 @@ public class GymFacade {
     public List<TrainingResponse> findAllTrainings() {
         return trainingService.findAll().stream()
                 .map(training -> {
-                    var trainee = userService.findById(training.getTraineeId())
+                    var traineeUserId = traineeService.findById(training.getTraineeId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Trainee not found"))
+                            .getUserId();
+                    var userIdTrainer = trainerService.findById(training.getTrainerId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Trainer not found"))
+                            .getUserId();
+                    var trainee = userService.findById(traineeUserId)
                             .orElseThrow(() -> new ResourceNotFoundException("Trainee user not found"));
-                    var trainer = userService.findById(training.getTrainerId())
+                    var trainer = userService.findById(userIdTrainer)
                             .orElseThrow(() -> new ResourceNotFoundException("Trainer user not found"));
+
                     return toTrainingResponse(training, trainee, trainer);
                 }).toList();
     }

@@ -25,26 +25,12 @@ public class TraineeCLI {
 
     public void createTrainee(Scanner scanner) {
         try {
-            Long traineeId = readLong(scanner, "Enter Trainee ID: ");
-            if (gymFacade.findAllTrainees().stream().anyMatch(trainee -> trainee.traineeID().equals(traineeId))) {
-                log.warn("Trainee with this ID already exists. Please enter a different ID.");
-                displaySeparator();
-                return;
-            }
-
-            Long userId = readLong(scanner, "Enter User ID: ");
-            if (gymFacade.findAllUsers().stream().anyMatch(user -> user.getId().equals(userId))) {
-                log.warn("User with this ID already exists. Please enter a different ID.");
-                displaySeparator();
-                return;
-            }
-
             String firstName = readString(scanner, "Enter First Name: ");
             String lastName = readString(scanner, "Enter Last Name: ");
             var dateOfBirth = readDate(scanner);
             String address = readString(scanner, "Enter Address: ");
 
-            TraineeRequest request = new TraineeRequest(traineeId, userId, address, firstName, lastName, dateOfBirth);
+            TraineeRequest request = new TraineeRequest(address, firstName, lastName, dateOfBirth);
             gymFacade.saveTrainee(request);
             log.info("Trainee created successfully.");
             displaySeparator();
@@ -62,20 +48,13 @@ public class TraineeCLI {
                 return;
             }
 
-            Long userId = readLong(scanner, "Enter User ID: ");
-            if (gymFacade.findAllUsers().stream().anyMatch(user -> user.getId().equals(userId))) {
-                log.warn("User with this ID already exists. Please enter a different ID.");
-                displaySeparator();
-                return;
-            }
-
             String firstName = readString(scanner, "Enter First Name: ");
             String lastName = readString(scanner, "Enter Last Name: ");
             LocalDate dateOfBirth = readDate(scanner);
             String address = readString(scanner, "Enter Address: ");
 
-            TraineeRequest request = new TraineeRequest(traineeId, userId, address, firstName, lastName, dateOfBirth);
-            gymFacade.updateTrainee(request);
+            TraineeRequest request = new TraineeRequest(address, firstName, lastName, dateOfBirth);
+            gymFacade.updateTrainee(request, traineeId);
             log.info("Trainee updated successfully.");
             displaySeparator();
         } catch (ResourceNotFoundException ex) {

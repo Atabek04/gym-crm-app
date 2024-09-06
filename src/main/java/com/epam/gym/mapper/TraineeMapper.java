@@ -10,8 +10,6 @@ import lombok.experimental.UtilityClass;
 public class TraineeMapper {
     public static Trainee toTrainee(TraineeRequest traineeRequest) {
         return Trainee.builder()
-                .id(traineeRequest.traineeId())
-                .userId(traineeRequest.userId())
                 .dateOfBirth(traineeRequest.dateOfBirth())
                 .address(traineeRequest.address())
                 .build();

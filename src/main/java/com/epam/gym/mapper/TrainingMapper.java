@@ -10,7 +10,6 @@ import lombok.experimental.UtilityClass;
 public class TrainingMapper {
     public static Training toTraining(TrainingRequest trainingRequest) {
         return Training.builder()
-                .id(trainingRequest.id())
                 .traineeId(trainingRequest.traineeId())
                 .trainerId(trainingRequest.trainerId())
                 .trainingName(trainingRequest.trainingName())
