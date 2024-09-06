@@ -1,7 +1,10 @@
 package com.epam.gym.cli;
 
 import com.epam.gym.model.TrainingType;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,13 +14,15 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 @Slf4j
+@UtilityClass
 public class CLIHelper {
+    private static final Logger logger = LoggerFactory.getLogger("prompt-logger");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     public static int readInt(Scanner scanner, String prompt) {
         while (true) {
-            System.out.print(prompt);
+            logger.info(prompt);
             String input = scanner.nextLine();
             try {
                 var number = Integer.parseInt(input);
@@ -33,7 +38,7 @@ public class CLIHelper {
 
     public static long readLong(Scanner scanner, String prompt) {
         while (true) {
-            System.out.print(prompt);
+            logger.info(prompt);
             String input = scanner.nextLine();
             try {
                 var number = Long.parseLong(input);
@@ -49,7 +54,7 @@ public class CLIHelper {
 
     public static LocalDate readDate(Scanner scanner) {
         while (true) {
-            System.out.print("Enter Date of Birth (yyyy-MM-dd): ");
+            logger.info("Enter Date of Birth (yyyy-MM-dd): ");
             String input = scanner.nextLine();
             try {
                 LocalDate date = LocalDate.parse(input, DATE_FORMATTER);
@@ -66,7 +71,7 @@ public class CLIHelper {
 
     public static LocalDateTime readDateTime(Scanner scanner) {
         while (true) {
-            System.out.print("Enter Training Date (yyyy-MM-dd'T'HH:mm:ss): ");
+            logger.info("Enter Training Date (yyyy-MM-dd'T'HH:mm:ss): ");
             String input = scanner.nextLine();
             try {
                 LocalDateTime dateTime = LocalDateTime.parse(input, DATE_TIME_FORMATTER);
@@ -83,7 +88,7 @@ public class CLIHelper {
 
     public static TrainingType readEnum(Scanner scanner) {
         while (true) {
-            System.out.print("Enter Training Type (e.g., YOGA, CARDIO): ");
+            logger.info("Enter Training Type (e.g., YOGA, CARDIO): ");
             String input = scanner.nextLine();
             try {
                 return TrainingType.valueOf(input.toUpperCase());
@@ -101,7 +106,7 @@ public class CLIHelper {
     }
 
     public static String readString(Scanner scanner, String prompt) {
-        System.out.print(prompt);
+        logger.info(prompt);
         var input = scanner.nextLine();
         if (input.isBlank() || input.length() <= 2) {
             log.error("Invalid input. Please try again.");
@@ -111,6 +116,6 @@ public class CLIHelper {
     }
 
     public static void displaySeparator() {
-        System.out.println("======================================");
+        logger.info("======================================\n");
     }
 }

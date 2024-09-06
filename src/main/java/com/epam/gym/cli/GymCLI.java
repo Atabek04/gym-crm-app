@@ -1,6 +1,9 @@
 package com.epam.gym.cli;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -9,16 +12,12 @@ import static com.epam.gym.cli.CLIHelper.readInt;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class GymCLI {
+    private static final Logger logger = LoggerFactory.getLogger("prompt-logger");
     private final TraineeCLI traineeCLI;
     private final TrainerCLI trainerCLI;
     private final TrainingCLI trainingCLI;
-
-    public GymCLI(TraineeCLI traineeCLI, TrainerCLI trainerCLI, TrainingCLI trainingCLI) {
-        this.traineeCLI = traineeCLI;
-        this.trainerCLI = trainerCLI;
-        this.trainingCLI = trainingCLI;
-    }
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -38,7 +37,7 @@ public class GymCLI {
             }
         }
 
-        System.out.println("Thank you for using the Gym CRM CLI. Goodbye!");
+        logger.info("Thank you for using the Gym CRM CLI. Goodbye!");
     }
 
     private void handleUserChoice(int choice, Scanner scanner) {
@@ -61,27 +60,27 @@ public class GymCLI {
     }
 
     private void displayWelcomeMessage() {
-        System.out.println("======================================");
-        System.out.println("||     Welcome to the Gym CRM CLI    ||");
-        System.out.println("======================================");
+        logger.info("======================================\n");
+        logger.info("||     Welcome to the Gym CRM CLI    |\n");
+        logger.info("======================================\n");
     }
 
     private void displayMenu() {
-        System.out.println("1. Create Trainee");
-        System.out.println("2. Update Trainee");
-        System.out.println("3. Find Trainee by ID");
-        System.out.println("4. List All Trainees");
-        System.out.println("5. Delete Trainee by ID\n");
+        logger.info("1. Create Trainee\n");
+        logger.info("2. Update Trainee\n");
+        logger.info("3. Find Trainee by ID\n");
+        logger.info("4. List All Trainees\n");
+        logger.info("5. Delete Trainee by ID\n\n");
 
-        System.out.println("6. Create Trainer");
-        System.out.println("7. Update Trainer");
-        System.out.println("8. Find Trainer by ID");
-        System.out.println("9. List All Trainers\n");
+        logger.info("6. Create Trainer\n");
+        logger.info("7. Update Trainer\n");
+        logger.info("8. Find Trainer by ID\n");
+        logger.info("9. List All Trainers\n\n");
 
-        System.out.println("10. Create Training");
-        System.out.println("11. Find Training by ID");
-        System.out.println("12. List All Trainings");
-        System.out.println("13. Exit");
+        logger.info("10. Create Training\n");
+        logger.info("11. Find Training by ID\n");
+        logger.info("12. List All Trainings\n");
+        logger.info("13. Exit\n");
     }
 
 

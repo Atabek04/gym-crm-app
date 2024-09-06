@@ -4,7 +4,10 @@ import com.epam.gym.dto.TrainerRequest;
 import com.epam.gym.dto.TrainerResponse;
 import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.facade.GymFacade;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,12 +18,10 @@ import static com.epam.gym.cli.CLIHelper.*;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class TrainerCLI {
+    private static final Logger logger = LoggerFactory.getLogger("prompt-logger");
     private final GymFacade gymFacade;
-
-    public TrainerCLI(GymFacade gymFacade) {
-        this.gymFacade = gymFacade;
-    }
 
     public void createTrainer(Scanner scanner) {
         try {
@@ -69,7 +70,7 @@ public class TrainerCLI {
             }
             Optional<TrainerResponse> trainerResponse = Optional.ofNullable(gymFacade.findTrainerById(id));
             trainerResponse.ifPresentOrElse(
-                    response -> System.out.println("Trainer found: " + response),
+                    response -> logger.info("Trainer found: {}%n", response),
                     () -> log.error("Trainer not found.")
             );
             displaySeparator();
@@ -83,8 +84,8 @@ public class TrainerCLI {
     public void listAllTrainers() {
         try {
             List<TrainerResponse> trainers = gymFacade.findAllTrainers();
-            System.out.println("All Trainers:");
-            trainers.forEach(System.out::println);
+            logger.info("All Trainers:\n");
+            trainers.forEach(trainer -> logger.info("{}%n", trainer));
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             log.error("Resource not found: {}", ex.getMessage());
