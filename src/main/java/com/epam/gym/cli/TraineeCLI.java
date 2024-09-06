@@ -70,7 +70,7 @@ public class TraineeCLI {
             Long id = readLong(scanner, "Enter Trainee ID: ");
             Optional<TraineeResponse> traineeResponse = Optional.ofNullable(gymFacade.findTraineeById(id));
             traineeResponse.ifPresentOrElse(
-                    response -> logger.info("Trainee found: {}%n", response),
+                    response -> logger.info("Trainee found: {}\n", response),
                     () -> log.error("Trainee not found.")
             );
             displaySeparator();
@@ -85,7 +85,7 @@ public class TraineeCLI {
         try {
             List<TraineeResponse> trainees = gymFacade.findAllTrainees();
             logger.info("All Trainees:\n");
-            trainees.forEach(trainee -> logger.info("{}%n", trainee));
+            trainees.forEach(trainee -> logger.info("{}\n", trainee));
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             log.error("Resource not found: {}", ex.getMessage());

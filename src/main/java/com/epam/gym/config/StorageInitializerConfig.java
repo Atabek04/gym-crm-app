@@ -1,14 +1,14 @@
 package com.epam.gym.config;
 
+import com.epam.gym.model.Trainee;
+import com.epam.gym.model.Trainer;
+import com.epam.gym.model.Training;
+import com.epam.gym.model.User;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.epam.gym.model.Trainee;
-import com.epam.gym.model.Trainer;
-import com.epam.gym.model.Training;
-import com.epam.gym.model.User;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,10 +50,14 @@ public class StorageInitializerConfig {
     @PostConstruct
     public void initializeStorage() {
         this.objectMapper.registerModule(new JavaTimeModule());
-        loadDataFromFile(traineeDataFile, traineeStorage, new TypeReference<>() {}, "trainee");
-        loadDataFromFile(trainerDataFile, trainerStorage, new TypeReference<>() {}, "trainer");
-        loadDataFromFile(trainingDataFile, trainingStorage, new TypeReference<>() {}, "training");
-        loadDataFromFile(userDataFile, userStorage, new TypeReference<>() {}, "user");
+        loadDataFromFile(traineeDataFile, traineeStorage, new TypeReference<>() {
+        }, "trainee");
+        loadDataFromFile(trainerDataFile, trainerStorage, new TypeReference<>() {
+        }, "trainer");
+        loadDataFromFile(trainingDataFile, trainingStorage, new TypeReference<>() {
+        }, "training");
+        loadDataFromFile(userDataFile, userStorage, new TypeReference<>() {
+        }, "user");
     }
 
     private <T> void loadDataFromFile(String filePath, Map<Long, T> storage,
@@ -79,17 +83,17 @@ public class StorageInitializerConfig {
     }
 
     private <T> Long getId(T data) {
-        if (data instanceof Trainee) {
-            return ((Trainee) data).getId();
+        if (data instanceof Trainee trainee) {
+            return trainee.getId();
         }
-        if (data instanceof Trainer) {
-            return ((Trainer) data).getId();
+        if (data instanceof Trainer trainer) {
+            return trainer.getId();
         }
-        if (data instanceof Training) {
-            return ((Training) data).getId();
+        if (data instanceof Training training) {
+            return training.getId();
         }
-        if (data instanceof User) {
-            return ((User) data).getId();
+        if (data instanceof User user) {
+            return user.getId();
         }
         throw new IllegalArgumentException("Unknown data type: " + data.getClass());
     }

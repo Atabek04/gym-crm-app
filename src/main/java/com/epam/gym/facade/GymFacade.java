@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.epam.gym.mapper.TraineeMapper.toTrainee;
-import static com.epam.gym.mapper.TraineeMapper.toTraineeResponse;
-import static com.epam.gym.mapper.TrainerMapper.toTrainer;
-import static com.epam.gym.mapper.TrainerMapper.toTrainerResponse;
-import static com.epam.gym.mapper.TrainingMapper.toTraining;
-import static com.epam.gym.mapper.TrainingMapper.toTrainingResponse;
-import static com.epam.gym.mapper.UserMapper.toUser;
+import static com.epam.gym.facade.mapper.TraineeMapper.toTrainee;
+import static com.epam.gym.facade.mapper.TraineeMapper.toTraineeResponse;
+import static com.epam.gym.facade.mapper.TrainerMapper.toTrainer;
+import static com.epam.gym.facade.mapper.TrainerMapper.toTrainerResponse;
+import static com.epam.gym.facade.mapper.TrainingMapper.toTraining;
+import static com.epam.gym.facade.mapper.TrainingMapper.toTrainingResponse;
+import static com.epam.gym.facade.mapper.UserMapper.toUser;
 import static com.epam.gym.util.IDGenerator.generateId;
 
 @Component
@@ -86,6 +86,12 @@ public class GymFacade {
         var userId = traineeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee not found"))
                 .getUserId();
+        var training = trainingService.findAll().stream()
+                .filter(t -> t.getTraineeId().equals(id))
+                .findFirst();
+        if (training.isPresent()) {
+            throw new IllegalArgumentException("Trainee has training. First delete training.");
+        }
         traineeService.delete(id);
         userService.delete(userId);
     }
@@ -180,9 +186,4 @@ public class GymFacade {
                     return toTrainingResponse(training, trainee, trainer);
                 }).toList();
     }
-
-    public List<User> findAllUsers() {
-        return userService.findAll();
-    }
-
 }

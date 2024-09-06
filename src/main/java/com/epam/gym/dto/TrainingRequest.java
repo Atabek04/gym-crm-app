@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record TrainingRequest (
+public record TrainingRequest(
         Long traineeId,
         Long trainerId,
         String trainingName,

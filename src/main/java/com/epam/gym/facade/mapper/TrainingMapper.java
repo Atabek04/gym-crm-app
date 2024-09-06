@@ -1,4 +1,4 @@
-package com.epam.gym.mapper;
+package com.epam.gym.facade.mapper;
 
 import com.epam.gym.dto.TrainingRequest;
 import com.epam.gym.dto.TrainingResponse;

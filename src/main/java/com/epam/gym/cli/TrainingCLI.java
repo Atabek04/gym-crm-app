@@ -56,7 +56,7 @@ public class TrainingCLI {
             Long id = readLong(scanner, "Enter Training ID: ");
             Optional<TrainingResponse> trainingResponse = Optional.ofNullable(gymFacade.findTrainingById(id));
             trainingResponse.ifPresentOrElse(
-                    response -> logger.info("Training found: {}%n", response),
+                    response -> logger.info("Training found: {}\n", response),
                     () -> log.error("Training not found.")
             );
             displaySeparator();
@@ -71,7 +71,7 @@ public class TrainingCLI {
         try {
             List<TrainingResponse> trainings = gymFacade.findAllTrainings();
             logger.info("All Trainings:\n");
-            trainings.forEach(training -> logger.info("{}%n", training));
+            trainings.forEach(training -> logger.info("{}\n", training));
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             log.error("Resource not found: {}", ex.getMessage());

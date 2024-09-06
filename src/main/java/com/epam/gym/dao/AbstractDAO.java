@@ -11,7 +11,7 @@ public abstract class AbstractDAO<T> implements BaseDAO<T> {
     protected final Logger logger;
     private final String entityName;
 
-    public AbstractDAO(Map<Long, T> storage, Logger logger, String entityName) {
+    protected AbstractDAO(Map<Long, T> storage, Logger logger, String entityName) {
         this.storage = storage;
         this.logger = logger;
         this.entityName = entityName;

@@ -70,7 +70,7 @@ public class TrainerCLI {
             }
             Optional<TrainerResponse> trainerResponse = Optional.ofNullable(gymFacade.findTrainerById(id));
             trainerResponse.ifPresentOrElse(
-                    response -> logger.info("Trainer found: {}%n", response),
+                    response -> logger.info("Trainer found: {}\n", response),
                     () -> log.error("Trainer not found.")
             );
             displaySeparator();
@@ -85,7 +85,7 @@ public class TrainerCLI {
         try {
             List<TrainerResponse> trainers = gymFacade.findAllTrainers();
             logger.info("All Trainers:\n");
-            trainers.forEach(trainer -> logger.info("{}%n", trainer));
+            trainers.forEach(trainer -> logger.info("{}\n", trainer));
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             log.error("Resource not found: {}", ex.getMessage());
