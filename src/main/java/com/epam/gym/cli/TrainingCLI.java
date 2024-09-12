@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -25,6 +25,7 @@ public class TrainingCLI {
     private static final Logger logger = LoggerFactory.getLogger("prompt-logger");
     private final GymFacade gymFacade;
 
+
     public void createTraining(Scanner scanner) {
         try {
             Long trainerId = readLong(scanner, "Enter Trainer ID: ");
@@ -37,7 +38,7 @@ public class TrainingCLI {
             }
             String trainingName = readString(scanner, "Enter Training Name: ");
             TrainingType trainingType = readEnum(scanner);
-            LocalDateTime trainingDate = readDateTime(scanner);
+            ZonedDateTime trainingDate = readDateTime(scanner);
             Long trainingDuration = readLong(scanner, "Enter Training Duration (in minutes): ");
 
             TrainingRequest request = new TrainingRequest(traineeId, trainerId, trainingName, trainingType, trainingDate, trainingDuration);

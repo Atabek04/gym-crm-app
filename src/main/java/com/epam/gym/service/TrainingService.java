@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TrainingService {
-    void create(Training training, Long id);
+    void create(Training training);
 
     void update(Training training, Long id);
 

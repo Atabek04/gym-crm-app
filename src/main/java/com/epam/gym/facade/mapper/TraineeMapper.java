@@ -8,20 +8,21 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class TraineeMapper {
-    public static Trainee toTrainee(TraineeRequest traineeRequest) {
+    public static Trainee toTrainee(TraineeRequest traineeRequest, User user) {
         return Trainee.builder()
+                .user(user)
                 .dateOfBirth(traineeRequest.dateOfBirth())
                 .address(traineeRequest.address())
                 .build();
     }
 
-    public static TraineeResponse toTraineeResponse(Trainee trainee, User user) {
+    public static TraineeResponse toTraineeResponse(Trainee trainee) {
         return TraineeResponse.builder()
                 .traineeID(trainee.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .username(user.getUsername())
-                .isActive(user.isActive())
+                .firstName(trainee.getUser().getFirstName())
+                .lastName(trainee.getUser().getLastName())
+                .username(trainee.getUser().getUsername())
+                .isActive(trainee.getUser().isActive())
                 .dateOfBirth(trainee.getDateOfBirth())
                 .address(trainee.getAddress())
                 .build();

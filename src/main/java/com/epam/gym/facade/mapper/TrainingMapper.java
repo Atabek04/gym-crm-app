@@ -2,32 +2,35 @@ package com.epam.gym.facade.mapper;
 
 import com.epam.gym.dto.TrainingRequest;
 import com.epam.gym.dto.TrainingResponse;
+import com.epam.gym.model.Trainee;
+import com.epam.gym.model.Trainer;
 import com.epam.gym.model.Training;
-import com.epam.gym.model.User;
 import lombok.experimental.UtilityClass;
+
+import java.time.ZonedDateTime;
 
 @UtilityClass
 public class TrainingMapper {
-    public static Training toTraining(TrainingRequest trainingRequest) {
+    public static Training toTraining(TrainingRequest trainingRequest, Trainee trainee, Trainer trainer) {
         return Training.builder()
-                .traineeId(trainingRequest.traineeId())
-                .trainerId(trainingRequest.trainerId())
+                .trainee(trainee)
+                .trainer(trainer)
                 .trainingName(trainingRequest.trainingName())
-                .trainingType(trainingRequest.trainingType())
-                .trainingDate(trainingRequest.trainingDate())
+                .trainingTypeId(trainingRequest.trainingType().getId())
+                .trainingDate(ZonedDateTime.from(trainingRequest.trainingDate()))
                 .trainingDuration(trainingRequest.trainingDuration())
                 .build();
     }
 
-    public static TrainingResponse toTrainingResponse(Training training, User trainee, User trainer) {
+    public static TrainingResponse toTrainingResponse(Training training) {
         return TrainingResponse.builder()
                 .id(training.getId())
-                .traineeId(training.getTraineeId())
-                .traineeFirstName(trainee.getFirstName())
-                .traineeLastName(trainee.getLastName())
-                .trainerId(training.getTrainerId())
-                .trainerFirstName(trainer.getFirstName())
-                .trainerLastName(trainer.getLastName())
+                .traineeId(training.getTrainee().getId())
+                .traineeFirstName(training.getTrainee().getUser().getFirstName())
+                .traineeLastName(training.getTrainee().getUser().getLastName())
+                .trainerId(training.getTrainer().getId())
+                .trainerFirstName(training.getTrainer().getUser().getFirstName())
+                .trainerLastName(training.getTrainer().getUser().getLastName())
                 .trainingName(training.getTrainingName())
                 .trainingType(training.getTrainingType())
                 .trainingDate(training.getTrainingDate())

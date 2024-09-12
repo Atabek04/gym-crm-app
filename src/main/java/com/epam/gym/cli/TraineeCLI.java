@@ -32,8 +32,12 @@ public class TraineeCLI {
             String address = readString(scanner, "Enter Address: ");
 
             TraineeRequest request = new TraineeRequest(address, firstName, lastName, dateOfBirth);
-            gymFacade.saveTrainee(request);
+            var newTrainee = gymFacade.saveTrainee(request)
+                    .orElseThrow(() -> new ResourceNotFoundException("Trainee not returned"));
+            displaySeparator();
             log.info("Trainee created successfully.");
+            logger.info("Your username: {}\n", newTrainee.getUser().getUsername());
+            logger.info("Your temporary password: {}\n", newTrainee.getUser().getPassword());
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             log.error("Resource not found: {}", ex.getMessage());

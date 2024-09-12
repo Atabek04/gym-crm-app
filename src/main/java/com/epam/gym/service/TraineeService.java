@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TraineeService {
-    void create(Trainee trainee, Long id);
+    Optional<Trainee> create(Trainee trainee);
 
     void update(Trainee trainee, Long id);
 

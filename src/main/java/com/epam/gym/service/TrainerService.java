@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TrainerService {
-    void create(Trainer trainer, Long id);
+    Optional<Trainer> create(Trainer trainer);
 
     void update(Trainer trainer, Long id);
 

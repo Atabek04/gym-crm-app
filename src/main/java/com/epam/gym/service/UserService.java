@@ -6,13 +6,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    void create(User user, Long id);
+    Optional<User> create(User user);
 
-    void update(User user, Long id);
+    Optional<User> update(User user, Long id);
 
     Optional<User> findById(Long id);
 
     List<User> findAll();
 
     void delete(Long id);
+
+    Optional<User> findByUsernameAndPassword(String username, String password);
+
+    void changeUserPassword(String username, String newPassword);
 }

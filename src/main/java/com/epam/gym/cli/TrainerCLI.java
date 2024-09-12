@@ -30,8 +30,12 @@ public class TrainerCLI {
             var specialization = readEnum(scanner);
 
             TrainerRequest request = new TrainerRequest(firstName, lastName, specialization.toString());
-            gymFacade.saveTrainer(request);
-            log.info("Trainer created successfully.");
+            var newTrainer = gymFacade.saveTrainer(request)
+                    .orElseThrow(() -> new ResourceNotFoundException("Trainer not returned"));
+            displaySeparator();
+            logger.info("Trainer created successfully.\n");
+            logger.info("Your username: {}\n", newTrainer.getUser().getUsername());
+            logger.info("Your temporary password: {}\n", newTrainer.getUser().getPassword());
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             log.error("Resource not found: {}", ex.getMessage());

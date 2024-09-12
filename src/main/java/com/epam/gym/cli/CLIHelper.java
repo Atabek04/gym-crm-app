@@ -1,13 +1,14 @@
 package com.epam.gym.cli;
 
 import com.epam.gym.model.TrainingType;
+import com.epam.gym.model.User;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -18,7 +19,7 @@ import java.util.Scanner;
 public class CLIHelper {
     private static final Logger logger = LoggerFactory.getLogger("prompt-logger");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm z");
 
     public static int readInt(Scanner scanner, String prompt) {
         while (true) {
@@ -59,7 +60,7 @@ public class CLIHelper {
             try {
                 LocalDate date = LocalDate.parse(input, DATE_FORMATTER);
                 if (date.isAfter(LocalDate.now())) {
-                    log.error("Date of birth cannot be in the future. Please enter a valid date.");
+                    logger.info("Date of birth cannot be in the future. Please enter a valid date.");
                     continue;
                 }
                 return date;
@@ -69,19 +70,19 @@ public class CLIHelper {
         }
     }
 
-    public static LocalDateTime readDateTime(Scanner scanner) {
+    public static ZonedDateTime readDateTime(Scanner scanner) {
         while (true) {
-            logger.info("Enter Training Date (yyyy-MM-dd'T'HH:mm:ss): ");
+            logger.info("Enter Training Date (yyyy-MM-dd HH:mm z): ");
             String input = scanner.nextLine();
             try {
-                LocalDateTime dateTime = LocalDateTime.parse(input, DATE_TIME_FORMATTER);
-                if (dateTime.isBefore(LocalDateTime.now())) {
-                    log.error("Training date and time cannot be in the past. Please enter a future date and time.");
+                ZonedDateTime dateTime = ZonedDateTime.parse(input, DATE_TIME_FORMATTER);
+                if (dateTime.isBefore(ZonedDateTime.now())) {
+                    logger.info("Training date cannot be in the past. Please enter a valid date.\n");
                     continue;
                 }
                 return dateTime;
             } catch (DateTimeParseException e) {
-                log.error("Invalid date format. Please enter in yyyy-MM-dd'T'HH:mm:ss format.");
+                log.error("Invalid date format. Please enter in yyyy-MM-dd HH:mm z format.");
             }
         }
     }
@@ -113,6 +114,14 @@ public class CLIHelper {
             return readString(scanner, prompt);
         }
         return input;
+    }
+
+    public static void showUserLoginInfo(User user) {
+        displaySeparator();
+        logger.info("🎉Login successful! Welcome, {} 👤\n", user.getUsername());
+        var role = user.getRole().toString().substring(5).toLowerCase();
+        logger.info("You are {}.\n", role);
+        displaySeparator();
     }
 
     public static void displaySeparator() {
