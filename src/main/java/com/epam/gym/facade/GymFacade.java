@@ -144,10 +144,6 @@ public class GymFacade {
         return trainers.stream().map(TrainerMapper::toTrainerResponse).toList();
     }
 
-    public Optional<User> findUserById(Long id) {
-        return userService.findById(id);
-    }
-
     public void activateUser(String username) {
         userService.activateUser(username);
     }
@@ -161,9 +157,9 @@ public class GymFacade {
     }
 
     public List<TrainingResponse> findTrainingsByCriteria(Long trainerId, Long traineeId,
-                                                  LocalDate startDate, LocalDate endDate,
-                                                  Integer typeId, String sortBy,
-                                                  boolean ascending) {
+                                                          LocalDate startDate, LocalDate endDate,
+                                                          Integer typeId, String sortBy,
+                                                          boolean ascending) {
         List<Training> trainings = trainingService.findTrainingsByCriteria(trainerId, traineeId, startDate, endDate, typeId, sortBy, ascending);
         return trainings.stream().map(TrainingMapper::toTrainingResponse).toList();
     }

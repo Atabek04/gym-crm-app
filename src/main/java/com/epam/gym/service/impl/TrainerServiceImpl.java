@@ -1,6 +1,7 @@
 package com.epam.gym.service.impl;
 
 import com.epam.gym.dao.TrainerDAO;
+import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.service.TrainerService;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +25,16 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public void update(Trainer trainer, Long id) {
+        var oldTrainer = findById(id);
+        if (oldTrainer.isEmpty()) {
+            throw new ResourceNotFoundException("Trainer not found");
+        }
         trainerDAO.update(trainer, id);
     }
 
     @Override
     public Optional<Trainer> findById(Long id) {
         return trainerDAO.findById(id);
-    }
-
-    @Override
-    public Optional<Trainer> findByUsername(String username) {
-        return trainerDAO.findByUsername(username);
     }
 
     @Override

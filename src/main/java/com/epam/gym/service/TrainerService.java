@@ -12,8 +12,6 @@ public interface TrainerService {
 
     Optional<Trainer> findById(Long id);
 
-    Optional<Trainer> findByUsername(String username);
-
     List<Trainer> findAll();
 
     List<Trainer> findAllFreeTrainers(String username);

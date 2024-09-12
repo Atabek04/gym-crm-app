@@ -104,7 +104,8 @@ public class GymCLI {
             case 10 -> checkAndExecute(role, trainerCLI::listAllTrainers, UserRole.ROLE_TRAINER);
             case 11 -> checkAndExecute(role, () -> trainingCLI.createTraining(scanner), UserRole.ROLE_TRAINEE);
             case 12 -> checkAndExecute(role, () -> trainingCLI.findTrainingById(scanner), UserRole.ROLE_TRAINEE);
-            case 13 -> checkAndExecute(role, trainingCLI::listAllTrainings, UserRole.ROLE_TRAINEE, UserRole.ROLE_TRAINER);
+            case 13 ->
+                    checkAndExecute(role, trainingCLI::listAllTrainings, UserRole.ROLE_TRAINEE, UserRole.ROLE_TRAINER);
             case 14 -> checkAndExecute(role, () -> trainingCLI.listAllTrainingsByCriteria(scanner),
                     UserRole.ROLE_TRAINEE, UserRole.ROLE_TRAINER);
             case 15 -> checkAndExecute(role, () -> userCLI.activateOrDeactivateUser(scanner, username),
@@ -129,7 +130,6 @@ public class GymCLI {
             log.warn("🚫 You do not have the required role to perform this action.");
         }
     }
-
 
 
     private void displayWelcomeMessage() {

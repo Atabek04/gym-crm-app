@@ -1,7 +1,10 @@
 package com.epam.gym.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 
@@ -31,7 +34,7 @@ public class Training {
     @Column(name = "training_type_id", nullable = false)
     private Integer trainingTypeId;
 
-    @Column(name = "training_date",nullable = false)
+    @Column(name = "training_date", nullable = false)
     private ZonedDateTime trainingDate;
 
     @Column(name = "training_duration", nullable = false)

@@ -1,6 +1,7 @@
 package com.epam.gym.service.impl;
 
 import com.epam.gym.dao.TraineeDAO;
+import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.service.TraineeService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,10 @@ public class TraineeServiceImpl implements TraineeService {
 
     @Override
     public void update(Trainee trainee, Long id) {
+        var oldTrainee = findById(id);
+        if (oldTrainee.isEmpty()) {
+            throw new ResourceNotFoundException("Trainee not found");
+        }
         traineeDAO.update(trainee, id);
     }
 
@@ -42,11 +47,6 @@ public class TraineeServiceImpl implements TraineeService {
     @Override
     public void delete(Long id) {
         traineeDAO.delete(id);
-    }
-
-    @Override
-    public Optional<Trainee> findByUsername(String username) {
-        return traineeDAO.findByUsername(username);
     }
 
 }
