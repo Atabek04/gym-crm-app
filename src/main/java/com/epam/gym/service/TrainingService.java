@@ -2,6 +2,7 @@ package com.epam.gym.service;
 
 import com.epam.gym.model.Training;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,15 @@ public interface TrainingService {
     Optional<Training> findById(Long id);
 
     List<Training> findAll();
+
+
+    List<Training> findTrainingsByCriteria(Long trainerId,
+                                           Long traineeId,
+                                           LocalDate startDate,
+                                           LocalDate endDate,
+                                           Integer typeId,
+                                           String sortBy,
+                                           boolean ascending);
 
     void delete(Long id);
 }

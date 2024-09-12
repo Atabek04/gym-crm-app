@@ -44,4 +44,9 @@ public class TraineeServiceImpl implements TraineeService {
         traineeDAO.delete(id);
     }
 
+    @Override
+    public Optional<Trainee> findByUsername(String username) {
+        return traineeDAO.findByUsername(username);
+    }
+
 }

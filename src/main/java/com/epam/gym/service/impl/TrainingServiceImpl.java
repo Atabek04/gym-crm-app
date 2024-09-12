@@ -6,6 +6,7 @@ import com.epam.gym.service.TrainingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,17 @@ public class TrainingServiceImpl implements TrainingService {
     @Override
     public List<Training> findAll() {
         return trainingDAO.findAll();
+    }
+
+    @Override
+    public List<Training> findTrainingsByCriteria(Long trainerId,
+                                                  Long traineeId,
+                                                  LocalDate startDate,
+                                                  LocalDate endDate,
+                                                  Integer typeId,
+                                                  String sortBy,
+                                                  boolean ascending) {
+        return trainingDAO.findTrainingsByCriteria(trainerId, traineeId, startDate, endDate, typeId, sortBy, ascending);
     }
 
     @Override

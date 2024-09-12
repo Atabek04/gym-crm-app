@@ -1,6 +1,7 @@
 package com.epam.gym.cli;
 
 import com.epam.gym.exception.AuthenticationFailedException;
+import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.facade.GymFacade;
 import com.epam.gym.model.User;
 import com.epam.gym.security.AuthenticatedUser;
@@ -15,8 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static com.epam.gym.cli.CLIHelper.readString;
-import static com.epam.gym.cli.CLIHelper.showUserLoginInfo;
+import static com.epam.gym.cli.CLIHelper.*;
 
 @Component
 @Slf4j
@@ -78,5 +78,26 @@ public class UserCLI {
         } catch (Exception e) {
             logger.error("An unexpected error occurred: {}\n", e.getMessage());
         }
+    }
+
+    public void activateOrDeactivateUser(Scanner scanner, String username) {
+        var user = gymFacade.findUserByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User nou found"));
+        if (user.isActive()) {
+            boolean deactivate = readYesNo(scanner, "Your account is activated, do you want to deactivate ? (Y/N): ");
+            if (deactivate) {
+                gymFacade.deactivateUser(username);
+                logger.info("Your account is successfully deactivated!\n");
+            }
+            CLIHelper.displaySeparator();
+        } else {
+            boolean activate = readYesNo(scanner, "Your account is deactivated, do you want to activate ? (Y/N): ");
+            if (activate) {
+                gymFacade.activateUser(username);
+                logger.info("Your account is successfully activated!\n");
+            }
+            CLIHelper.displaySeparator();
+        }
+
     }
 }

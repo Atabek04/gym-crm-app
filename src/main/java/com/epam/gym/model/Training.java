@@ -1,10 +1,7 @@
 package com.epam.gym.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 
@@ -43,5 +40,4 @@ public class Training {
     public TrainingType getTrainingType() {
         return TrainingType.fromId(this.trainingTypeId);
     }
-
 }

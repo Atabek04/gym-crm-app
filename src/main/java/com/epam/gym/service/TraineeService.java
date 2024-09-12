@@ -13,6 +13,8 @@ public interface TraineeService {
 
     Optional<Trainee> findById(Long id);
 
+    Optional<Trainee> findByUsername(String username);
+
     List<Trainee> findAll();
 
     void delete(Long id);

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -104,4 +105,45 @@ public class TrainingCLI {
 
         return !exists;
     }
+
+    public void listAllTrainingsByCriteria(Scanner scanner) {
+        try {
+            Long trainerId = readLongNull(scanner, "Enter Trainer ID (or press Enter to skip): ");
+            Long traineeId = readLongNull(scanner, "Enter Trainee ID (or press Enter to skip): ");
+            LocalDate startDate = readDateNull(scanner, "Enter Start Date (yyyy-MM-dd) (or press Enter to skip): ");
+            LocalDate endDate = null;
+            if (startDate != null) {
+                endDate = readDateNull(scanner, "Enter End Date (yyyy-MM-dd) (or press Enter to skip): ");
+            }
+            TrainingType trainingType = readEnumNull(scanner);
+            String sortBy = readSortBy(scanner);
+
+
+            boolean ascending = readYesNo(scanner, "Sort Ascending? (Y/N): ");
+
+
+            var trainings = gymFacade.findTrainingsByCriteria(
+                    trainerId,
+                    traineeId,
+                    startDate,
+                    endDate,
+                    trainingType != null ? trainingType.getId() : null,
+                    sortBy,
+                    ascending
+            );
+
+            if (trainings.isEmpty()) {
+                log.info("No trainings found with the specified criteria.");
+            } else {
+                log.info("Trainings found:");
+                trainings.forEach(training -> logger.info("{}\n", training));
+            }
+            displaySeparator();
+        } catch (ResourceNotFoundException ex) {
+            log.error("Resource not found: {}", ex.getMessage());
+        } catch (Exception ex) {
+            log.error("An unexpected error occurred: {}", ex.getMessage());
+        }
+    }
+
 }

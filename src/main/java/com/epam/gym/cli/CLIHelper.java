@@ -12,6 +12,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 @Slf4j
@@ -53,6 +54,25 @@ public class CLIHelper {
         }
     }
 
+    public static Long readLongNull(Scanner scanner, String prompt) {
+        while (true) {
+            logger.info(prompt);
+            String input = scanner.nextLine();
+            if (input.isEmpty()) {
+                return null;
+            }
+            try {
+                var number = Long.parseLong(input);
+                if (number < 0) {
+                    throw new NumberFormatException();
+                }
+                return number;
+            } catch (NumberFormatException e) {
+                log.error("Invalid number. Please try again.");
+            }
+        }
+    }
+
     public static LocalDate readDate(Scanner scanner) {
         while (true) {
             logger.info("Enter Date of Birth (yyyy-MM-dd): ");
@@ -64,6 +84,21 @@ public class CLIHelper {
                     continue;
                 }
                 return date;
+            } catch (DateTimeParseException e) {
+                log.error("Invalid date format. Please enter in yyyy-MM-dd format.");
+            }
+        }
+    }
+
+    public static LocalDate readDateNull(Scanner scanner, String prompt) {
+        while (true) {
+            logger.info(prompt);
+            String input = scanner.nextLine();
+            if (input.isBlank()) {
+                return null;
+            }
+            try {
+                return LocalDate.parse(input, DATE_FORMATTER);
             } catch (DateTimeParseException e) {
                 log.error("Invalid date format. Please enter in yyyy-MM-dd format.");
             }
@@ -87,6 +122,22 @@ public class CLIHelper {
         }
     }
 
+    public static TrainingType readEnumNull(Scanner scanner) {
+        while (true) {
+            logger.info("Enter Training Type (e.g., YOGA, CARDIO): ");
+            String input = scanner.nextLine();
+            if (input.isEmpty()) {
+                return null;
+            }
+            try {
+                return TrainingType.valueOf(input.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                log.error("Invalid option. Please enter one of the following: " +
+                        String.join(", ", getEnumNames()));
+            }
+        }
+    }
+
     public static TrainingType readEnum(Scanner scanner) {
         while (true) {
             logger.info("Enter Training Type (e.g., YOGA, CARDIO): ");
@@ -106,6 +157,20 @@ public class CLIHelper {
                 .toArray(String[]::new);
     }
 
+    public static String readSortBy(Scanner scanner) {
+        String input;
+        do {
+            logger.info("Enter Sort By Field (trainingDate, trainingDuration, trainingTypeId, trainingName): ");
+            input = scanner.nextLine();
+        } while (isValidSortField(input));
+        return input;
+    }
+
+    public static boolean isValidSortField(String sortBy) {
+        List<String> validFields = Arrays.asList("trainingDate", "trainingDuration", "trainingTypeId", "trainingName");
+        return validFields.contains(sortBy.toLowerCase());
+    }
+
     public static String readString(Scanner scanner, String prompt) {
         logger.info(prompt);
         var input = scanner.nextLine();
@@ -114,6 +179,16 @@ public class CLIHelper {
             return readString(scanner, prompt);
         }
         return input;
+    }
+
+    public static boolean readYesNo(Scanner scanner, String prompt) {
+        logger.info(prompt);
+        var input = scanner.nextLine().toLowerCase();
+        if (!(input.equals("y") || input.equals("n"))) {
+            log.error("Invalid input. Please try again (Y/N)");
+            return readYesNo(scanner, prompt);
+        }
+        return input.equals("y");
     }
 
     public static void showUserLoginInfo(User user) {

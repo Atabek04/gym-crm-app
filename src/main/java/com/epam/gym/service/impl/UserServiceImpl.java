@@ -83,4 +83,19 @@ public class UserServiceImpl implements UserService {
     public void changeUserPassword(String username, String newPassword) {
         userDAO.changeUserPassword(username, newPassword);
     }
+
+    @Override
+    public void activateUser(String username) {
+        userDAO.activateUser(username);
+    }
+
+    @Override
+    public void deactivateUser(String username) {
+        userDAO.deactivateUser(username);
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userDAO.findUserByUsername(username);
+    }
 }

@@ -109,4 +109,17 @@ public class TrainerCLI {
 
         return !exists;
     }
+
+    public void listAllFreeTrainers(String username) {
+        try {
+            List<TrainerResponse> trainers = gymFacade.listAllFreeTrainers(username);
+            logger.info("All Free Trainers:\n");
+            trainers.forEach(trainer -> logger.info("{}\n", trainer));
+            displaySeparator();
+        } catch (ResourceNotFoundException ex) {
+            log.error("Resource not found: {}", ex.getMessage());
+        } catch (Exception ex) {
+            log.error("An unexpected error occurred: {}", ex.getMessage());
+        }
+    }
 }

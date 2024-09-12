@@ -33,6 +33,11 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
+    public Optional<Trainer> findByUsername(String username) {
+        return trainerDAO.findByUsername(username);
+    }
+
+    @Override
     public List<Trainer> findAll() {
         return trainerDAO.findAll();
     }
@@ -40,5 +45,10 @@ public class TrainerServiceImpl implements TrainerService {
     @Override
     public void delete(Long id) {
         trainerDAO.delete(id);
+    }
+
+    @Override
+    public List<Trainer> findAllFreeTrainers(String username) {
+        return trainerDAO.findAllFreeTrainers(username);
     }
 }

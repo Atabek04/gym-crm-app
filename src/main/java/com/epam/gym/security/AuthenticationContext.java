@@ -1,12 +1,9 @@
 package com.epam.gym.security;
 
-import org.springframework.stereotype.Component;
+import lombok.experimental.UtilityClass;
 
-@Component
+@UtilityClass
 public class AuthenticationContext {
-    private AuthenticationContext() {
-        throw new IllegalArgumentException("Can't instantiate AuthenticationContext");
-    }
     private static final ThreadLocal<AuthenticatedUser> userHolder = new ThreadLocal<>();
 
     public static void setAuthenticatedUser(AuthenticatedUser user) {
