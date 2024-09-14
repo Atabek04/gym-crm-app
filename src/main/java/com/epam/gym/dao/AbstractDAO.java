@@ -76,7 +76,8 @@ public abstract class AbstractDAO<T> implements BaseDAO<T> {
     @Override
     public List<T> findAll() {
         try {
-            List<T> entities = entityManager.createQuery("FROM " + entityClass.getSimpleName(), entityClass).getResultList();
+            var hql = String.format("FROM %s", entityClass.getSimpleName());
+            List<T> entities = entityManager.createQuery(hql, entityClass).getResultList();
             if (entities.isEmpty()) {
                 log.info("No {} have been found", entityClass.getSimpleName());
             } else {

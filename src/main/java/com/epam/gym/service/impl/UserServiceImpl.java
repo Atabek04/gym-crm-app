@@ -44,17 +44,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> update(User user, Long id) {
         var oldUser = userDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        var username = "";
-        if (user.getFirstName().equals(oldUser.getFirstName()) && user.getLastName().equals(oldUser.getLastName())) {
-            username = oldUser.getUsername();
-        } else {
-            user.setUsername(oldUser.getUsername());
-            username = generateUsername(
-                    user.getFirstName(),
-                    user.getLastName(),
-                    findAll().stream().map(User::getUsername).toList());
-        }
-        user.setUsername(username);
+
+        user.setUsername(oldUser.getUsername());
         user.setPassword(oldUser.getPassword());
         return userDAO.update(user, id);
     }

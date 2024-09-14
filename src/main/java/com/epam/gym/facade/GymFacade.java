@@ -47,7 +47,8 @@ public class GymFacade {
     public Optional<Trainee> saveTrainee(TraineeRequest request) {
         User user = toUser(request);
         user.setRole(UserRole.ROLE_TRAINEE);
-        var createdUser = userService.create(user).orElseThrow(() -> new ResourceNotFoundException("Created trainee not found"));
+        var createdUser = userService.create(user)
+                .orElseThrow(() -> new ResourceNotFoundException("Created trainee not found"));
 
         Trainee trainee = toTrainee(request, createdUser);
         return traineeService.create(trainee);
@@ -56,7 +57,8 @@ public class GymFacade {
     @Transactional
     public void updateTrainee(TraineeRequest request, Long traineeId) {
         var user = toUser(request);
-        var userId = traineeService.findById(traineeId).orElseThrow(() -> new ResourceNotFoundException("Trainee not found")).getUser().getId();
+        var userId = traineeService.findById(traineeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trainee not found")).getUser().getId();
         user.setId(userId);
         userService.update(user, userId);
 
@@ -66,12 +68,17 @@ public class GymFacade {
     }
 
     public TraineeResponse findTraineeById(Long id) {
-        var trainee = traineeService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Trainee not found"));
+        var trainee = traineeService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Trainee not found"));
         return toTraineeResponse(trainee);
     }
 
     public List<TraineeResponse> findAllTrainees() {
-        return traineeService.findAll().stream().sorted(Comparator.comparing(Trainee::getId)).map(TraineeMapper::toTraineeResponse).toList();
+        return traineeService.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Trainee::getId))
+                .map(TraineeMapper::toTraineeResponse)
+                .toList();
     }
 
     @Transactional
@@ -83,7 +90,8 @@ public class GymFacade {
     public Optional<Trainer> saveTrainer(TrainerRequest request) {
         var user = toUser(request);
         user.setRole(UserRole.ROLE_TRAINER);
-        var createdUser = userService.create(user).orElseThrow(() -> new ResourceNotFoundException("Created User not returned"));
+        var createdUser = userService.create(user)
+                .orElseThrow(() -> new ResourceNotFoundException("Created User not returned"));
 
         var trainer = toTrainer(request, createdUser);
         return trainerService.create(trainer);
@@ -92,7 +100,8 @@ public class GymFacade {
     @Transactional
     public void updateTrainer(TrainerRequest request, Long trainerId) {
         var user = toUser(request);
-        var userId = trainerService.findById(trainerId).orElseThrow(() -> new ResourceNotFoundException("Trainer not found")).getUser().getId();
+        var userId = trainerService.findById(trainerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trainer not found")).getUser().getId();
         user.setId(userId);
         userService.update(user, userId);
 
@@ -102,18 +111,25 @@ public class GymFacade {
     }
 
     public TrainerResponse findTrainerById(Long id) {
-        var trainer = trainerService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Trainer not found"));
+        var trainer = trainerService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Trainer not found"));
         return toTrainerResponse(trainer);
     }
 
     public List<TrainerResponse> findAllTrainers() {
-        return trainerService.findAll().stream().sorted(Comparator.comparing(Trainer::getId)).map(TrainerMapper::toTrainerResponse).toList();
+        return trainerService.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Trainer::getId))
+                .map(TrainerMapper::toTrainerResponse)
+                .toList();
     }
 
     @Transactional
     public void saveTraining(TrainingRequest trainingRequest) {
-        var trainee = traineeService.findById(trainingRequest.traineeId()).orElseThrow(() -> new ResourceNotFoundException("Facade:: Trainee not found"));
-        var trainer = trainerService.findById(trainingRequest.trainerId()).orElseThrow(() -> new ResourceNotFoundException("Facade:: Trainer not found"));
+        var trainee = traineeService.findById(trainingRequest.traineeId())
+                .orElseThrow(() -> new ResourceNotFoundException("Facade:: Trainee not found"));
+        var trainer = trainerService.findById(trainingRequest.trainerId())
+                .orElseThrow(() -> new ResourceNotFoundException("Facade:: Trainer not found"));
 
         var training = toTraining(trainingRequest, trainee, trainer);
         trainingService.create(training);
@@ -128,7 +144,11 @@ public class GymFacade {
     }
 
     public List<TrainingResponse> findAllTrainings() {
-        return trainingService.findAll().stream().sorted(Comparator.comparing(Training::getId)).map(TrainingMapper::toTrainingResponse).toList();
+        return trainingService.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Training::getId))
+                .map(TrainingMapper::toTrainingResponse)
+                .toList();
     }
 
     public boolean login(String username, String password) {
@@ -156,11 +176,22 @@ public class GymFacade {
         return userService.findUserByUsername(username);
     }
 
-    public List<TrainingResponse> findTrainingsByCriteria(Long trainerId, Long traineeId,
-                                                          LocalDate startDate, LocalDate endDate,
-                                                          Integer typeId, String sortBy,
+    public List<TrainingResponse> findTrainingsByCriteria(Long trainerId,
+                                                          Long traineeId,
+                                                          LocalDate startDate,
+                                                          LocalDate endDate,
+                                                          Integer typeId,
+                                                          String sortBy,
                                                           boolean ascending) {
-        List<Training> trainings = trainingService.findTrainingsByCriteria(trainerId, traineeId, startDate, endDate, typeId, sortBy, ascending);
+        List<Training> trainings = trainingService.findTrainingsByCriteria(
+                trainerId,
+                traineeId,
+                startDate,
+                endDate,
+                typeId,
+                sortBy,
+                ascending
+        );
         return trainings.stream().map(TrainingMapper::toTrainingResponse).toList();
     }
 }
