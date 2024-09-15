@@ -1,22 +1,41 @@
 package com.epam.gym.model;
 
 import com.epam.gym.security.UserRole;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.proxy.HibernateProxy;
+
+import java.util.Objects;
+
+import static com.epam.gym.util.Constants.ALLOCATION_SIZE;
 
 @Entity
 @Table(name = "users_table")
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_table_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_table_id_seq", allocationSize = ALLOCATION_SIZE)
     private Long id;
 
     @Column(name = "first_name", nullable = false)
@@ -37,4 +56,22 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private UserRole role;
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this.getClass() != o.getClass()) {
+            return false;
+        }
+        if (this == o) return true;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy hibernateProxy ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy hibernateProxy ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        User user = (User) o;
+        return getId() != null && Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy hibernateProxy ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
 }

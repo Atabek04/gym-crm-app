@@ -1,6 +1,11 @@
 package com.epam.gym.facade;
 
-import com.epam.gym.dto.*;
+import com.epam.gym.dto.TraineeRequest;
+import com.epam.gym.dto.TraineeResponse;
+import com.epam.gym.dto.TrainerRequest;
+import com.epam.gym.dto.TrainerResponse;
+import com.epam.gym.dto.TrainingRequest;
+import com.epam.gym.dto.TrainingResponse;
 import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.facade.mapper.TraineeMapper;
 import com.epam.gym.facade.mapper.TrainerMapper;
@@ -152,11 +157,11 @@ public class GymFacade {
     }
 
     public boolean login(String username, String password) {
-        return userService.findByUsernameAndPassword(username, password).isPresent();
+        return userService.findByUsername(username, password).isPresent();
     }
 
     public void changeUserPassword(String username, String newPassword) {
-        userService.changeUserPassword(username, newPassword);
+        userService.changePassword(username, newPassword);
     }
 
     public List<TrainerResponse> listAllFreeTrainers(String username) {

@@ -16,7 +16,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     }
 
     @Override
-    public User findByUsernameAndPassword(String username, String password) {
+    public User findByUsername(String username, String password) {
         try {
             String hql = "FROM User u WHERE u.username = :username AND u.password = :password";
             return entityManager.createQuery(hql, User.class)
@@ -29,7 +29,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     }
 
     @Override
-    public void changeUserPassword(String username, String newPassword) {
+    public void changePassword(String username, String newPassword) {
         try {
             String hql = "UPDATE User u SET u.password = :password WHERE u.username = :username";
             entityManager.createQuery(hql)

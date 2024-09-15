@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static com.epam.gym.cli.CLIHelper.*;
+import static com.epam.gym.cli.CLIHelper.readEnum;
+import static com.epam.gym.cli.CLIHelper.readString;
+import static com.epam.gym.cli.CLIHelper.displaySeparator;
+import static com.epam.gym.cli.CLIHelper.readLong;
 
 @Component
 @Slf4j

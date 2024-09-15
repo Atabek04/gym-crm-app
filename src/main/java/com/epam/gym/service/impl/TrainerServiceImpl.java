@@ -7,12 +7,14 @@ import com.epam.gym.service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j
 public class TrainerServiceImpl implements TrainerService {
     private final TrainerDAO trainerDAO;

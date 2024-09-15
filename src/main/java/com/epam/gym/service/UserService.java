@@ -16,9 +16,9 @@ public interface UserService {
 
     void delete(Long id);
 
-    Optional<User> findByUsernameAndPassword(String username, String password);
+    Optional<User> findByUsername(String username, String password);
 
-    void changeUserPassword(String username, String newPassword);
+    void changePassword(String username, String newPassword);
 
     void activateUser(String username);
 

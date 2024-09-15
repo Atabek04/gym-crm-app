@@ -16,7 +16,9 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static com.epam.gym.cli.CLIHelper.*;
+import static com.epam.gym.cli.CLIHelper.readString;
+import static com.epam.gym.cli.CLIHelper.readYesNo;
+import static com.epam.gym.cli.CLIHelper.showUserLoginInfo;
 
 @Component
 @Slf4j
@@ -32,7 +34,7 @@ public class UserCLI {
         logger.info("Please enter you password: ");
         String password = scanner.nextLine();
 
-        Optional<User> userOptional = userService.findByUsernameAndPassword(username, password);
+        Optional<User> userOptional = userService.findByUsername(username, password);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();

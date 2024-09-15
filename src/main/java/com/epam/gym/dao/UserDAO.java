@@ -5,9 +5,9 @@ import com.epam.gym.model.User;
 import java.util.Optional;
 
 public interface UserDAO extends BaseDAO<User> {
-    User findByUsernameAndPassword(String username, String password);
+    User findByUsername(String username, String password);
 
-    void changeUserPassword(String username, String newPassword);
+    void changePassword(String username, String newPassword);
 
     void activateUser(String username);
 

@@ -15,7 +15,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static com.epam.gym.cli.CLIHelper.*;
+import static com.epam.gym.cli.CLIHelper.readString;
+import static com.epam.gym.cli.CLIHelper.displaySeparator;
+import static com.epam.gym.cli.CLIHelper.readLong;
+import static com.epam.gym.cli.CLIHelper.readDate;
 
 @Component
 @Slf4j

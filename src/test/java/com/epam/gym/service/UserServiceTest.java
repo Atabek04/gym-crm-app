@@ -13,8 +13,16 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
 
 class UserServiceTest {
 
@@ -137,20 +145,20 @@ class UserServiceTest {
         User user = new User();
         user.setUsername("testUser");
         user.setPassword("testPass");
-        when(userDAO.findByUsernameAndPassword("testUser", "testPass")).thenReturn(user);
+        when(userDAO.findByUsername("testUser", "testPass")).thenReturn(user);
 
-        Optional<User> foundUser = userService.findByUsernameAndPassword("testUser", "testPass");
+        Optional<User> foundUser = userService.findByUsername("testUser", "testPass");
 
         assertTrue(foundUser.isPresent());
         assertEquals("testUser", foundUser.get().getUsername());
-        verify(userDAO, times(1)).findByUsernameAndPassword("testUser", "testPass");
+        verify(userDAO, times(1)).findByUsername("testUser", "testPass");
     }
 
     @Test
     void testChangeUserPassword() {
-        userService.changeUserPassword("testUser", "newPass");
+        userService.changePassword("testUser", "newPass");
 
-        verify(userDAO, times(1)).changeUserPassword("testUser", "newPass");
+        verify(userDAO, times(1)).changePassword("testUser", "newPass");
     }
 
     @Test

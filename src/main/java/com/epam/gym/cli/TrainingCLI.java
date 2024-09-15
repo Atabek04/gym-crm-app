@@ -17,7 +17,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static com.epam.gym.cli.CLIHelper.*;
+import static com.epam.gym.cli.CLIHelper.readEnum;
+import static com.epam.gym.cli.CLIHelper.readString;
+import static com.epam.gym.cli.CLIHelper.displaySeparator;
+import static com.epam.gym.cli.CLIHelper.readLong;
+import static com.epam.gym.cli.CLIHelper.readDateTime;
+import static com.epam.gym.cli.CLIHelper.readYesNo;
+import static com.epam.gym.cli.CLIHelper.readLongNull;
+import static com.epam.gym.cli.CLIHelper.readDateNull;
+import static com.epam.gym.cli.CLIHelper.readEnumNull;
+import static com.epam.gym.cli.CLIHelper.readSortBy;
 
 @Component
 @Slf4j
