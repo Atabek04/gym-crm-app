@@ -4,6 +4,7 @@ import com.epam.gym.dao.AbstractDAO;
 import com.epam.gym.dao.UserDAO;
 import com.epam.gym.model.User;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -11,15 +12,15 @@ import java.util.Optional;
 @Repository
 @Slf4j
 public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
-    public UserDAOImpl() {
-        super(User.class);
+    public UserDAOImpl(SessionFactory sessionFactory) {
+        super(User.class, sessionFactory);
     }
 
     @Override
     public User findByUsername(String username, String password) {
         try {
             String hql = "FROM User u WHERE u.username = :username AND u.password = :password";
-            return entityManager.createQuery(hql, User.class)
+            return getCurrentSession().createQuery(hql, User.class)
                     .setParameter("username", username)
                     .setParameter("password", password)
                     .getSingleResult();
@@ -32,7 +33,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     public void changePassword(String username, String newPassword) {
         try {
             String hql = "UPDATE User u SET u.password = :password WHERE u.username = :username";
-            entityManager.createQuery(hql)
+            getCurrentSession().createMutationQuery(hql)
                     .setParameter("username", username)
                     .setParameter("password", newPassword)
                     .executeUpdate();
@@ -44,7 +45,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     @Override
     public Optional<User> findById(Long id) {
         try {
-            return Optional.ofNullable(entityManager.find(User.class, id));
+            return Optional.ofNullable(getCurrentSession().find(User.class, id));
         } catch (Exception e) {
             log.error("UserDAOImpl:: Error finding user with id {}: {}", id, e.getMessage());
             return Optional.empty();
@@ -55,7 +56,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     public void activateUser(String username) {
         try {
             String hql = "UPDATE User u SET u.isActive = true WHERE u.username = :username AND u.isActive = false";
-            int updatedCount = entityManager.createQuery(hql)
+            int updatedCount = getCurrentSession().createMutationQuery(hql)
                     .setParameter("username", username)
                     .executeUpdate();
 
@@ -73,7 +74,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     public void deactivateUser(String username) {
         try {
             String hql = "UPDATE User u SET u.isActive = false WHERE u.username = :username AND u.isActive = true";
-            int updatedCount = entityManager.createQuery(hql)
+            int updatedCount = getCurrentSession().createMutationQuery(hql)
                     .setParameter("username", username)
                     .executeUpdate();
 
@@ -91,7 +92,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     public Optional<User> findUserByUsername(String username) {
         try {
             String hql = "FROM User u WHERE u.username = :username";
-            return Optional.ofNullable(entityManager.createQuery(hql, User.class)
+            return Optional.ofNullable(getCurrentSession().createQuery(hql, User.class)
                     .setParameter("username", username)
                     .getSingleResult());
         } catch (Exception e) {

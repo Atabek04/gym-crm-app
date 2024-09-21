@@ -8,6 +8,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -16,8 +17,8 @@ import java.util.List;
 
 @Repository
 public class TrainingDAOImpl extends AbstractDAO<Training> implements TrainingDAO {
-    public TrainingDAOImpl() {
-        super(Training.class);
+    public TrainingDAOImpl(SessionFactory sessionFactory) {
+        super(Training.class, sessionFactory);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class TrainingDAOImpl extends AbstractDAO<Training> implements TrainingDA
                                                   String sortBy,
                                                   boolean ascending
     ) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaBuilder cb = getCurrentSession().getCriteriaBuilder();
         CriteriaQuery<Training> cq = cb.createQuery(Training.class);
         Root<Training> root = cq.from(Training.class);
 
@@ -58,7 +59,7 @@ public class TrainingDAOImpl extends AbstractDAO<Training> implements TrainingDA
             }
         }
 
-        TypedQuery<Training> query = entityManager.createQuery(cq);
+        TypedQuery<Training> query = getCurrentSession().createQuery(cq);
 
         return query.getResultList();
     }

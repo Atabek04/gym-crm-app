@@ -20,19 +20,17 @@ import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
 
-import static com.epam.gym.util.Constants.ALLOCATION_SIZE;
-
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Trainer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "trainer_seq")
-    @SequenceGenerator(name = "trainer_seq", sequenceName = "trainer_id_seq", allocationSize = ALLOCATION_SIZE)
+    @SequenceGenerator(name = "trainer_seq", sequenceName = "trainer_id_seq", allocationSize = 1)
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)

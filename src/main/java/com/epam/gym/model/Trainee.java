@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
@@ -25,21 +24,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.epam.gym.util.Constants.ALLOCATION_SIZE;
-
 
 @Entity
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Trainee {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "trainee_seq")
-    @SequenceGenerator(name = "trainee_seq", sequenceName = "trainee_id_seq", allocationSize = ALLOCATION_SIZE)
+    @SequenceGenerator(name = "trainee_seq", sequenceName = "trainee_id_seq", allocationSize = 1)
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL, orphanRemoval = true)

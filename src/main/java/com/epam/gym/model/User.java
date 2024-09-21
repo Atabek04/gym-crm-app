@@ -14,28 +14,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
 
-import static com.epam.gym.util.Constants.ALLOCATION_SIZE;
-
 @Entity
 @Table(name = "users_table")
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@ToString(exclude = "password")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_table_id_seq", allocationSize = ALLOCATION_SIZE)
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_table_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "first_name", nullable = false)

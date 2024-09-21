@@ -18,7 +18,7 @@ import static com.epam.gym.cli.CLIHelper.readInt;
 @Slf4j
 @RequiredArgsConstructor
 public class GymCLI {
-    private static final Logger logger = LoggerFactory.getLogger("prompt-logger");
+    protected static final Logger logger = LoggerFactory.getLogger("prompt-logger");
     private final TraineeCLI traineeCLI;
     private final TrainerCLI trainerCLI;
     private final TrainingCLI trainingCLI;
