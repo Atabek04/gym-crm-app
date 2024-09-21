@@ -9,20 +9,21 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class TrainerMapper {
-    public static Trainer toTrainer(TrainerRequest trainerRequest) {
+    public static Trainer toTrainer(TrainerRequest trainerRequest, User user) {
         return Trainer.builder()
-                .specialization(TrainingType.valueOf(trainerRequest.specialization()))
+                .user(user)
+                .trainingTypeId(TrainingType.valueOf(trainerRequest.specialization()).getId())
                 .build();
     }
 
-    public static TrainerResponse toTrainerResponse(Trainer trainer, User user) {
+    public static TrainerResponse toTrainerResponse(Trainer trainer) {
         return TrainerResponse.builder()
                 .trainerId(trainer.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .username(user.getUsername())
-                .isActive(user.isActive())
-                .specialization(trainer.getSpecialization().toString())
+                .firstName(trainer.getUser().getFirstName())
+                .lastName(trainer.getUser().getLastName())
+                .username(trainer.getUser().getUsername())
+                .isActive(trainer.getUser().isActive())
+                .specialization(trainer.getTrainingType().toString())
                 .build();
     }
 }

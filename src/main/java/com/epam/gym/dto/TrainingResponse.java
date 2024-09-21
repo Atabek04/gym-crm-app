@@ -3,7 +3,7 @@ package com.epam.gym.dto;
 import com.epam.gym.model.TrainingType;
 import lombok.Builder;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Builder
 public record TrainingResponse(
@@ -16,7 +16,7 @@ public record TrainingResponse(
         String trainerLastName,
         String trainingName,
         TrainingType trainingType,
-        LocalDateTime trainingDate,
+        ZonedDateTime trainingDate,
         Long trainingDuration
 ) {
 }

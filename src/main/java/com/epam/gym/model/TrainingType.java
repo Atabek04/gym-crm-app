@@ -1,17 +1,33 @@
 package com.epam.gym.model;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Getter
 public enum TrainingType {
-    STRENGTH_TRAINING,
-    CARDIO_TRAINING,
-    CARDIO,
-    YOGA,
-    CROSSFIT,
-    PILATES,
-    HIIT,      // High-Intensity Interval Training
-    FUNCTIONAL_FITNESS,
-    GROUP_FITNESS,
-    MARTIAL_ARTS,
-    CIRCUIT_TRAINING,
-    OUTDOOR_FITNESS,
-    MOBILITY_TRAINING
+    CARDIO(1),
+    STRENGTH_TRAINING(2),
+    YOGA(3),
+    PILATES(4),
+    CARDIO_TRAINING(5),
+    HIIT(6),
+    FUNCTIONAL_FITNESS(7),
+    GROUP_FITNESS(8),
+    MARTIAL_ARTS(9),
+    CIRCUIT_TRAINING(10),
+    OUTDOOR_FITNESS(11),
+    MOBILITY_TRAINING(12),
+    CROSSFIT(13);
+
+    private final int id;
+
+    public static TrainingType fromId(Integer id) {
+        for (TrainingType type : TrainingType.values()) {
+            if (type.getId() == id) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid TrainingType ID: " + id);
+    }
 }

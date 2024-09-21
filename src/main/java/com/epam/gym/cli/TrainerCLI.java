@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static com.epam.gym.cli.CLIHelper.*;
+import static com.epam.gym.cli.CLIHelper.readEnum;
+import static com.epam.gym.cli.CLIHelper.readString;
+import static com.epam.gym.cli.CLIHelper.displaySeparator;
+import static com.epam.gym.cli.CLIHelper.readLong;
 
 @Component
 @Slf4j
@@ -30,8 +33,12 @@ public class TrainerCLI {
             var specialization = readEnum(scanner);
 
             TrainerRequest request = new TrainerRequest(firstName, lastName, specialization.toString());
-            gymFacade.saveTrainer(request);
-            log.info("Trainer created successfully.");
+            var newTrainer = gymFacade.saveTrainer(request)
+                    .orElseThrow(() -> new ResourceNotFoundException("Trainer not returned"));
+            displaySeparator();
+            logger.info("Trainer created successfully.\n");
+            logger.info("Your username: {}\n", newTrainer.getUser().getUsername());
+            logger.info("Your temporary password: {}\n", newTrainer.getUser().getPassword());
             displaySeparator();
         } catch (ResourceNotFoundException ex) {
             log.error("Resource not found: {}", ex.getMessage());
@@ -104,5 +111,18 @@ public class TrainerCLI {
         }
 
         return !exists;
+    }
+
+    public void listAllFreeTrainers(String username) {
+        try {
+            List<TrainerResponse> trainers = gymFacade.listAllFreeTrainers(username);
+            logger.info("All Free Trainers:\n");
+            trainers.forEach(trainer -> logger.info("{}\n", trainer));
+            displaySeparator();
+        } catch (ResourceNotFoundException ex) {
+            log.error("Resource not found: {}", ex.getMessage());
+        } catch (Exception ex) {
+            log.error("An unexpected error occurred: {}", ex.getMessage());
+        }
     }
 }
