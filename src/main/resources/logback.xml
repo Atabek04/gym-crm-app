@@ -12,11 +12,13 @@
         </encoder>
     </appender>
 
-    <root level="warn">
+    <root level="info">
         <appender-ref ref="console" />
     </root>
 
     <logger name="prompt-logger" level="info" additivity="false">
         <appender-ref ref="prompting" />
     </logger>
+
+    <logger name="org.springframework.web" level="info"/>
 </configuration>
