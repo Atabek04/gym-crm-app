@@ -1,5 +1,7 @@
 package com.epam.gym.security;
 
+import com.epam.gym.exception.ForbiddenException;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
@@ -23,7 +25,12 @@ public class SecurityAspect {
                 .anyMatch(role -> role.equals(authenticatedUser.getRole()));
 
         if (!authorized) {
-            throw new SecurityException("User does not have the required authority to access this method");
+            throw new ForbiddenException("User does not have the required authority to access this method");
         }
+    }
+
+    @After("@annotation(Secured)")
+    public void clearAuthenticationContext() {
+        AuthenticationContext.clear();
     }
 }
