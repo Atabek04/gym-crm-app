@@ -147,7 +147,7 @@ class UserServiceTest {
         user.setPassword("testPass");
         when(userDAO.findByUsername("testUser", "testPass")).thenReturn(user);
 
-        Optional<User> foundUser = userService.findByUsername("testUser", "testPass");
+        Optional<User> foundUser = userService.findByUsernameAndPassword("testUser", "testPass");
 
         assertTrue(foundUser.isPresent());
         assertEquals("testUser", foundUser.get().getUsername());

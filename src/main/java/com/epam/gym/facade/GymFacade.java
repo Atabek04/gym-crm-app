@@ -7,9 +7,9 @@ import com.epam.gym.dto.TrainerResponse;
 import com.epam.gym.dto.TrainingRequest;
 import com.epam.gym.dto.TrainingResponse;
 import com.epam.gym.exception.ResourceNotFoundException;
-import com.epam.gym.facade.mapper.TraineeMapper;
-import com.epam.gym.facade.mapper.TrainerMapper;
-import com.epam.gym.facade.mapper.TrainingMapper;
+import com.epam.gym.mapper.TraineeMapper;
+import com.epam.gym.mapper.TrainerMapper;
+import com.epam.gym.mapper.TrainingMapper;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.model.Training;
@@ -29,14 +29,20 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-import static com.epam.gym.facade.mapper.TraineeMapper.toTrainee;
-import static com.epam.gym.facade.mapper.TraineeMapper.toTraineeResponse;
-import static com.epam.gym.facade.mapper.TrainerMapper.toTrainer;
-import static com.epam.gym.facade.mapper.TrainerMapper.toTrainerResponse;
-import static com.epam.gym.facade.mapper.TrainingMapper.toTraining;
-import static com.epam.gym.facade.mapper.TrainingMapper.toTrainingResponse;
-import static com.epam.gym.facade.mapper.UserMapper.toUser;
+import static com.epam.gym.mapper.TraineeMapper.toTrainee;
+import static com.epam.gym.mapper.TraineeMapper.toTraineeResponse;
+import static com.epam.gym.mapper.TrainerMapper.toTrainer;
+import static com.epam.gym.mapper.TrainerMapper.toTrainerResponse;
+import static com.epam.gym.mapper.TrainingMapper.toTraining;
+import static com.epam.gym.mapper.TrainingMapper.toTrainingResponse;
+import static com.epam.gym.mapper.UserMapper.toUser;
 
+/**
+ * @deprecated As of version 1.1.0, replaced by controllers and a REST-based application.
+ * Please use the respective REST endpoints to perform these operations.
+ * @since 1.1.0
+ */
+@Deprecated(since = "1.1.0")
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -157,7 +163,7 @@ public class GymFacade {
     }
 
     public boolean login(String username, String password) {
-        return userService.findByUsername(username, password).isPresent();
+        return userService.findByUsernameAndPassword(username, password).isPresent();
     }
 
     public void changeUserPassword(String username, String newPassword) {

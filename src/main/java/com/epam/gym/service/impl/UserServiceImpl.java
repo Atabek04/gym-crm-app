@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUsername(String username, String password) {
+    public Optional<User> findByUsernameAndPassword(String username, String password) {
         return Optional.ofNullable(userDAO.findByUsername(username, password));
     }
 

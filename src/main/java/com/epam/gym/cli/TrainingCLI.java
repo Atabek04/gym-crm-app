@@ -28,6 +28,12 @@ import static com.epam.gym.cli.CLIHelper.readDateNull;
 import static com.epam.gym.cli.CLIHelper.readEnumNull;
 import static com.epam.gym.cli.CLIHelper.readSortBy;
 
+/**
+ * @deprecated As of version 1.1.0, replaced by controllers and a REST-based application.
+ * Please use the respective REST endpoints to perform these operations.
+ * @since 1.1.0
+ */
+@Deprecated(since = "1.1.0")
 @Component
 @Slf4j
 @RequiredArgsConstructor

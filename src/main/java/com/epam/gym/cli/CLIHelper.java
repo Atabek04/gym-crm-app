@@ -15,6 +15,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @deprecated As of version 1.1.0, replaced by controllers and a REST-based application.
+ * Please use the respective REST endpoints to perform these operations.
+ * @since 1.1.0
+ */
+@Deprecated(since = "1.1.0")
 @Slf4j
 @UtilityClass
 public class CLIHelper {

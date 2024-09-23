@@ -19,6 +19,12 @@ import static com.epam.gym.cli.CLIHelper.readString;
 import static com.epam.gym.cli.CLIHelper.displaySeparator;
 import static com.epam.gym.cli.CLIHelper.readLong;
 
+/**
+ * @deprecated As of version 1.1.0, replaced by controllers and a REST-based application.
+ * Please use the respective REST endpoints to perform these operations.
+ * @since 1.1.0
+ */
+@Deprecated(since = "1.1.0")
 @Component
 @Slf4j
 @RequiredArgsConstructor

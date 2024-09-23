@@ -1,6 +1,6 @@
 package com.epam.gym.cli;
 
-import com.epam.gym.exception.AuthenticationFailedException;
+import com.epam.gym.exception.AuthenticationException;
 import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.facade.GymFacade;
 import com.epam.gym.model.User;
@@ -20,6 +20,12 @@ import static com.epam.gym.cli.CLIHelper.readString;
 import static com.epam.gym.cli.CLIHelper.readYesNo;
 import static com.epam.gym.cli.CLIHelper.showUserLoginInfo;
 
+/**
+ * @deprecated As of version 1.1.0, replaced by controllers and a REST-based application.
+ * Please use the respective REST endpoints to perform these operations.
+ * @since 1.1.0
+ */
+@Deprecated(since = "1.1.0")
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +40,7 @@ public class UserCLI {
         logger.info("Please enter you password: ");
         String password = scanner.nextLine();
 
-        Optional<User> userOptional = userService.findByUsername(username, password);
+        Optional<User> userOptional = userService.findByUsernameAndPassword(username, password);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -67,15 +73,15 @@ public class UserCLI {
             String newPasswordRepeat = readString(scanner, "Repeat you new password: ");
 
             if (!gymFacade.login(username, oldPassword)) {
-                throw new AuthenticationFailedException("Wrong old password. Please try again.");
+                throw new AuthenticationException("Wrong old password. Please try again.");
             }
             if (!newPassword.equals(newPasswordRepeat)) {
-                throw new AuthenticationFailedException("Your passwords aren't matching");
+                throw new AuthenticationException("Your passwords aren't matching");
             }
             gymFacade.changeUserPassword(username, newPassword);
             logger.info("Password for user {} has been successfully updated\n", username);
             CLIHelper.displaySeparator();
-        } catch (AuthenticationFailedException e) {
+        } catch (AuthenticationException e) {
             logger.error("🛑 Authentication Failed: {}\n", e.getMessage());
         } catch (Exception e) {
             logger.error("An unexpected error occurred: {}\n", e.getMessage());

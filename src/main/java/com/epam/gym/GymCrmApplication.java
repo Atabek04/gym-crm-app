@@ -1,7 +1,6 @@
 package com.epam.gym;
 
-import com.epam.gym.cli.GymCLI;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -9,10 +8,9 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = "com.epam.gym")
+@Slf4j
 public class GymCrmApplication {
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(GymCrmApplication.class);
-        var gymCLI = context.getBean(GymCLI.class);
-        gymCLI.start();
+
     }
 }
