@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> create(User user) {
         Optional<User> userOptional;
-        log.info("UserService:: Saving the user");
         if (user.getId() != null) {
             userOptional = userDAO.update(user, user.getId());
         } else {

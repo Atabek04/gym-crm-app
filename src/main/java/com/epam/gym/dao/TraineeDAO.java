@@ -10,4 +10,6 @@ public interface TraineeDAO extends BaseDAO<Trainee> {
     Optional<Trainee> findByUsername(String username);
 
     List<Optional<Trainer>> getAssignedTrainers(String username);
+
+    void delete(String username);
 }

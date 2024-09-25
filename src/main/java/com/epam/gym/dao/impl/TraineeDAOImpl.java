@@ -58,4 +58,25 @@ public class TraineeDAOImpl extends AbstractDAO<Trainee> implements TraineeDAO {
         }
     }
 
+    @Override
+    public void delete(String username) {
+        try {
+            String hql = "from Trainee t where t.user.username = :username";
+            var trainee = sessionFactory.getCurrentSession()
+                    .createQuery(hql, Trainee.class)
+                    .setParameter("username", username)
+                    .uniqueResult();
+
+            if (trainee != null) {
+                sessionFactory.getCurrentSession().remove(trainee);
+                log.info("Trainee and associated user with username {} have been deleted", username);
+            } else {
+                log.warn("Trainee with username {} not found", username);
+            }
+        } catch (Exception e) {
+            log.error("TraineeDAOImpl:: Error deleting trainee with username {}: {}", username, e.getMessage());
+            throw e;
+        }
+    }
+
 }
