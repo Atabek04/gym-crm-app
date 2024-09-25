@@ -3,6 +3,7 @@ package com.epam.gym.service.impl;
 import com.epam.gym.dao.TraineeDAO;
 import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.model.Trainee;
+import com.epam.gym.model.Trainer;
 import com.epam.gym.service.TraineeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,16 @@ public class TraineeServiceImpl implements TraineeService {
     @Override
     public void delete(Long id) {
         traineeDAO.delete(id);
+    }
+
+    @Override
+    public Optional<Trainee> findByUsername(String username) {
+        return traineeDAO.findByUsername(username);
+    }
+
+    @Override
+    public List<Optional<Trainer>> getAssignedTrainers(String username) {
+        return traineeDAO.getAssignedTrainers(username);
     }
 
 }

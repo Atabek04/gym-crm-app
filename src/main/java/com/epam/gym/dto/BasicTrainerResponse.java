@@ -2,15 +2,12 @@ package com.epam.gym.dto;
 
 import lombok.Builder;
 
-import java.util.List;
-
 @Builder
-public record TrainerResponse(
+public record BasicTrainerResponse(
         String firstName,
         String lastName,
         String username,
         boolean isActive,
-        String specialization,
-        List<BasicTraineeResponse> trainees
+        String specialization
 ) {
 }

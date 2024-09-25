@@ -55,28 +55,6 @@ public class TraineeCLI {
         }
     }
 
-    public void updateTrainee(Scanner scanner) {
-        try {
-            Long traineeId = readLong(scanner, "Enter Trainee ID: ");
-            if (isValidTraineeId(traineeId)) {
-                return;
-            }
-
-            String firstName = readString(scanner, "Enter First Name: ");
-            String lastName = readString(scanner, "Enter Last Name: ");
-            LocalDate dateOfBirth = readDate(scanner);
-            String address = readString(scanner, "Enter Address: ");
-
-            TraineeRequest request = new TraineeRequest(address, firstName, lastName, dateOfBirth);
-            gymFacade.updateTrainee(request, traineeId);
-            log.info("Trainee updated successfully.");
-            displaySeparator();
-        } catch (ResourceNotFoundException ex) {
-            log.error("Resource not found: {}", ex.getMessage());
-        } catch (Exception ex) {
-            log.error("An unexpected error occurred: {}", ex.getMessage());
-        }
-    }
 
     public void findTraineeById(Scanner scanner) {
         try {
@@ -107,31 +85,4 @@ public class TraineeCLI {
         }
     }
 
-    public void deleteTraineeById(Scanner scanner) {
-        try {
-            Long id = readLong(scanner, "Enter Trainee ID to Delete: ");
-            if (isValidTraineeId(id)) {
-                return;
-            }
-            gymFacade.deleteTrainee(id);
-            log.info("Trainee deleted successfully.");
-            displaySeparator();
-        } catch (ResourceNotFoundException ex) {
-            log.error("Resource not found: {}", ex.getMessage());
-        } catch (Exception ex) {
-            log.error("An unexpected error occurred: {}", ex.getMessage());
-        }
-    }
-
-    public boolean isValidTraineeId(Long traineeId) {
-        boolean exists = gymFacade.findAllTrainees()
-                .stream()
-                .anyMatch(trainee -> trainee.traineeID().equals(traineeId));
-
-        if (!exists) {
-            log.warn("Trainee with ID {} does not exist. Please enter a valid Trainee ID.", traineeId);
-        }
-
-        return !exists;
-    }
 }

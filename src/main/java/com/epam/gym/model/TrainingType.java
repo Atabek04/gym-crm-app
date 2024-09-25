@@ -30,4 +30,13 @@ public enum TrainingType {
         }
         throw new IllegalArgumentException("Invalid TrainingType ID: " + id);
     }
+
+    public static boolean isValid(String value) {
+        for (TrainingType type : TrainingType.values()) {
+            if (type.name().equalsIgnoreCase(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

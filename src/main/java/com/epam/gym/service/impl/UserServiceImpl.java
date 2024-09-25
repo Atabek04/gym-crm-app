@@ -1,6 +1,8 @@
 package com.epam.gym.service.impl;
 
 import com.epam.gym.dao.UserDAO;
+import com.epam.gym.dto.UserNewPasswordCredentials;
+import com.epam.gym.exception.AuthenticationException;
 import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.model.User;
 import com.epam.gym.service.UserService;
@@ -43,8 +45,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> update(User user, Long id) {
-        var oldUser = userDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-
+        var oldUser = userDAO.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
         user.setUsername(oldUser.getUsername());
         user.setPassword(oldUser.getPassword());
         return userDAO.update(user, id);
@@ -88,5 +90,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findUserByUsername(String username) {
         return userDAO.findUserByUsername(username);
+    }
+
+    @Override
+    public void validateAndChangePassword(UserNewPasswordCredentials credentials) {
+        var user = findUserByUsername(credentials.username())
+                .orElseThrow(() -> new ResourceNotFoundException("User with this username not found"));
+        if (user.getPassword().equals(credentials.oldPassword())) {
+            changePassword(credentials.username(), credentials.newPassword());
+        } else {
+            throw new AuthenticationException("Failed to auth. Wrong old password");
+        }
     }
 }

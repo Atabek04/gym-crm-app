@@ -1,11 +1,15 @@
 package com.epam.gym.mapper;
 
+import com.epam.gym.dto.BasicTraineeResponse;
 import com.epam.gym.dto.TrainerRequest;
 import com.epam.gym.dto.TrainerResponse;
+import com.epam.gym.model.Trainee;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.model.TrainingType;
 import com.epam.gym.model.User;
 import lombok.experimental.UtilityClass;
+
+import java.util.List;
 
 @UtilityClass
 public class TrainerMapper {
@@ -16,14 +20,25 @@ public class TrainerMapper {
                 .build();
     }
 
-    public static TrainerResponse toTrainerResponse(Trainer trainer) {
+    public static TrainerResponse toTrainerResponse(Trainer trainer, List<Trainee> trainees) {
+        var traineeList = trainees.stream()
+                .map(trainee -> BasicTraineeResponse.builder()
+                        .username(trainee.getUser().getUsername())
+                        .firstName(trainee.getUser().getFirstName())
+                        .lastName(trainee.getUser().getLastName())
+                        .dateOfBirth(trainee.getDateOfBirth())
+                        .address(trainee.getAddress())
+                        .isActive(trainee.getUser().isActive())
+                        .build())
+                .toList();
+
         return TrainerResponse.builder()
-                .trainerId(trainer.getId())
                 .firstName(trainer.getUser().getFirstName())
                 .lastName(trainer.getUser().getLastName())
                 .username(trainer.getUser().getUsername())
                 .isActive(trainer.getUser().isActive())
                 .specialization(trainer.getTrainingType().toString())
+                .trainees(traineeList)
                 .build();
     }
 }

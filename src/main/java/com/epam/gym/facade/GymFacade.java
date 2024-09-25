@@ -81,14 +81,14 @@ public class GymFacade {
     public TraineeResponse findTraineeById(Long id) {
         var trainee = traineeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee not found"));
-        return toTraineeResponse(trainee);
+        return toTraineeResponse(trainee, null);
     }
 
     public List<TraineeResponse> findAllTrainees() {
         return traineeService.findAll()
                 .stream()
                 .sorted(Comparator.comparing(Trainee::getId))
-                .map(TraineeMapper::toTraineeResponse)
+                .map(trainee -> toTraineeResponse(trainee, null))
                 .toList();
     }
 
@@ -124,14 +124,14 @@ public class GymFacade {
     public TrainerResponse findTrainerById(Long id) {
         var trainer = trainerService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainer not found"));
-        return toTrainerResponse(trainer);
+        return toTrainerResponse(trainer, null);
     }
 
     public List<TrainerResponse> findAllTrainers() {
         return trainerService.findAll()
                 .stream()
                 .sorted(Comparator.comparing(Trainer::getId))
-                .map(TrainerMapper::toTrainerResponse)
+                .map(trainer -> toTrainerResponse(trainer, null))
                 .toList();
     }
 
@@ -172,7 +172,7 @@ public class GymFacade {
 
     public List<TrainerResponse> listAllFreeTrainers(String username) {
         List<Trainer> trainers = trainerService.findAllFreeTrainers(username);
-        return trainers.stream().map(TrainerMapper::toTrainerResponse).toList();
+        return trainers.stream().map(trainer -> toTrainerResponse(trainer, null)).toList();
     }
 
     public void activateUser(String username) {

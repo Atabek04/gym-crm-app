@@ -42,31 +42,6 @@ public class TrainingCLI {
     private final GymFacade gymFacade;
 
 
-    public void createTraining(Scanner scanner) {
-        try {
-            Long trainerId = readLong(scanner, "Enter Trainer ID: ");
-            if (isValidTrainerId(trainerId)) {
-                return;
-            }
-            Long traineeId = readLong(scanner, "Enter Trainee ID: ");
-            if (isValidTraineeId(traineeId)) {
-                return;
-            }
-            String trainingName = readString(scanner, "Enter Training Name: ");
-            TrainingType trainingType = readEnum(scanner);
-            ZonedDateTime trainingDate = readDateTime(scanner);
-            Long trainingDuration = readLong(scanner, "Enter Training Duration (in minutes): ");
-
-            TrainingRequest request = new TrainingRequest(traineeId, trainerId, trainingName, trainingType, trainingDate, trainingDuration);
-            gymFacade.saveTraining(request);
-            log.info("Training created successfully.");
-            displaySeparator();
-        } catch (ResourceNotFoundException ex) {
-            log.error("Resource not found: {}", ex.getMessage());
-        } catch (Exception ex) {
-            log.error("An unexpected error occurred: {}", ex.getMessage());
-        }
-    }
 
     public void findTrainingById(Scanner scanner) {
         try {
@@ -95,30 +70,6 @@ public class TrainingCLI {
         } catch (Exception ex) {
             log.error("An unexpected error occurred: {}", ex.getMessage());
         }
-    }
-
-    public boolean isValidTrainerId(Long trainerId) {
-        boolean exists = gymFacade.findAllTrainers()
-                .stream()
-                .anyMatch(trainer -> trainer.trainerId().equals(trainerId));
-
-        if (!exists) {
-            log.warn("Trainer with ID {} does not exist. Please enter a valid Trainer ID.", trainerId);
-        }
-
-        return !exists;
-    }
-
-    public boolean isValidTraineeId(Long traineeId) {
-        boolean exists = gymFacade.findAllTrainees()
-                .stream()
-                .anyMatch(trainee -> trainee.traineeID().equals(traineeId));
-
-        if (!exists) {
-            log.warn("Trainee with ID {} does not exist. Please enter a valid Trainee ID.", traineeId);
-        }
-
-        return !exists;
     }
 
     public void listAllTrainingsByCriteria(Scanner scanner) {
