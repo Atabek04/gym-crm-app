@@ -4,7 +4,7 @@ package com.epam.gym.controller;
 import com.epam.gym.dto.BasicTrainerResponse;
 import com.epam.gym.dto.TraineeRequest;
 import com.epam.gym.dto.TraineeResponse;
-import com.epam.gym.dto.TraineeStatusRequest;
+import com.epam.gym.dto.UserStatusRequest;
 import com.epam.gym.dto.TraineeTrainingFilterRequest;
 import com.epam.gym.dto.TraineeUpdateRequest;
 import com.epam.gym.dto.TrainingResponse;
@@ -110,7 +110,7 @@ public class TraineeController {
     @PatchMapping("/{username}/status")
     public ResponseEntity<Void> updateTraineeStatus(
             @PathVariable("username") String username,
-            @RequestBody @Valid TraineeStatusRequest traineeStatusRequest
+            @RequestBody @Valid UserStatusRequest traineeStatusRequest
     ) {
         traineeService.updateTraineeStatus(username, traineeStatusRequest.isActive());
         return ResponseEntity.ok().build();

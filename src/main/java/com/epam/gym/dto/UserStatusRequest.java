@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
-public record TraineeStatusRequest(
+public record UserStatusRequest(
         @NotNull(message = "isActive field is required")
         Boolean isActive
 ) {
