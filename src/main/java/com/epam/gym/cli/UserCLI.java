@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -29,6 +30,7 @@ import static com.epam.gym.cli.CLIHelper.showUserLoginInfo;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+@Lazy
 public class UserCLI {
     private static final Logger logger = LoggerFactory.getLogger("prompt-logger");
     private final GymFacade gymFacade;

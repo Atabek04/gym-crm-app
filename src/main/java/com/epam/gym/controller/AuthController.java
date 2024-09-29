@@ -20,9 +20,7 @@ public class AuthController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public ResponseEntity<String> login(
-            @Valid @RequestBody UserCredentials credentials
-    ) {
+    public ResponseEntity<String> login(@Valid @RequestBody UserCredentials credentials) {
         var user = userService.findByUsernameAndPassword(credentials.username(), credentials.password());
         if (user.isPresent()) {
             return ResponseEntity.ok("Successful Login!");
@@ -32,9 +30,7 @@ public class AuthController {
     }
 
     @PutMapping("/password")
-    public ResponseEntity<String> changePassword(
-            @Valid @RequestBody UserNewPasswordCredentials credentials
-    ) {
+    public ResponseEntity<String> changePassword(@Valid @RequestBody UserNewPasswordCredentials credentials) {
         userService.validateAndChangePassword(credentials);
         return ResponseEntity.ok("User's new password is updated successfully");
     }

@@ -23,7 +23,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         try {
             authService.authenticate(authHeader);
         } catch (AuthenticationException e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
             return false;
         }
 
