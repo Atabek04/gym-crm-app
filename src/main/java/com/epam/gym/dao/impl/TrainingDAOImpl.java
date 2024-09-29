@@ -2,6 +2,7 @@ package com.epam.gym.dao.impl;
 
 import com.epam.gym.dao.AbstractDAO;
 import com.epam.gym.dao.TrainingDAO;
+import com.epam.gym.dto.TraineeTrainingFilterRequest;
 import com.epam.gym.model.Training;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -61,6 +62,33 @@ public class TrainingDAOImpl extends AbstractDAO<Training> implements TrainingDA
 
         TypedQuery<Training> query = getCurrentSession().createQuery(cq);
 
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Training> findTrainingsByFilters(Long traineeId, TraineeTrainingFilterRequest filterRequest) {
+        var session = sessionFactory.getCurrentSession();
+        var criteriaBuilder = session.getCriteriaBuilder();
+        var criteriaQuery = criteriaBuilder.createQuery(Training.class);
+        var root = criteriaQuery.from(Training.class);
+        var predicates = new ArrayList<Predicate>();
+
+        predicates.add(criteriaBuilder.equal(root.get("trainee").get("id"), traineeId));
+        if (filterRequest.getPeriodFrom() != null) {
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("trainingDate"), filterRequest.getPeriodFrom()));
+        }
+        if (filterRequest.getPeriodTo() != null) {
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("trainingDate"), filterRequest.getPeriodTo()));
+        }
+        if (filterRequest.getTrainerName() != null) {
+            predicates.add(criteriaBuilder.equal(root.get("trainer").get("user").get("username"), filterRequest.getTrainerName()));
+        }
+        if (filterRequest.getTrainingType() != null) {
+            predicates.add(criteriaBuilder.equal(root.get("trainingTypeId"), filterRequest.getTrainingType().getId()));
+        }
+
+        criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
+        var query = session.createQuery(criteriaQuery);
         return query.getResultList();
     }
 }

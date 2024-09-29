@@ -1,9 +1,12 @@
 package com.epam.gym.service;
 
 
+import com.epam.gym.dto.BasicTrainerResponse;
 import com.epam.gym.dto.TraineeRequest;
 import com.epam.gym.dto.TraineeResponse;
+import com.epam.gym.dto.TraineeTrainingFilterRequest;
 import com.epam.gym.dto.TraineeUpdateRequest;
+import com.epam.gym.dto.TrainingResponse;
 import com.epam.gym.dto.UserCredentials;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.model.Trainer;
@@ -36,4 +39,13 @@ public interface TraineeService {
     void delete(Long id);
 
     void delete(String username);
+
+
+    List<BasicTrainerResponse> getNotAssignedTrainers(String username);
+
+    void updateTrainers(String username, List<String> trainerUsernames);
+
+    List<TrainingResponse> getTraineeTrainings(String username, TraineeTrainingFilterRequest filterRequest);
+
+    void updateTraineeStatus(String username, Boolean active);
 }

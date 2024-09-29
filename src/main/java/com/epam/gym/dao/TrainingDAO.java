@@ -1,5 +1,6 @@
 package com.epam.gym.dao;
 
+import com.epam.gym.dto.TraineeTrainingFilterRequest;
 import com.epam.gym.model.Training;
 
 import java.time.LocalDate;
@@ -15,4 +16,6 @@ public interface TrainingDAO extends BaseDAO<Training> {
                                            String sortBy,
                                            boolean ascending
     );
+
+    List<Training> findTrainingsByFilters(Long id, TraineeTrainingFilterRequest filterRequest);
 }

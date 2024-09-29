@@ -12,4 +12,6 @@ public interface TraineeDAO extends BaseDAO<Trainee> {
     List<Optional<Trainer>> getAssignedTrainers(String username);
 
     void delete(String username);
+
+    List<Trainer> getNotAssignedTrainers(String username);
 }

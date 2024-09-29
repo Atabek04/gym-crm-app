@@ -1,6 +1,7 @@
 package com.epam.gym.mapper;
 
 import com.epam.gym.dto.BasicTraineeResponse;
+import com.epam.gym.dto.BasicTrainerResponse;
 import com.epam.gym.dto.TrainerRequest;
 import com.epam.gym.dto.TrainerResponse;
 import com.epam.gym.model.Trainee;
@@ -39,6 +40,16 @@ public class TrainerMapper {
                 .isActive(trainer.getUser().isActive())
                 .specialization(trainer.getTrainingType().toString())
                 .trainees(traineeList)
+                .build();
+    }
+
+    public static BasicTrainerResponse toBasicTrainerResponse(Trainer trainer) {
+        return BasicTrainerResponse.builder()
+                .firstName(trainer.getUser().getFirstName())
+                .lastName(trainer.getUser().getLastName())
+                .username(trainer.getUser().getUsername())
+                .specialization(trainer.getTrainingType().toString())
+                .isActive(trainer.getUser().isActive())
                 .build();
     }
 }
