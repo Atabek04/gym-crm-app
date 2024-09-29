@@ -47,10 +47,11 @@ public class TraineeServiceImpl implements TraineeService {
     @Transactional
     @Override
     public UserCredentials create(TraineeRequest request) {
+        log.info("Creating trainee: {}", request.firstName().concat(" ").concat(request.lastName()));
         var createdUser = userService.create(toUser(request))
                 .orElseThrow(() -> new IllegalStateException("Failed to create user"));
         traineeDAO.save(toTrainee(request, createdUser));
-
+        log.info("Trainee created successfully with username: {}", createdUser.getUsername());
         return UserCredentials.builder()
                 .username(createdUser.getUsername())
                 .password(createdUser.getPassword())
@@ -59,34 +60,37 @@ public class TraineeServiceImpl implements TraineeService {
 
     @Override
     public Optional<Trainee> create(Trainee trainee) {
-        log.debug("Creating trainee with ID: {}", trainee.getId());
+        log.info("Creating trainee with ID: {}", trainee.getId());
         return traineeDAO.save(trainee);
     }
 
     @Override
     public void update(Trainee trainee, Long id) {
-        var oldTrainee = findById(id);
-        if (oldTrainee.isEmpty()) {
-            throw new ResourceNotFoundException("Trainee not found");
-        }
         traineeDAO.update(trainee, id);
+        log.info("Trainee with ID: {} updated successfully.", id);
     }
 
     @Override
     public TraineeResponse updateTraineeAndUser(TraineeUpdateRequest request, String username) {
+        log.info("Updating trainee and user for username: {}", username);
         var oldTrainee = findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee with this username not found"));
+
         var updatedUser = userService.update(toUser(request), oldTrainee.getUser().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User with this username not found"));
+
         update(toTrainee(request, updatedUser), oldTrainee.getId());
 
+        log.info("Fetching assigned trainers for trainee: {}", username);
         var trainerList = getAssignedTrainers(username)
                 .stream()
                 .map(trainer -> trainer.orElseThrow(() -> new ResourceNotFoundException("Trainer is null")))
                 .toList();
+
         var updatedTrainee = findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee with this username not found"));
 
+        log.info("Trainee and user updated successfully for username: {}", username);
         return toTraineeResponse(updatedTrainee, trainerList);
     }
 
@@ -97,49 +101,32 @@ public class TraineeServiceImpl implements TraineeService {
 
     @Override
     public List<Trainee> findAll() {
+        log.info("Fetching all trainees.");
         return traineeDAO.findAll();
     }
 
     @Override
     public Optional<Trainee> findByUsername(String username) {
+        log.info("Fetching trainee by username: {}", username);
         return traineeDAO.findByUsername(username);
     }
 
-    @Transactional
     @Override
-    public TraineeResponse getTraineeAndTrainers(String username) {
-        var trainerList = getAssignedTrainers(username)
-                .stream()
-                .map(trainer -> trainer.orElseThrow(() -> new ResourceNotFoundException("Trainer is null")))
-                .toList();
-        var trainee = findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("Trainee not found"));
-        return toTraineeResponse(trainee, trainerList);
-    }
+    public void updateTraineeStatus(String username, Boolean isActive) {
+        log.info("Updating trainee status for username: {}", username);
+        var trainee = traineeDAO.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Trainee with username " + username + " not found"));
 
-    @Override
-    public List<Optional<Trainer>> getAssignedTrainers(String username) {
-        return traineeDAO.getAssignedTrainers(username);
-    }
+        var user = trainee.getUser();
+        user.setActive(isActive);
+        userService.update(user, user.getId());
 
-    @Override
-    public void delete(Long id) {
-        traineeDAO.delete(id);
-    }
-
-    @Override
-    public void delete(String username) {
-        traineeDAO.delete(username);
-    }
-
-    @Override
-    public List<BasicTrainerResponse> getNotAssignedTrainers(String username) {
-        return traineeDAO.getNotAssignedTrainers(username).stream()
-                .map(TrainerMapper::toBasicTrainerResponse)
-                .toList();
+        log.info("Trainee {} has been {}.", username, Boolean.TRUE.equals(isActive) ? "activated" : "deactivated");
     }
 
     @Override
     public void updateTrainers(String username, List<String> trainerUsernames) {
+        log.info("Updating trainers for trainee: {}", username);
         Trainee trainee = traineeDAO.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee with username " + username + " not found"));
 
@@ -162,16 +149,48 @@ public class TraineeServiceImpl implements TraineeService {
                 training.setTrainingDuration(DUMMY_TRAINING_DURATION);
 
                 trainingDAO.save(training);
+                log.info("Training created for trainee: {} with trainer: {}", username, trainerUsername);
             }
         }
 
         if (!notFoundTrainers.isEmpty()) {
+            log.warn("Some trainers not found: {}", notFoundTrainers);
             throw new ResourceNotFoundException("Trainers not found: " + String.join(", ", notFoundTrainers));
         }
     }
 
+    @Transactional
+    @Override
+    public TraineeResponse getTraineeAndTrainers(String username) {
+        log.info("Fetching trainee and trainers by username: {}", username);
+        var trainerList = getAssignedTrainers(username)
+                .stream()
+                .map(trainer -> trainer.orElseThrow(() -> new ResourceNotFoundException("Trainer is null")))
+                .toList();
+
+        var trainee = findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Trainee not found"));
+        log.info("Successfully fetched trainee and trainers for username: {}", username);
+        return toTraineeResponse(trainee, trainerList);
+    }
+
+    @Override
+    public List<Optional<Trainer>> getAssignedTrainers(String username) {
+        return traineeDAO.getAssignedTrainers(username);
+    }
+
+    @Override
+    public List<BasicTrainerResponse> getNotAssignedTrainers(String username) {
+        log.info("Fetching not assigned trainers for trainee: {}", username);
+        return traineeDAO.getNotAssignedTrainers(username)
+                .stream()
+                .map(TrainerMapper::toBasicTrainerResponse)
+                .toList();
+    }
+
     @Override
     public List<TrainingResponse> getTraineeTrainings(String username, TraineeTrainingFilterRequest filterRequest) {
+        log.info("Fetching trainings for trainee: {} with filters: {}", username, filterRequest);
         Trainee trainee = traineeDAO.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee with username " + username + " not found"));
 
@@ -182,13 +201,16 @@ public class TraineeServiceImpl implements TraineeService {
     }
 
     @Override
-    public void updateTraineeStatus(String username, Boolean isActive) {
-        var trainee = traineeDAO.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("Trainee with username " + username + " not found"));
-        var user = trainee.getUser();
-        user.setActive(isActive);
-        userService.update(user, user.getId());
-        log.info("Trainee {} has been {}.", username, Boolean.TRUE.equals(isActive) ? "activated" : "deactivated");
+    public void delete(Long id) {
+        log.info("Deleting trainee with ID: {}", id);
+        traineeDAO.delete(id);
+        log.info("Trainee with ID: {} deleted successfully.", id);
     }
 
+    @Override
+    public void delete(String username) {
+        log.info("Deleting trainee by username: {}", username);
+        traineeDAO.delete(username);
+        log.info("Trainee with username: {} deleted successfully.", username);
+    }
 }

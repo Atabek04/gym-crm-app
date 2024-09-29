@@ -4,11 +4,11 @@ package com.epam.gym.controller;
 import com.epam.gym.dto.BasicTrainerResponse;
 import com.epam.gym.dto.TraineeRequest;
 import com.epam.gym.dto.TraineeResponse;
-import com.epam.gym.dto.UserStatusRequest;
 import com.epam.gym.dto.TraineeTrainingFilterRequest;
 import com.epam.gym.dto.TraineeUpdateRequest;
 import com.epam.gym.dto.TrainingResponse;
 import com.epam.gym.dto.UserCredentials;
+import com.epam.gym.dto.UserStatusRequest;
 import com.epam.gym.security.Secured;
 import com.epam.gym.security.UserRole;
 import com.epam.gym.service.TraineeService;
@@ -44,14 +44,18 @@ public class TraineeController {
     @Secured({UserRole.ROLE_TRAINEE})
     @PostMapping
     public ResponseEntity<UserCredentials> createTrainee(@Valid @RequestBody TraineeRequest request) {
+        log.info("Request to create new trainee: {}", request.firstName().concat(" ").concat(request.lastName()));
         var userCredential = traineeService.create(request);
+        log.info("Trainee created successfully: {}", request.firstName().concat(" ").concat(request.lastName()));
         return ResponseEntity.status(CREATED).body(userCredential);
     }
 
     @Secured({UserRole.ROLE_TRAINEE})
     @GetMapping("/{username}")
     public ResponseEntity<TraineeResponse> getTraineeByUsername(@Size(min = 2) @PathVariable String username) {
+        log.info("Fetching details for trainee: {}", username);
         var trainee = traineeService.getTraineeAndTrainers(username);
+        log.info("Successfully fetched details for trainee: {}", username);
         return ResponseEntity.ok(trainee);
     }
 
@@ -61,19 +65,22 @@ public class TraineeController {
             @Size(min = 2) @PathVariable String username,
             @Valid @RequestBody TraineeUpdateRequest request
     ) {
+        log.info("Updating trainee: {}", username);
         var trainer = traineeService.updateTraineeAndUser(request, username);
+        log.info("Successfully updated trainee: {}", username);
         return ResponseEntity.ok(trainer);
     }
 
     @Secured({UserRole.ROLE_TRAINEE})
     @DeleteMapping("/{username}")
-    public ResponseEntity<String> deleteTrainee(
-            @PathVariable String username
-    ) {
+    public ResponseEntity<String> deleteTrainee(@PathVariable String username) {
+        log.info("Request to delete trainee: {}", username);
         if (traineeService.findByUsername(username).isEmpty()) {
+            log.warn("Trainee not found: {}", username);
             return ResponseEntity.status(NOT_FOUND).body("Trainee with this username not found");
         }
         traineeService.delete(username);
+        log.info("Trainee deleted successfully: {}", username);
         return ResponseEntity.status(NO_CONTENT).body("Trainee deleted successfully");
     }
 
@@ -82,18 +89,19 @@ public class TraineeController {
     public ResponseEntity<TraineeResponse> updateTrainers(
             @Size(min = 2) @PathVariable String username,
             @RequestBody List<String> trainerUsernames) {
-        log.info("Updating trainers for trainee with username: {}", username);
+        log.info("Updating trainers for trainee: {}", username);
         traineeService.updateTrainers(username, trainerUsernames);
         var updatedTrainee = traineeService.getTraineeAndTrainers(username);
+        log.info("Successfully updated trainers for trainee: {}", username);
         return ResponseEntity.ok(updatedTrainee);
     }
 
     @Secured({UserRole.ROLE_TRAINEE})
     @GetMapping("/{username}/trainers")
-    public ResponseEntity<List<BasicTrainerResponse>> getNotAssignedTrainers(
-            @Size(min = 2) @PathVariable String username) {
-        log.info("Fetching trainers not assigned to trainee with username: {}", username);
+    public ResponseEntity<List<BasicTrainerResponse>> getNotAssignedTrainers(@Size(min = 2) @PathVariable String username) {
+        log.info("Fetching not assigned trainers for trainee: {}", username);
         List<BasicTrainerResponse> notAssignedTrainers = traineeService.getNotAssignedTrainers(username);
+        log.info("Successfully fetched not assigned trainers for trainee: {}", username);
         return ResponseEntity.ok(notAssignedTrainers);
     }
 
@@ -102,8 +110,9 @@ public class TraineeController {
     public ResponseEntity<List<TrainingResponse>> getTraineeTrainings(
             @Size(min = 2) @PathVariable String username,
             @Valid @RequestBody TraineeTrainingFilterRequest filterRequest) {
-        log.info("Fetching trainings for trainee with username: {} using filters: {}", username, filterRequest);
+        log.info("Fetching trainings for trainee: {} with filters: {}", username, filterRequest);
         List<TrainingResponse> trainings = traineeService.getTraineeTrainings(username, filterRequest);
+        log.info("Successfully fetched trainings for trainee: {}", username);
         return ResponseEntity.ok(trainings);
     }
 
@@ -112,8 +121,9 @@ public class TraineeController {
             @PathVariable("username") String username,
             @RequestBody @Valid UserStatusRequest traineeStatusRequest
     ) {
+        log.info("Updating status for trainee: {}", username);
         traineeService.updateTraineeStatus(username, traineeStatusRequest.isActive());
+        log.info("Successfully updated status for trainee: {}", username);
         return ResponseEntity.ok().build();
     }
-
 }
