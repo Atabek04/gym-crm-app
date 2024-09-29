@@ -16,7 +16,7 @@ public class TrainingMapper {
                 .trainee(trainee)
                 .trainer(trainer)
                 .trainingName(trainingRequest.trainingName())
-                .trainingTypeId(trainingRequest.trainingType().getId())
+                .trainingTypeId(trainer.getTrainingTypeId())
                 .trainingDate(ZonedDateTime.from(trainingRequest.trainingDate()))
                 .trainingDuration(trainingRequest.trainingDuration())
                 .build();

@@ -4,6 +4,7 @@ import com.epam.gym.dao.AbstractDAO;
 import com.epam.gym.dao.TrainingDAO;
 import com.epam.gym.dto.TraineeTrainingFilterRequest;
 import com.epam.gym.model.Training;
+import com.epam.gym.model.TrainingTypeEntity;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -90,5 +91,11 @@ public class TrainingDAOImpl extends AbstractDAO<Training> implements TrainingDA
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
         var query = session.createQuery(criteriaQuery);
         return query.getResultList();
+    }
+
+    @Override
+    public List<TrainingTypeEntity> getAllTrainingTypes() {
+        String queryStr = "SELECT new TrainingTypeEntity(t.id, t.trainingTypeName) FROM TrainingTypeEntity t";
+        return getCurrentSession().createQuery(queryStr, TrainingTypeEntity.class).getResultList();
     }
 }
