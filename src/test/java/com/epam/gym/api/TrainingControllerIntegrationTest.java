@@ -70,14 +70,14 @@ class TrainingControllerIntegrationTest {
     @Order(1)
     void givenValidTrainingRequest_whenCreateTraining_thenStatusCreated() throws Exception {
         String trainingRequestJson = """
-        {
-          "traineeUsername": "Man.Super",
-          "trainerUsername": "Otabek.Shadimatov",
-          "trainingName": "Cardio Session",
-          "trainingDate": "2023-10-01T10:00:00Z",
-          "trainingDuration": 60
-        }
-        """;
+                {
+                  "traineeUsername": "Man.Super",
+                  "trainerUsername": "Otabek.Shadimatov",
+                  "trainingName": "Cardio Session",
+                  "trainingDate": "2023-10-01T10:00:00Z",
+                  "trainingDuration": 60
+                }
+                """;
 
 
         mockMvc.perform(post("/v1/trainings")
@@ -118,13 +118,13 @@ class TrainingControllerIntegrationTest {
     void givenInvalidTrainingRequest_whenCreateTraining_thenStatusBadRequest() throws Exception {
         // Missing required field "trainerUsername"
         String invalidTrainingRequestJson = """
-        {
-          "traineeUsername": "Man.Super",
-          "trainingName": "Cardio Session",
-          "trainingDate": "2023-10-01T10:00:00Z",
-          "trainingDuration": 60
-        }
-        """;
+                {
+                  "traineeUsername": "Man.Super",
+                  "trainingName": "Cardio Session",
+                  "trainingDate": "2023-10-01T10:00:00Z",
+                  "trainingDuration": 60
+                }
+                """;
 
         mockMvc.perform(post("/v1/trainings")
                         .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader())

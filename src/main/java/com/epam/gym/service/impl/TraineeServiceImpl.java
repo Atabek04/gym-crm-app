@@ -135,31 +135,24 @@ public class TraineeServiceImpl implements TraineeService {
     public void updateTrainers(String username, List<String> trainerUsernames) {
         log.info("Updating trainers for trainee: {}", username);
 
-        // Fetch the trainee
         Trainee trainee = traineeDAO.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Trainee with username " + username + " not found"));
 
-        // Fetch current trainers assigned to the trainee
         List<Training> currentTrainings = trainingDAO.findByTraineeUsername(username);
         Set<String> currentTrainerUsernames = currentTrainings.stream()
                 .map(training -> training.getTrainer().getUser().getUsername())
                 .collect(Collectors.toSet());
 
-        // If the trainerUsernames list is empty, remove all current trainers
         if (trainerUsernames.isEmpty()) {
             log.info("Removing all trainers for trainee: {}", username);
             trainingDAO.deleteAll(currentTrainings);
             return;
         }
 
-        // To track not found trainers
         List<String> notFoundTrainers = new ArrayList<>();
 
-        // Find the new trainers and add them if necessary
         for (String trainerUsername : trainerUsernames) {
-            // Check if this trainer is already assigned
             if (!currentTrainerUsernames.contains(trainerUsername)) {
-                // Fetch the trainer
                 Trainer trainer = trainerDAO.findByUsername(trainerUsername)
                         .orElseGet(() -> {
                             notFoundTrainers.add(trainerUsername);
@@ -167,7 +160,6 @@ public class TraineeServiceImpl implements TraineeService {
                         });
 
                 if (trainer != null) {
-                    // Create new training if the trainer is found and not already assigned
                     Training training = new Training();
                     training.setTrainee(trainee);
                     training.setTrainer(trainer);
@@ -182,17 +174,15 @@ public class TraineeServiceImpl implements TraineeService {
             }
         }
 
-        // Remove trainers who are not in the new list of trainerUsernames
         List<Training> trainingsToRemove = currentTrainings.stream()
-                .filter(training -> !trainerUsernames.contains(training.getTrainer().getUser(). getUsername()))
-                .collect(Collectors.toList());
+                .filter(training -> !trainerUsernames.contains(training.getTrainer().getUser().getUsername()))
+                .toList();
 
         if (!trainingsToRemove.isEmpty()) {
             log.info("Removing trainers not in the new list for trainee: {}", username);
             trainingDAO.deleteAll(trainingsToRemove);
         }
 
-        // If there were any trainers that were not found, throw exception
         if (!notFoundTrainers.isEmpty()) {
             log.warn("Some trainers not found: {}", notFoundTrainers);
             throw new ResourceNotFoundException("Trainers not found: " + String.join(", ", notFoundTrainers));

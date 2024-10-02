@@ -99,12 +99,12 @@ class TrainerControllerIntegrationTest {
                 .build();
 
         String trainerRequestJson = """
-        {
-            "firstName": "Super",
-            "lastName": "Trainer",
-            "specialization": "CARDIO"
-        }
-        """;
+                {
+                    "firstName": "Super",
+                    "lastName": "Trainer",
+                    "specialization": "CARDIO"
+                }
+                """;
 
         when(trainerService.create(any(TrainerRequest.class))).thenReturn(mockUserCredentials);
 
@@ -122,10 +122,10 @@ class TrainerControllerIntegrationTest {
     @Order(2)
     void givenMissingRequiredFields_whenCreateTrainer_thenStatusBadRequest() throws Exception {
         String trainerRequestJson = """
-        {
-            "specialization": "CARDIO"
-        }
-        """;
+                {
+                    "specialization": "CARDIO"
+                }
+                """;
 
         mockMvc.perform(post("/v1/trainers")
                         .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader())
@@ -176,13 +176,13 @@ class TrainerControllerIntegrationTest {
     @Order(5)
     void givenValidTrainerUpdateRequest_whenUpdateTrainer_thenStatusOk() throws Exception {
         String updateRequestJson = """
-        {
-            "firstName": "NonSuper",
-            "lastName": "Trainer",
-            "specialization": "CROSSFIT",
-            "isActive": false
-        }
-        """;
+                {
+                    "firstName": "NonSuper",
+                    "lastName": "Trainer",
+                    "specialization": "CROSSFIT",
+                    "isActive": false
+                }
+                """;
 
         TrainerResponse mockResponse = TrainerResponse.builder()
                 .username("Super.Trainer")
@@ -210,13 +210,13 @@ class TrainerControllerIntegrationTest {
     @Order(6)
     void givenInvalidUpdateRequest_whenUpdateTrainer_thenStatusBadRequest() throws Exception {
         String invalidUpdateRequestJson = """
-        {
-            "firstName": "",
-            "lastName": "",
-            "specialization": "CROSSFIT",
-            "isActive": null
-        }
-        """;
+                {
+                    "firstName": "",
+                    "lastName": "",
+                    "specialization": "CROSSFIT",
+                    "isActive": null
+                }
+                """;
 
         mockMvc.perform(put("/v1/trainers/Super.Trainer")
                         .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader())
@@ -238,10 +238,10 @@ class TrainerControllerIntegrationTest {
         when(trainerService.findTrainerTrainingsByFilters(eq("Super.Trainer"), any())).thenReturn(mockTrainings);
 
         String filterRequestJson = """
-        {
-            "traineeName": "Halid"
-        }
-        """;
+                {
+                    "traineeName": "Halid"
+                }
+                """;
 
         mockMvc.perform(get("/v1/trainers/Super.Trainer/trainings")
                         .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader())
@@ -257,10 +257,10 @@ class TrainerControllerIntegrationTest {
     @Order(8)
     void givenValidStatusUpdate_whenUpdateTrainerStatus_thenStatusOk() throws Exception {
         String updateStatusRequestJson = """
-        {
-            "isActive": true
-        }
-        """;
+                {
+                    "isActive": true
+                }
+                """;
 
         mockMvc.perform(patch("/v1/trainers/Super.Trainer/status")
                         .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader())

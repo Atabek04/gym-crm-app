@@ -2,7 +2,7 @@ package com.epam.gym.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record UserNewPasswordCredentials (
+public record UserNewPasswordCredentials(
         @NotBlank(message = "Username is required")
         String username,
         @NotBlank(message = "Old Password is required")

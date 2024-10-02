@@ -9,7 +9,6 @@ import com.epam.gym.dto.TraineeUpdateRequest;
 import com.epam.gym.dto.TrainingResponse;
 import com.epam.gym.dto.UserCredentials;
 import com.epam.gym.dto.UserStatusRequest;
-import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.security.Secured;
 import com.epam.gym.security.UserRole;
 import com.epam.gym.service.TraineeService;

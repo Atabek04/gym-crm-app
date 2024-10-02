@@ -82,13 +82,13 @@ public class TraineeDAOImpl extends AbstractDAO<Trainee> implements TraineeDAO {
     @Override
     public List<Trainer> getNotAssignedTrainers(String username) {
         String hql = """
-            SELECT t FROM Trainer t
-            WHERE t.id NOT IN (
-                SELECT tr.trainer.id\s
-                FROM Training tr\s
-                WHERE tr.trainee.user.username = :username
-            )
-        """;
+                    SELECT t FROM Trainer t
+                    WHERE t.id NOT IN (
+                        SELECT tr.trainer.id\s
+                        FROM Training tr\s
+                        WHERE tr.trainee.user.username = :username
+                    )
+                """;
 
         return getCurrentSession().createQuery(hql, Trainer.class)
                 .setParameter("username", username)

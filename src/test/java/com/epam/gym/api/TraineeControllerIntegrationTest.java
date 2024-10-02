@@ -99,13 +99,13 @@ class TraineeControllerIntegrationTest {
                 .build();
 
         String traineeRequestJson = """
-        {
-            "firstName": "Halid",
-            "lastName": "Ismail",
-            "address": "Abu-Dhabi",
-            "dateOfBirth": "1990-01-01"
-        }
-     """;
+                   {
+                       "firstName": "Halid",
+                       "lastName": "Ismail",
+                       "address": "Abu-Dhabi",
+                       "dateOfBirth": "1990-01-01"
+                   }
+                """;
 
         when(traineeService.create(any(TraineeRequest.class))).thenReturn(mockUserCredentials);
 
@@ -123,11 +123,11 @@ class TraineeControllerIntegrationTest {
     @Order(2)
     void givenMissingRequiredFields_whenCreateTrainee_thenStatusBadRequest() throws Exception {
         String traineeRequestJson = """
-        {
-            "address": "123 Main St",
-            "dateOfBirth": "1990-01-01"
-        }
-    """;
+                    {
+                        "address": "123 Main St",
+                        "dateOfBirth": "1990-01-01"
+                    }
+                """;
 
         mockMvc.perform(post("/v1/trainees")
                         .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader())
@@ -176,14 +176,14 @@ class TraineeControllerIntegrationTest {
     @Order(5)
     void givenValidTraineeUpdateRequest_whenUpdateTrainee_thenStatusOk() throws Exception {
         String updateRequestJson = """
-        {
-            "firstName": "Valid",
-            "lastName": "Ibn Mubarak",
-            "address": "Abu-Dhabi",
-            "dateOfBirth": "1990-01-01",
-            "isActive": false
-        }
-    """;
+                    {
+                        "firstName": "Valid",
+                        "lastName": "Ibn Mubarak",
+                        "address": "Abu-Dhabi",
+                        "dateOfBirth": "1990-01-01",
+                        "isActive": false
+                    }
+                """;
 
         TraineeResponse mockResponse = TraineeResponse.builder()
                 .username("Halid.Ismail")
@@ -212,12 +212,12 @@ class TraineeControllerIntegrationTest {
     @Order(6)
     void givenInvalidUpdateRequest_whenUpdateTrainee_thenStatusBadRequest() throws Exception {
         String invalidUpdateRequestJson = """
-        {
-            "firstName": "V",
-            "lastName": "",
-            "isActive": null
-        }
-    """;
+                    {
+                        "firstName": "V",
+                        "lastName": "",
+                        "isActive": null
+                    }
+                """;
 
         mockMvc.perform(put("/v1/trainees/Halid.Ismail")
                         .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader())
@@ -305,10 +305,10 @@ class TraineeControllerIntegrationTest {
         when(traineeService.getTraineeTrainings(eq("Halid.Ismail"), any())).thenReturn(mockTrainings);
 
         String filterRequestJson = """
-        {
-            "trainingType": "CARDIO"
-        }
-    """;
+                    {
+                        "trainingType": "CARDIO"
+                    }
+                """;
 
         mockMvc.perform(get("/v1/trainees/Halid.Ismail/trainings")
                         .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader())
@@ -324,10 +324,10 @@ class TraineeControllerIntegrationTest {
     @Order(11)
     void givenValidStatusUpdate_whenUpdateTraineeStatus_thenStatusOk() throws Exception {
         String updateStatusRequestJson = """
-        {
-            "isActive": false
-        }
-    """;
+                    {
+                        "isActive": false
+                    }
+                """;
 
         mockMvc.perform(patch("/v1/trainees/Halid.Ismail/status")
                         .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader())

@@ -1,7 +1,6 @@
 package com.epam.gym.service;
 
 import com.epam.gym.dao.TraineeDAO;
-import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.service.impl.TraineeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

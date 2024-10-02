@@ -20,7 +20,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
                              @NonNull Object handler) {
         String transactionId = UUID.randomUUID().toString();
         MDC.put("transactionId", transactionId);
-        log.info("Starting transaction. Endpoint: {} ",  request.getRequestURI());
+        log.info("Starting transaction. Endpoint: {} ", request.getRequestURI());
         return true;
     }
 
