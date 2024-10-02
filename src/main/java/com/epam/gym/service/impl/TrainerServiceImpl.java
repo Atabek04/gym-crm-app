@@ -135,6 +135,11 @@ public class TrainerServiceImpl implements TrainerService {
     }
 
     @Override
+    public Optional<Trainer> findByUsername(String s) {
+        return trainerDAO.findByUsername(s);
+    }
+
+    @Override
     public List<Trainer> findAllFreeTrainers(String username) {
         log.info("Fetching all free trainers.");
         return trainerDAO.findAllFreeTrainers(username);

@@ -35,4 +35,6 @@ public interface TrainerService {
     List<TrainingResponse> findTrainerTrainingsByFilters(String username, TrainerTrainingFilterRequest filterRequest);
 
     void updateTrainerStatus(String username, Boolean active);
+
+    Optional<Trainer> findByUsername(String s);
 }

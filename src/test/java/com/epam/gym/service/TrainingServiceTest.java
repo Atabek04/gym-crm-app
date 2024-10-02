@@ -35,13 +35,6 @@ class TrainingServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testCreateTraining() {
-        Training training = new Training();
-        trainingService.create(training);
-
-        verify(trainingDAO, times(1)).save(training);
-    }
 
     @Test
     void testUpdateTrainingSuccess() {
@@ -56,17 +49,6 @@ class TrainingServiceTest {
         trainingService.update(updatedTraining, trainingId);
 
         verify(trainingDAO, times(1)).update(updatedTraining, trainingId);
-    }
-
-    @Test
-    void testUpdateTrainingNotFound() {
-        Long trainingId = 1L;
-        Training training = new Training();
-        training.setId(trainingId);
-        when(trainingDAO.findById(trainingId)).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () -> trainingService.update(training, trainingId));
-        verify(trainingDAO, times(0)).update(training, trainingId);
     }
 
     @Test

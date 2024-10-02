@@ -9,6 +9,7 @@ import com.epam.gym.dto.TraineeUpdateRequest;
 import com.epam.gym.dto.TrainingResponse;
 import com.epam.gym.dto.UserCredentials;
 import com.epam.gym.dto.UserStatusRequest;
+import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.security.Secured;
 import com.epam.gym.security.UserRole;
 import com.epam.gym.service.TraineeService;
@@ -41,12 +42,11 @@ public class TraineeController {
 
     private final TraineeService traineeService;
 
-    @Secured({UserRole.ROLE_TRAINEE})
     @PostMapping
     public ResponseEntity<UserCredentials> createTrainee(@Valid @RequestBody TraineeRequest request) {
-        log.info("Request to create new trainee: {}", request.firstName().concat(" ").concat(request.lastName()));
+        log.info("Request to create new trainee");
         var userCredential = traineeService.create(request);
-        log.info("Trainee created successfully: {}", request.firstName().concat(" ").concat(request.lastName()));
+        log.info("Trainee created successfully");
         return ResponseEntity.status(CREATED).body(userCredential);
     }
 
@@ -55,7 +55,8 @@ public class TraineeController {
     public ResponseEntity<TraineeResponse> getTraineeByUsername(@Size(min = 2) @PathVariable String username) {
         log.info("Fetching details for trainee: {}", username);
         var trainee = traineeService.getTraineeAndTrainers(username);
-        log.info("Successfully fetched details for trainee: {}", username);
+        log.info("Successfully fetched details for trainee: {}", trainee);
+        log.info("the response: {}", trainee);
         return ResponseEntity.ok(trainee);
     }
 
@@ -116,6 +117,7 @@ public class TraineeController {
         return ResponseEntity.ok(trainings);
     }
 
+    @Secured({UserRole.ROLE_TRAINEE})
     @PatchMapping("/{username}/status")
     public ResponseEntity<Void> updateTraineeStatus(
             @PathVariable("username") String username,

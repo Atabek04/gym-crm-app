@@ -24,6 +24,7 @@
         <lombok.version>1.18.34</lombok.version>
         <hibernate.core.version>6.6.0.Final</hibernate.core.version>
         <hibernate.validator.version>8.0.1.Final</hibernate.validator.version>
+        <jakarta.el.version>4.0.2</jakarta.el.version>
         <ehcache.version>3.10.8</ehcache.version>
         <postgresql.version>42.7.4</postgresql.version>
         <c3p0.version>0.10.1</c3p0.version>
@@ -32,6 +33,8 @@
         <aspectjweaver.version>1.9.22.1</aspectjweaver.version>
         <mockito.version>5.13.0</mockito.version>
         <rest-assured.version>5.5.0</rest-assured.version>
+        <hamcrest.version>2.2</hamcrest.version>
+        <json-path.version>2.9.0</json-path.version>
     </properties>
 
     <dependencies>
@@ -160,8 +163,15 @@
 
         <dependency>
             <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
+                <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>${jakarta.el.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -214,6 +224,19 @@
             <artifactId>mockito-core</artifactId>
             <version>${mockito.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${json-path.version}</version>
         </dependency>
     </dependencies>
 

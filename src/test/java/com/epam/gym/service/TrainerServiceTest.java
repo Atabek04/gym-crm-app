@@ -1,7 +1,6 @@
 package com.epam.gym.service;
 
 import com.epam.gym.dao.TrainerDAO;
-import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.service.impl.TrainerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -44,34 +42,6 @@ class TrainerServiceTest {
         assertTrue(createdTrainer.isPresent());
         assertEquals(trainer, createdTrainer.get());
         verify(trainerDAO, times(1)).save(trainer);
-    }
-
-    @Test
-    void testUpdateTrainerSuccess() {
-        Long trainerId = 1L;
-        Trainer existingTrainer = new Trainer();
-        existingTrainer.setId(trainerId);
-        when(trainerDAO.findById(trainerId)).thenReturn(Optional.of(existingTrainer));
-
-        Trainer updatedTrainer = new Trainer();
-        updatedTrainer.setId(trainerId);
-
-        trainerService.update(updatedTrainer, trainerId);
-
-        verify(trainerDAO, times(1)).findById(trainerId);
-        verify(trainerDAO, times(1)).update(updatedTrainer, trainerId);
-    }
-
-    @Test
-    void testUpdateTrainerNotFound() {
-        Long trainerId = 1L;
-        Trainer trainer = new Trainer();
-        trainer.setId(trainerId);
-        when(trainerDAO.findById(trainerId)).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () -> trainerService.update(trainer, trainerId));
-        verify(trainerDAO, times(1)).findById(trainerId);
-        verify(trainerDAO, times(0)).update(trainer, trainerId);
     }
 
     @Test

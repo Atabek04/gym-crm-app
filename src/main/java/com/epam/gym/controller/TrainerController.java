@@ -7,6 +7,8 @@ import com.epam.gym.dto.TrainerUpdateRequest;
 import com.epam.gym.dto.TrainerTrainingFilterRequest;
 import com.epam.gym.dto.TrainingResponse;
 import com.epam.gym.dto.UserCredentials;
+import com.epam.gym.security.Secured;
+import com.epam.gym.security.UserRole;
 import com.epam.gym.service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +37,7 @@ public class TrainerController {
         return ResponseEntity.status(CREATED).body(createdUser);
     }
 
+    @Secured({UserRole.ROLE_TRAINER})
     @GetMapping("/{username}")
     public ResponseEntity<TrainerResponse> getTrainerByUsername(@PathVariable("username") String username) {
         log.info("Fetching details for trainer: {}", username);
@@ -43,6 +46,7 @@ public class TrainerController {
         return ResponseEntity.ok(trainerResponse);
     }
 
+    @Secured({UserRole.ROLE_TRAINER})
     @PutMapping("/{username}")
     public ResponseEntity<TrainerResponse> updateTrainer(
             @PathVariable("username") String username,
@@ -54,6 +58,7 @@ public class TrainerController {
         return ResponseEntity.ok(updatedTrainerResponse);
     }
 
+    @Secured({UserRole.ROLE_TRAINER})
     @DeleteMapping("/{username}")
     public ResponseEntity<Void> deleteTrainer(@PathVariable("username") String username) {
         log.info("Request to delete trainer: {}", username);
@@ -62,10 +67,11 @@ public class TrainerController {
         return ResponseEntity.status(NO_CONTENT).build();
     }
 
+    @Secured({UserRole.ROLE_TRAINER})
     @GetMapping("/{username}/trainings")
     public ResponseEntity<List<TrainingResponse>> getTrainerTrainings(
             @PathVariable("username") String username,
-            @RequestBody TrainerTrainingFilterRequest filterRequest
+            @Valid @RequestBody TrainerTrainingFilterRequest filterRequest
     ) {
         log.info("Fetching trainings for trainer: {} with filters: {}", username, filterRequest);
         var trainingResponses = trainerService.findTrainerTrainingsByFilters(username, filterRequest);
@@ -73,6 +79,7 @@ public class TrainerController {
         return ResponseEntity.ok(trainingResponses);
     }
 
+    @Secured({UserRole.ROLE_TRAINER})
     @PatchMapping("/{username}/status")
     public ResponseEntity<Void> updateTrainerStatus(
             @PathVariable("username") String username,

@@ -21,4 +21,8 @@ public interface TrainingDAO extends BaseDAO<Training> {
     List<Training> findTrainingsByFilters(Long id, TraineeTrainingFilterRequest filterRequest);
 
     List<TrainingTypeEntity> getAllTrainingTypes();
+
+    List<Training> findByTraineeUsername(String username);
+
+    void deleteAll(List<Training> trainings);
 }

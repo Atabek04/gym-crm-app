@@ -98,4 +98,21 @@ public class TrainingDAOImpl extends AbstractDAO<Training> implements TrainingDA
         String queryStr = "SELECT new TrainingTypeEntity(t.id, t.trainingTypeName) FROM TrainingTypeEntity t";
         return getCurrentSession().createQuery(queryStr, TrainingTypeEntity.class).getResultList();
     }
+
+    @Override
+    public List<Training> findByTraineeUsername(String username) {
+        var session = getCurrentSession();
+        String hql = "FROM Training t WHERE t.trainee.user.username = :username";
+        return session.createQuery(hql, Training.class)
+                .setParameter("username", username)
+                .getResultList();
+    }
+
+    @Override
+    public void deleteAll(List<Training> trainings) {
+        var session = getCurrentSession();
+        for (Training training : trainings) {
+            session.remove(training);
+        }
+    }
 }

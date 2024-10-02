@@ -3,6 +3,8 @@ package com.epam.gym.controller;
 import com.epam.gym.dto.TrainingRequest;
 import com.epam.gym.dto.TrainingResponse;
 import com.epam.gym.dto.TrainingTypeResponse;
+import com.epam.gym.security.Secured;
+import com.epam.gym.security.UserRole;
 import com.epam.gym.service.TrainingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.List;
 public class TrainingController {
     private final TrainingService trainingService;
 
+    @Secured({UserRole.ROLE_TRAINER, UserRole.ROLE_TRAINEE})
     @PostMapping
     public ResponseEntity<TrainingResponse> createTraining(@Valid @RequestBody TrainingRequest request) {
         log.info("Creating new training with request: {}", request);
@@ -32,6 +35,7 @@ public class TrainingController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Secured({UserRole.ROLE_TRAINER, UserRole.ROLE_TRAINEE})
     @GetMapping
     public ResponseEntity<List<TrainingTypeResponse>> listAllTrainingTypes() {
         log.info("Fetching all training types.");
