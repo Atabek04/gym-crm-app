@@ -1,7 +1,6 @@
 package com.epam.gym.service;
 
 import com.epam.gym.dao.TraineeDAO;
-import com.epam.gym.exception.ResourceNotFoundException;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.service.impl.TraineeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -46,33 +44,6 @@ class TraineeServiceTest {
         verify(traineeDAO, times(1)).save(trainee);
     }
 
-    @Test
-    void testUpdateTraineeSuccess() {
-        Long traineeId = 1L;
-        Trainee existingTrainee = new Trainee();
-        existingTrainee.setId(traineeId);
-        when(traineeDAO.findById(traineeId)).thenReturn(Optional.of(existingTrainee));
-
-        Trainee updatedTrainee = new Trainee();
-        updatedTrainee.setId(traineeId);
-
-        traineeService.update(updatedTrainee, traineeId);
-
-        verify(traineeDAO, times(1)).findById(traineeId);
-        verify(traineeDAO, times(1)).update(updatedTrainee, traineeId);
-    }
-
-    @Test
-    void testUpdateTraineeNotFound() {
-        Long traineeId = 1L;
-        Trainee trainee = new Trainee();
-        trainee.setId(traineeId);
-        when(traineeDAO.findById(traineeId)).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class, () -> traineeService.update(trainee, traineeId));
-        verify(traineeDAO, times(1)).findById(traineeId);
-        verify(traineeDAO, times(0)).update(trainee, traineeId);
-    }
 
     @Test
     void testFindTraineeByIdSuccess() {

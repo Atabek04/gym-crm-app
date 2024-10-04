@@ -1,4 +1,4 @@
-package com.epam.gym.facade.mapper;
+package com.epam.gym.mapper;
 
 import com.epam.gym.dto.TrainingRequest;
 import com.epam.gym.dto.TrainingResponse;
@@ -16,7 +16,7 @@ public class TrainingMapper {
                 .trainee(trainee)
                 .trainer(trainer)
                 .trainingName(trainingRequest.trainingName())
-                .trainingTypeId(trainingRequest.trainingType().getId())
+                .trainingTypeId(trainer.getTrainingTypeId())
                 .trainingDate(ZonedDateTime.from(trainingRequest.trainingDate()))
                 .trainingDuration(trainingRequest.trainingDuration())
                 .build();

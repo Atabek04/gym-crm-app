@@ -2,16 +2,16 @@ package com.epam.gym.dto;
 
 import lombok.Builder;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 public record TraineeResponse(
-        Long traineeID,
+        String username,
         String firstName,
         String lastName,
-        String username,
+        String dateOfBirth,
+        String address,
         boolean isActive,
-        LocalDate dateOfBirth,
-        String address
+        List<BasicTrainerResponse> trainers
 ) {
 }

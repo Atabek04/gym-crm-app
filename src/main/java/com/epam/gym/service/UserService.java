@@ -1,5 +1,6 @@
 package com.epam.gym.service;
 
+import com.epam.gym.dto.UserNewPasswordCredentials;
 import com.epam.gym.model.User;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface UserService {
 
     void delete(Long id);
 
-    Optional<User> findByUsername(String username, String password);
+    Optional<User> findByUsernameAndPassword(String username, String password);
 
     void changePassword(String username, String newPassword);
 
@@ -25,4 +26,6 @@ public interface UserService {
     void deactivateUser(String username);
 
     Optional<User> findUserByUsername(String username);
+
+    void validateAndChangePassword(UserNewPasswordCredentials credentials);
 }

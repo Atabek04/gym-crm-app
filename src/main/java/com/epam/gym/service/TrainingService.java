@@ -1,5 +1,7 @@
 package com.epam.gym.service;
 
+import com.epam.gym.dto.TrainingRequest;
+import com.epam.gym.dto.TrainingTypeResponse;
 import com.epam.gym.model.Training;
 
 import java.time.LocalDate;
@@ -25,4 +27,8 @@ public interface TrainingService {
                                            boolean ascending);
 
     void delete(Long id);
+
+    void create(TrainingRequest request);
+
+    List<TrainingTypeResponse> getAllTrainingTypes();
 }

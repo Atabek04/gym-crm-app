@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.never;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class UserServiceTest {
 
@@ -147,7 +147,7 @@ class UserServiceTest {
         user.setPassword("testPass");
         when(userDAO.findByUsername("testUser", "testPass")).thenReturn(user);
 
-        Optional<User> foundUser = userService.findByUsername("testUser", "testPass");
+        Optional<User> foundUser = userService.findByUsernameAndPassword("testUser", "testPass");
 
         assertTrue(foundUser.isPresent());
         assertEquals("testUser", foundUser.get().getUsername());

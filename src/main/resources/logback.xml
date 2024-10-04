@@ -2,21 +2,15 @@
 <configuration>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%logger{36}) - %msg%n%nopex</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight([%thread]) %-5level %cyan(%logger{36}) - %msg -
+                %yellow(TransactionId: %X{transactionId}) %n
+            </pattern>
         </encoder>
     </appender>
 
-    <appender name="prompting" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%msg </pattern>
-        </encoder>
-    </appender>
-
-    <root level="warn">
-        <appender-ref ref="console" />
+    <root level="debug">
+        <appender-ref ref="console"/>
     </root>
 
-    <logger name="prompt-logger" level="info" additivity="false">
-        <appender-ref ref="prompting" />
-    </logger>
+    <logger name="org.springframework.web" level="debug"/>
 </configuration>
