@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -72,19 +74,6 @@ public class TraineeController {
     }
 
     @Secured({UserRole.ROLE_TRAINEE})
-    @DeleteMapping("/{username}")
-    public ResponseEntity<String> deleteTrainee(@PathVariable String username) {
-        log.info("Request to delete trainee: {}", username);
-        if (traineeService.findByUsername(username).isEmpty()) {
-            log.warn("Trainee not found: {}", username);
-            return ResponseEntity.status(NOT_FOUND).body("Trainee with this username not found");
-        }
-        traineeService.delete(username);
-        log.info("Trainee deleted successfully: {}", username);
-        return ResponseEntity.status(NO_CONTENT).body("Trainee deleted successfully");
-    }
-
-    @Secured({UserRole.ROLE_TRAINEE})
     @PutMapping("/{username}/trainers")
     public ResponseEntity<TraineeResponse> updateTrainers(
             @Size(min = 2) @PathVariable String username,
@@ -126,5 +115,19 @@ public class TraineeController {
         traineeService.updateTraineeStatus(username, traineeStatusRequest.isActive());
         log.info("Successfully updated status for trainee: {}", username);
         return ResponseEntity.ok().build();
+    }
+
+    @Secured({UserRole.ROLE_TRAINEE})
+    @DeleteMapping("/{username}")
+    @ResponseStatus(NO_CONTENT)
+    public ResponseEntity<String> deleteTrainee(@PathVariable String username) {
+        log.info("Request to delete trainee: {}", username);
+        if (traineeService.findByUsername(username).isEmpty()) {
+            log.warn("Trainee not found: {}", username);
+            return ResponseEntity.status(NOT_FOUND).body("Trainee with this username not found");
+        }
+        traineeService.delete(username);
+        log.info("Trainee deleted successfully: {}", username);
+        return ResponseEntity.status(NO_CONTENT).body("Trainee deleted successfully");
     }
 }

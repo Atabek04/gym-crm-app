@@ -1,0 +1,680 @@
+openapi: 3.0.1
+
+info:
+  title: Training Management API
+  version: 1.0.0
+  description: API for managing trainers, trainees, and their trainings.
+
+servers:
+  - url: https://localhost:8080/v1
+    description: Development server
+
+paths:
+  /trainees:
+    post:
+      summary: Register a new trainee
+      tags:
+        - trainee
+      requestBody:
+        description: Registration details for a new trainee
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TraineeCreateRequest'
+      responses:
+        '201':
+          description: Successfully registered trainee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+        '418':
+          description: I'm a teapot (use case for business logic rejection, e.g., trainee already exists)
+
+  /trainees/{username}:
+    get:
+      tags:
+        - trainee
+      summary: Get trainee profile by username
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully found trainee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraineeResponse'
+        '404':
+          description: Trainee not found
+
+    put:
+      tags:
+        - trainee
+      summary: Update trainee profile
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated trainee details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TraineeUpdateRequest'
+      responses:
+        '200':
+          description: Successfully updated trainee profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraineeResponse'
+        '418':
+          description: I'm a teapot (e.g., cannot update trainee while inactive)
+
+    delete:
+      tags:
+        - trainee
+      summary: Delete a trainee profile
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully deleted trainee profile
+        '404':
+          description: Trainee not found
+
+  /trainees/{username}/active:
+    patch:
+      tags:
+        - trainee
+      summary: Activate or De-Activate a trainee
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Trainee activation status
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isActive:
+                  type: boolean
+                  example: true
+      responses:
+        '200':
+          description: Trainee activation status updated
+        '400':
+          description: Trainee not found
+
+  /trainees/{username}/trainers/unassigned:
+    get:
+      tags:
+        - trainee
+      summary: Get unassigned trainers for a trainee
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of unassigned trainers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainerResponse'
+
+
+  /trainees/{username}/trainers:
+    put:
+      tags:
+        - trainee
+      summary: Update trainer's trainer list
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: List of trainer usernames for the trainee
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                traineeUsernames:
+                  type: array
+                  items:
+                    type: string
+                    example: Ibn.Mubarak
+      responses:
+        '200':
+          description: Successfully updated trainee list
+        '404':
+          description: Trainer or trainee not found
+  # ===========================================================
+  /trainers:
+    post:
+      tags:
+        - trainer
+      summary: Register a new trainer
+      requestBody:
+        description: Registration details for a new trainer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainerCreateRequest'
+      responses:
+        '201':
+          description: Successfully registered trainer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+        '418':
+          description: I'm a teapot (use case for business logic rejection, e.g., trainer already exists)
+
+  /trainers/{username}:
+    get:
+      tags:
+        - trainer
+      summary: Get trainer profile by username
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully found trainer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainerResponse'
+        '404':
+          description: Trainer not found
+
+    put:
+      tags:
+        - trainer
+      summary: Update trainer profile
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated trainer details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainerUpdateRequest'
+      responses:
+        '200':
+          description: Successfully updated trainer profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainerResponse'
+        '418':
+          description: I'm a teapot (e.g., cannot update trainer while inactive)
+
+
+
+  /trainers/{username}/active:
+    patch:
+      tags:
+        - trainer
+      summary: Activate or deactivate a trainer
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Trainer activation status
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isActive:
+                  type: boolean
+      responses:
+        '200':
+          description: Trainer activation status updated
+        '418':
+          description: I'm a teapot (e.g., trainer already in that state)
+
+  # ===========================================================
+  /login:
+    post:
+      tags:
+        - auth
+      summary: Login with username and password
+      requestBody:
+        description: User credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+      responses:
+        '200':
+          description: Login successful
+        '418':
+          description: I'm a teapot (e.g., login temporarily disabled for the user)
+
+  /password:
+    put:
+      tags:
+        - auth
+      summary: Change password for a user
+      requestBody:
+        description: Password change request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPasswordRequest'
+      responses:
+        '200':
+          description: Password changed successfully
+        '418':
+          description: I'm a teapot (e.g., password change not allowed for specific users)
+
+  # ===========================================================
+  /trainings:
+    post:
+      tags:
+        - training
+      summary: Add new training
+      requestBody:
+        description: Training details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingRequest'
+      responses:
+        '201':
+          description: Training session successfully added'
+        '418':
+          description: I'm a teapot (e.g., trainee or trainer not available)
+
+  /training-types:
+    get:
+      tags:
+        - training
+      summary: Get all available training types
+      responses:
+        '200':
+          description: Successfully retrieved training types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    type:
+                      type: string
+                      example: Strength Training
+
+  /trainers/{username}/trainings:
+    get:
+      tags:
+        - training
+      summary: Get list of trainings conducted by a trainer
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+            example: jsmith
+        - name: periodFrom
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2023-01-01
+        - name: periodTo
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2023-12-31
+        - name: traineeName
+          in: query
+          required: false
+          schema:
+            type: string
+            example: John Doe
+      responses:
+        '200':
+          description: Successfully retrieved trainer's trainings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainingListResponse'
+
+  /trainees/{username}/trainings:
+    get:
+      tags:
+        - training
+      summary: Get list of trainings attended by a trainee
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+            example: jdoe
+        - name: periodFrom
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2023-01-01
+        - name: periodTo
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2023-12-31
+        - name: trainerName
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Jane Smith
+        - name: trainingType
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Strength
+      responses:
+        '200':
+          description: Successfully retrieved trainee's trainings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainingListResponse'
+
+
+# ===========================================================
+
+components:
+  schemas:
+    NewPasswordRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Umar.Abudlaziz
+        oldPassword:
+          type: string
+          example: 12345
+        newPassword:
+          type: string
+          example: 123!
+
+    TraineeCreateRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+      properties:
+        firstName:
+          type: string
+          example: Umar
+        lastName:
+          type: string
+          example: Abulaziz
+        dateOfBirth:
+          type: string
+          format: date
+          example: 1990-01-01
+        address:
+          type: string
+          example: Uli Dala 5
+
+
+    TraineeUpdateRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - isActive
+      properties:
+        firstName:
+          type: string
+          example: Halid
+        lastName:
+          type: string
+          example: Valid
+        dateOfBirth:
+          type: string
+          format: date
+          example: 1990-01-01
+        address:
+          type: string
+          example: Uli Dala 15
+        isActive:
+          type: boolean
+          example: false
+
+
+
+    TraineeResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Umar.Abdulaziz
+        firstName:
+          type: string
+          example: Umar
+        lastName:
+          type: string
+          example: Abdulaziz
+        dateOfBirth:
+          type: string
+          format: date
+          example: 1990-01-01
+        address:
+          type: string
+          example: 123 Main St
+        isActive:
+          type: boolean
+          example: true
+        trainerList:
+          type: array
+          items:
+            type: object
+            properties:
+              username:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+              trainingType:
+                type: string
+                enum: [STRENGTH, CARDIO, FLEXIBILITY, BALANCE]
+
+    TrainerCreateRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - specialization
+      properties:
+        firstName:
+          type: string
+          example: Umar
+        lastName:
+          type: string
+          example: Abudlaziz
+        specialization:
+          type: string
+          example: Strength Training
+
+    TrainerUpdateRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - specialization
+        - isActive
+      properties:
+        firstName:
+          type: string
+          example: Umar
+        lastName:
+          type: string
+          example: Abudlaziz
+        specialization:
+          type: string
+          example: Strength Training
+        isActive:
+          type: boolean
+          example: false
+
+    TrainerResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Ibn.Mubarak
+        firstName:
+          type: string
+          example: Ibn
+        lastName:
+          type: string
+          example: Mubarak
+        specialization:
+          type: string
+          example: Strength Training
+        isActive:
+          type: boolean
+          example: true
+        traineeList:
+          type: array
+          items:
+            type: object
+            properties:
+              username:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+
+
+    TrainingRequest:
+      type: object
+      required:
+        - traineeUsername
+        - trainerUsername
+        - trainingName
+        - trainingType
+        - trainingDate
+        - trainingDuration
+      properties:
+        traineeUsername:
+          type: string
+          example: Halid.Valid
+        trainerUsername:
+          type: string
+          example: Ibn.Mubarak
+        trainingName:
+          type: string
+          example: Cardio Training
+        trainingType:
+          type: string
+          enum: [STRENGTH, CARDIO, FLEXIBILITY, BALANCE]
+        trainingDate:
+          type: string
+          format: date-time
+          example: 2023-09-15T10:00:00Z
+        trainingDuration:
+          type: integer
+          description: Duration in minutes
+          example: 60
+
+    UserCredentials:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: Umar.Abudlaziz
+        password:
+          type: string
+          example: wq12dnk3qj
+
+    TrainingListResponse:
+      type: object
+      properties:
+        trainingName:
+          type: string
+          example: Cardio Training Session
+        trainingDate:
+          type: string
+          format: date
+          example: 2023-05-20
+        trainingType:
+          type: string
+          example: Cardio
+        trainingDuration:
+          type: integer
+          description: Duration in minutes
+          example: 45
+        relatedPersonName:
+          type: string
+          example: Jane Smith
