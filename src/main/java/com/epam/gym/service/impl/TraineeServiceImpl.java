@@ -239,6 +239,10 @@ public class TraineeServiceImpl implements TraineeService {
 
     @Override
     public void delete(String username) {
+        if (traineeDAO.findByUsername(username).isEmpty()) {
+            log.error("Trainee with this username is not found");
+            throw new ResourceNotFoundException("Trainee not found while deleting");
+        }
         log.info("Deleting trainee by username: {}", username);
         traineeDAO.delete(username);
         log.info("Trainee with username: {} deleted successfully.", username);

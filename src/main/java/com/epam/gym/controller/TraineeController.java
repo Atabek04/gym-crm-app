@@ -16,7 +16,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
@@ -57,7 +55,6 @@ public class TraineeController {
         log.info("Fetching details for trainee: {}", username);
         var trainee = traineeService.getTraineeAndTrainers(username);
         log.info("Successfully fetched details for trainee: {}", trainee);
-        log.info("the response: {}", trainee);
         return ResponseEntity.ok(trainee);
     }
 
@@ -122,10 +119,6 @@ public class TraineeController {
     @ResponseStatus(NO_CONTENT)
     public ResponseEntity<String> deleteTrainee(@PathVariable String username) {
         log.info("Request to delete trainee: {}", username);
-        if (traineeService.findByUsername(username).isEmpty()) {
-            log.warn("Trainee not found: {}", username);
-            return ResponseEntity.status(NOT_FOUND).body("Trainee with this username not found");
-        }
         traineeService.delete(username);
         log.info("Trainee deleted successfully: {}", username);
         return ResponseEntity.status(NO_CONTENT).body("Trainee deleted successfully");
