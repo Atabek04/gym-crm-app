@@ -1,9 +1,9 @@
 package com.epam.gym.dao;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -19,21 +19,20 @@ import java.util.Set;
 @Repository
 @RequiredArgsConstructor
 public abstract class AbstractDAO<T> implements BaseDAO<T> {
-    private final Class<T> entityClass;
-    protected final SessionFactory sessionFactory;
 
-    protected Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
-    }
+    private final Class<T> entityClass;
+
+    @PersistenceContext
+    protected EntityManager entityManager;
 
     @Override
     public Optional<T> save(T entity) {
         try {
-            getCurrentSession().clear();
-            var savedEntity = getCurrentSession().merge(entity);
-            getCurrentSession().flush();
+            entityManager.clear();
+            entityManager.persist(entity);
+            entityManager.flush();
             log.info("{} has been saved", entityClass.getSimpleName());
-            return Optional.ofNullable(savedEntity);
+            return Optional.ofNullable(entity);
         } catch (Exception e) {
             log.error("Error saving entity: {}", e.getMessage(), e);
             throw e;
@@ -43,12 +42,12 @@ public abstract class AbstractDAO<T> implements BaseDAO<T> {
     @Override
     public Optional<T> update(T entity, Long id) {
         try {
-            T existingEntity = getCurrentSession().find(entityClass, id);
+            T existingEntity = entityManager.find(entityClass, id);
             if (existingEntity != null) {
                 copyNonNullProperties(entity, existingEntity);
-                var updatedEntity = getCurrentSession().merge(existingEntity);
+                entityManager.merge(existingEntity);
                 log.info("{} with ID {} has been updated", entityClass.getSimpleName(), id);
-                return Optional.ofNullable(updatedEntity);
+                return Optional.of(existingEntity);
             } else {
                 log.warn("Entity with ID {} not found", id);
             }
@@ -62,7 +61,7 @@ public abstract class AbstractDAO<T> implements BaseDAO<T> {
     @Override
     public Optional<T> findById(Long id) {
         try {
-            T entity = getCurrentSession().find(entityClass, id);
+            T entity = entityManager.find(entityClass, id);
             if (entity != null) {
                 log.info("{} with ID {} has been found", entityClass.getSimpleName(), id);
                 return Optional.of(entity);
@@ -80,13 +79,7 @@ public abstract class AbstractDAO<T> implements BaseDAO<T> {
     public List<T> findAll() {
         try {
             var hql = String.format("FROM %s", entityClass.getSimpleName());
-            List<T> entities = getCurrentSession().createQuery(hql, entityClass).getResultList();
-            if (entities.isEmpty()) {
-                log.info("No {} have been found", entityClass.getSimpleName());
-            } else {
-                log.info("All {} have been found", entityClass.getSimpleName());
-            }
-            return entities;
+            return entityManager.createQuery(hql, entityClass).getResultList();
         } catch (Exception e) {
             log.error("Error finding all entities: {}", e.getMessage(), e);
             return List.of();
@@ -96,9 +89,9 @@ public abstract class AbstractDAO<T> implements BaseDAO<T> {
     @Override
     public void delete(Long id) {
         try {
-            T entity = getCurrentSession().find(entityClass, id);
+            T entity = entityManager.find(entityClass, id);
             if (entity != null) {
-                getCurrentSession().remove(entity);
+                entityManager.remove(entity);
                 log.info("{} with ID {} has been deleted", entityClass.getSimpleName(), id);
             } else {
                 log.warn("{} with ID {} does not exist, cannot delete", entityClass.getSimpleName(), id);

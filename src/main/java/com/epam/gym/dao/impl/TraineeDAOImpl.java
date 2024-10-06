@@ -1,12 +1,10 @@
 package com.epam.gym.dao.impl;
 
-
 import com.epam.gym.dao.AbstractDAO;
 import com.epam.gym.dao.TraineeDAO;
 import com.epam.gym.model.Trainee;
 import com.epam.gym.model.Trainer;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,21 +13,20 @@ import java.util.Optional;
 @Repository
 @Slf4j
 public class TraineeDAOImpl extends AbstractDAO<Trainee> implements TraineeDAO {
-    public TraineeDAOImpl(SessionFactory sessionFactory) {
-        super(Trainee.class, sessionFactory);
+
+    public TraineeDAOImpl() {
+        super(Trainee.class);
     }
 
     @Override
     public Optional<Trainee> findByUsername(String username) {
         try {
             String hql = "SELECT t FROM Trainee t WHERE t.user.username = :username";
-            Trainee trainee = sessionFactory.getCurrentSession()
-                    .createQuery(hql, Trainee.class)
+            return Optional.ofNullable(entityManager.createQuery(hql, Trainee.class)
                     .setParameter("username", username)
-                    .getSingleResult();
-            return Optional.ofNullable(trainee);
+                    .getSingleResult());
         } catch (Exception e) {
-            log.error("TraineeDAOImpl:: Error finding Trainee by username {}: {}", username, e.getMessage());
+            log.error("Error finding Trainee by username {}: {}", username, e.getMessage());
             return Optional.empty();
         }
     }
@@ -39,21 +36,18 @@ public class TraineeDAOImpl extends AbstractDAO<Trainee> implements TraineeDAO {
         try {
             Optional<Trainee> traineeOptional = findByUsername(username);
             if (traineeOptional.isEmpty()) {
-                log.error("TraineeDAOImpl:: No trainee found with username {}", username);
+                log.error("No trainee found with username {}", username);
                 return List.of();
             }
-            Trainee trainee = traineeOptional.get();
-
-            String hql = "SELECT tr.trainer FROM Training tr WHERE tr.trainee.id = :traineeId";
-            return sessionFactory.getCurrentSession()
-                    .createQuery(hql, Trainer.class)
-                    .setParameter("traineeId", trainee.getId())
+            String hql = "SELECT tr.trainer FROM Training tr WHERE tr.trainee.user.username = :username";
+            return entityManager.createQuery(hql, Trainer.class)
+                    .setParameter("username", username)
                     .getResultList()
                     .stream()
                     .map(Optional::ofNullable)
                     .toList();
         } catch (Exception e) {
-            log.error("TraineeDAOImpl:: Error retrieving trainers for trainee {}: {}", username, e.getMessage());
+            log.error("Error retrieving trainers for trainee {}: {}", username, e.getMessage());
             return List.of();
         }
     }
@@ -61,21 +55,19 @@ public class TraineeDAOImpl extends AbstractDAO<Trainee> implements TraineeDAO {
     @Override
     public void delete(String username) {
         try {
-            String hql = "from Trainee t where t.user.username = :username";
-            var trainee = sessionFactory.getCurrentSession()
-                    .createQuery(hql, Trainee.class)
+            String hql = "FROM Trainee t WHERE t.user.username = :username";
+            var trainee = entityManager.createQuery(hql, Trainee.class)
                     .setParameter("username", username)
-                    .uniqueResult();
+                    .getSingleResult();
 
             if (trainee != null) {
-                sessionFactory.getCurrentSession().remove(trainee);
+                entityManager.remove(trainee);
                 log.info("Trainee and associated user with username {} have been deleted", username);
             } else {
                 log.warn("Trainee with username {} not found", username);
             }
         } catch (Exception e) {
-            log.error("TraineeDAOImpl:: Error deleting trainee with username {}: {}", username, e.getMessage());
-            throw e;
+            log.error("Error deleting trainee with username {}: {}", username, e.getMessage());
         }
     }
 
@@ -84,15 +76,13 @@ public class TraineeDAOImpl extends AbstractDAO<Trainee> implements TraineeDAO {
         String hql = """
                     SELECT t FROM Trainer t
                     WHERE t.id NOT IN (
-                        SELECT tr.trainer.id\s
-                        FROM Training tr\s
+                        SELECT tr.trainer.id
+                        FROM Training tr
                         WHERE tr.trainee.user.username = :username
                     )
                 """;
-
-        return getCurrentSession().createQuery(hql, Trainer.class)
+        return entityManager.createQuery(hql, Trainer.class)
                 .setParameter("username", username)
                 .getResultList();
     }
-
 }

@@ -5,12 +5,14 @@ import com.epam.gym.dao.TrainingDAO;
 import com.epam.gym.dto.TraineeTrainingFilterRequest;
 import com.epam.gym.model.Training;
 import com.epam.gym.model.TrainingTypeEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.hibernate.SessionFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -18,9 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Slf4j
 public class TrainingDAOImpl extends AbstractDAO<Training> implements TrainingDAO {
-    public TrainingDAOImpl(SessionFactory sessionFactory) {
-        super(Training.class, sessionFactory);
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public TrainingDAOImpl() {
+        super(Training.class);
     }
 
     @Override
@@ -30,9 +37,8 @@ public class TrainingDAOImpl extends AbstractDAO<Training> implements TrainingDA
                                                   LocalDate endDate,
                                                   Integer trainingTypeId,
                                                   String sortBy,
-                                                  boolean ascending
-    ) {
-        CriteriaBuilder cb = getCurrentSession().getCriteriaBuilder();
+                                                  boolean ascending) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Training> cq = cb.createQuery(Training.class);
         Root<Training> root = cq.from(Training.class);
 
@@ -61,58 +67,54 @@ public class TrainingDAOImpl extends AbstractDAO<Training> implements TrainingDA
             }
         }
 
-        TypedQuery<Training> query = getCurrentSession().createQuery(cq);
+        TypedQuery<Training> query = entityManager.createQuery(cq);
 
         return query.getResultList();
     }
 
     @Override
     public List<Training> findTrainingsByFilters(Long traineeId, TraineeTrainingFilterRequest filterRequest) {
-        var session = sessionFactory.getCurrentSession();
-        var criteriaBuilder = session.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Training.class);
-        var root = criteriaQuery.from(Training.class);
-        var predicates = new ArrayList<Predicate>();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Training> criteriaQuery = cb.createQuery(Training.class);
+        Root<Training> root = criteriaQuery.from(Training.class);
+        List<Predicate> predicates = new ArrayList<>();
 
-        predicates.add(criteriaBuilder.equal(root.get("trainee").get("id"), traineeId));
+        predicates.add(cb.equal(root.get("trainee").get("id"), traineeId));
         if (filterRequest.getPeriodFrom() != null) {
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("trainingDate"), filterRequest.getPeriodFrom()));
+            predicates.add(cb.greaterThanOrEqualTo(root.get("trainingDate"), filterRequest.getPeriodFrom()));
         }
         if (filterRequest.getPeriodTo() != null) {
-            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("trainingDate"), filterRequest.getPeriodTo()));
+            predicates.add(cb.lessThanOrEqualTo(root.get("trainingDate"), filterRequest.getPeriodTo()));
         }
         if (filterRequest.getTrainerName() != null) {
-            predicates.add(criteriaBuilder.equal(root.get("trainer").get("user").get("username"), filterRequest.getTrainerName()));
+            predicates.add(cb.equal(root.get("trainer").get("user").get("username"), filterRequest.getTrainerName()));
         }
         if (filterRequest.getTrainingType() != null) {
-            predicates.add(criteriaBuilder.equal(root.get("trainingTypeId"), filterRequest.getTrainingType().getId()));
+            predicates.add(cb.equal(root.get("trainingTypeId"), filterRequest.getTrainingType().getId()));
         }
 
-        criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
-        var query = session.createQuery(criteriaQuery);
-        return query.getResultList();
+        criteriaQuery.where(cb.and(predicates.toArray(new Predicate[0])));
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     @Override
     public List<TrainingTypeEntity> getAllTrainingTypes() {
         String queryStr = "SELECT new TrainingTypeEntity(t.id, t.trainingTypeName) FROM TrainingTypeEntity t";
-        return getCurrentSession().createQuery(queryStr, TrainingTypeEntity.class).getResultList();
+        return entityManager.createQuery(queryStr, TrainingTypeEntity.class).getResultList();
     }
 
     @Override
     public List<Training> findByTraineeUsername(String username) {
-        var session = getCurrentSession();
         String hql = "FROM Training t WHERE t.trainee.user.username = :username";
-        return session.createQuery(hql, Training.class)
+        return entityManager.createQuery(hql, Training.class)
                 .setParameter("username", username)
                 .getResultList();
     }
 
     @Override
     public void deleteAll(List<Training> trainings) {
-        var session = getCurrentSession();
         for (Training training : trainings) {
-            session.remove(training);
+            entityManager.remove(training);
         }
     }
 }

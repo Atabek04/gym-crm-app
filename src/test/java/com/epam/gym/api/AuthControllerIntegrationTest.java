@@ -3,84 +3,130 @@ package com.epam.gym.api;
 import com.epam.gym.config.ApplicationConfig;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ApplicationConfig.class})
+@SpringBootTest(classes = {ApplicationConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RequiredArgsConstructor
-@WebAppConfiguration
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AuthControllerIntegrationTest {
-    private final WebApplicationContext webApplicationContext;
-    private MockMvc mockMvc;
 
-    @BeforeEach
-    public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-    }
+    private final RestTemplate restTemplate;
+    private static final String BASE_URL = "http://localhost:8090/v1/auth";
+    private static final String VALID_USERNAME = "Man.Super";
+    private static final String VALID_PASSWORD = "123";
 
-    private String getBasicAuthHeader(String password) {
-        String credentials = "Man.Super" + ":" + password;
+    private String getBasicAuthHeader() {
+        String credentials = AuthControllerIntegrationTest.VALID_USERNAME + ":" + AuthControllerIntegrationTest.VALID_PASSWORD;
         byte[] base64Credentials = Base64.getEncoder().encode(credentials.getBytes(StandardCharsets.UTF_8));
         return "Basic " + new String(base64Credentials, StandardCharsets.UTF_8);
     }
 
-    @Test
-    @Order(1)
-    void givenValidCredentials_whenLogin_thenStatusOk() throws Exception {
-        mockMvc.perform(get("/v1/auth/login")
-                        .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader("123"))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"Man.Super\", \"password\":\"123\"}"))
-                .andDo(print())
-                .andExpect(status().isOk());
+    private HttpHeaders createHeadersWithAuth() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set(HttpHeaders.AUTHORIZATION, getBasicAuthHeader());
+        return headers;
     }
 
     @Test
-    void givenInvalidCredentials_whenLogin_thenStatusUnauthorized() throws Exception {
-        mockMvc.perform(get("/v1/auth/login")
-                        .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader("wrong_password"))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"Man.Super\", \"password\":\"wrong_password\"}"))
-                .andDo(print())
-                .andExpect(status().isIAmATeapot());
+    @Order(1)
+    void givenValidCredentials_whenLogin_thenStatusOk() {
+        String requestBody = """
+                {
+                    "username": "Man.Super",
+                    "password": "123"
+                }
+                """;
+
+        HttpHeaders headers = createHeadersWithAuth();
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(BASE_URL + "/login",
+                HttpMethod.POST, requestEntity, String.class);
+
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
     }
 
     @Test
     @Order(2)
-    void givenValidPasswordChange_whenPut_thenStatusOk() throws Exception {
-        mockMvc.perform(put("/v1/auth/password")
-                        .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader("123"))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"Super.Man2\", \"oldPassword\":\"123\", \"newPassword\":\"123\"}"))
-                .andDo(print())
-                .andExpect(status().isOk());
+    void givenInvalidCredentials_whenLogin_thenStatusUnauthorized() {
+        String requestBody = """
+                {
+                    "username": "Man.Super",
+                    "password": "wrong_password"
+                }
+                """;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        try {
+            restTemplate.exchange(BASE_URL + "/login", HttpMethod.POST, requestEntity, String.class);
+        } catch (HttpClientErrorException e) {
+            assertThat(e.getStatusCode().value()).isEqualTo(418);
+            assertThat(e.getResponseBodyAsString()).isEqualTo("Wrong password or username");
+        }
     }
 
     @Test
-    void givenInvalidPasswordChange_whenPut_thenStatusUnauthorized() throws Exception {
-        mockMvc.perform(put("/v1/auth/password")
-                        .header(HttpHeaders.AUTHORIZATION, getBasicAuthHeader("123"))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"Man.Super\", \"oldPassword\":\"wrong_password\", \"newPassword\":\"new_pass\"}"))
-                .andDo(print())
-                .andExpect(status().isUnauthorized());
+    @Order(3)
+    void givenValidPasswordChange_whenPut_thenStatusOk() {
+        String requestBody = """
+                {
+                    "username": "Super.Man2",
+                    "oldPassword": "123",
+                    "newPassword": "123"
+                }
+                """;
+
+        HttpHeaders headers = createHeadersWithAuth();
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(BASE_URL + "/password",
+                HttpMethod.PUT, requestEntity, String.class);
+
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
+    }
+
+    @Test
+    @Order(4)
+    void givenInvalidPasswordChange_whenPut_thenStatusUnauthorized() {
+        String requestBody = """
+                {
+                    "username": "Man.Super",
+                    "oldPassword": "wrong_password",
+                    "newPassword": "new_pass"
+                }
+                """;
+
+        HttpHeaders headers = createHeadersWithAuth();
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        try {
+            restTemplate.exchange(BASE_URL + "/password", HttpMethod.PUT, requestEntity, String.class);
+        } catch (HttpClientErrorException e) {
+            assertThat(e.getStatusCode().value()).isEqualTo(401);
+        }
     }
 }

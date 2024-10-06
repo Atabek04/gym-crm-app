@@ -7,13 +7,14 @@ import com.epam.gym.model.Trainee;
 import com.epam.gym.model.Trainer;
 import com.epam.gym.model.Training;
 import com.epam.gym.model.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -24,8 +25,12 @@ import java.util.Optional;
 @Repository
 @Slf4j
 public class TrainerDAOImpl extends AbstractDAO<Trainer> implements TrainerDAO {
-    public TrainerDAOImpl(SessionFactory sessionFactory) {
-        super(Trainer.class, sessionFactory);
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public TrainerDAOImpl() {
+        super(Trainer.class);
     }
 
     @Override
@@ -35,7 +40,7 @@ public class TrainerDAOImpl extends AbstractDAO<Trainer> implements TrainerDAO {
                     "WHERE t.id NOT IN (SELECT tr.trainer.id FROM Training tr) " +
                     "AND t.user.username <> :username";
 
-            return getCurrentSession().createQuery(hql, Trainer.class)
+            return entityManager.createQuery(hql, Trainer.class)
                     .setParameter("username", username)
                     .getResultList();
         } catch (Exception e) {
@@ -48,12 +53,12 @@ public class TrainerDAOImpl extends AbstractDAO<Trainer> implements TrainerDAO {
     public Optional<Trainer> findByUsername(String username) {
         try {
             String hql = "SELECT t FROM Trainer t WHERE t.user.username = :username";
-            Trainer trainer = getCurrentSession().createQuery(hql, Trainer.class)
+            Trainer trainer = entityManager.createQuery(hql, Trainer.class)
                     .setParameter("username", username)
                     .getSingleResult();
             return Optional.ofNullable(trainer);
         } catch (Exception e) {
-            log.error("TrainerDAOImpl:: Error finding Trainer by username {}: {}", username, e.getMessage());
+            log.error("Error finding Trainer by username {}: {}", username, e.getMessage());
             return Optional.empty();
         }
     }
@@ -61,14 +66,14 @@ public class TrainerDAOImpl extends AbstractDAO<Trainer> implements TrainerDAO {
     @Override
     public List<Trainee> getAssignedTrainees(String username) {
         String query = "SELECT t.trainee FROM Training t WHERE t.trainer.user.username = :username";
-        return getCurrentSession().createQuery(query, Trainee.class)
+        return entityManager.createQuery(query, Trainee.class)
                 .setParameter("username", username)
                 .getResultList();
     }
 
     @Override
     public List<Training> findTrainerTrainingsByFilters(String username, TrainerTrainingFilterRequest filterRequest) {
-        CriteriaBuilder cb = getCurrentSession().getCriteriaBuilder();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Training> query = cb.createQuery(Training.class);
         Root<Training> trainingRoot = query.from(Training.class);
 
@@ -91,6 +96,6 @@ public class TrainerDAOImpl extends AbstractDAO<Trainer> implements TrainerDAO {
         }
 
         query.select(trainingRoot).where(predicates.toArray(new Predicate[0]));
-        return getCurrentSession().createQuery(query).getResultList();
+        return entityManager.createQuery(query).getResultList();
     }
 }
