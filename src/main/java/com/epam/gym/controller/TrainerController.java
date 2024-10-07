@@ -82,7 +82,7 @@ public class TrainerController {
             @Valid @RequestBody TrainerTrainingFilterRequest filterRequest
     ) {
         log.info("Fetching trainings for trainer: {} with filters: {}", username, filterRequest);
-        var trainingResponses = trainerService.findTrainerTrainingsByFilters(username, filterRequest);
+        var trainingResponses = trainerService.findTrainerTrainings(username, filterRequest);
         log.info("Successfully fetched trainings for trainer: {}", username);
         return ResponseEntity.ok(trainingResponses);
     }

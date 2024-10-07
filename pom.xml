@@ -40,6 +40,7 @@
         <mockito.version>5.13.0</mockito.version>
         <rest-assured.version>5.5.0</rest-assured.version>
         <hamcrest.version>2.2</hamcrest.version>
+        <h2.version>2.3.232</h2.version>
         <json-path.version>2.9.0</json-path.version>
     </properties>
 
@@ -126,12 +127,6 @@
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>${ehcache.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.glassfish.jaxb</groupId>
-                    <artifactId>jaxb-runtime</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -181,6 +176,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -197,6 +199,15 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <argLine>-Dspring.profiles.active=test</argLine>
                 </configuration>
             </plugin>
         </plugins>
